@@ -1,4 +1,4 @@
-import 'package:expenso/screens/splashScreen.dart';
+import 'package:expenso/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
