@@ -1,4 +1,6 @@
-import 'package:expenso/screens/splash_screen.dart';
+import 'package:expenso/screens/getting_started_screen.dart';
+import 'package:expenso/screens/login_screen.dart';
+import 'package:expenso/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +18,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SplashScreen(),
+      home: const GettingStartedScreen(),
+      routes: {
+        GettingStartedScreen.routeName: (ctx) => const GettingStartedScreen(),
+        LoginScreen.routeName: (ctx) => const LoginScreen(),
+        RegisterScreen.routeName: (ctx) => const RegisterScreen()
+      },
     );
   }
 }

@@ -1,7 +1,9 @@
+import 'package:expenso/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+class GettingStartedScreen extends StatelessWidget {
+  const GettingStartedScreen({Key? key}) : super(key: key);
+  static const routeName = '/gettingstarted-screen';
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,10 @@ class SplashScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(50.0),
                             ),
                             padding: const EdgeInsets.all(16.0)),
-                        onPressed: () async {},
+                        onPressed: () async {
+                          Navigator.pushReplacementNamed(
+                              context, LoginScreen.routeName);
+                        },
                         child: const Text(
                           'Get Start',
                           style: TextStyle(
