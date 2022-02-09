@@ -1,4 +1,5 @@
-import 'package:expenso/screens/login_screen.dart';
+import 'package:expenso/screens/auth/login_screen.dart';
+import 'package:expenso/screens/auth/register_success_screen.dart';
 import 'package:expenso/shared/input_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:validators/validators.dart';
@@ -151,7 +152,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 BorderRadius.circular(50.0),
                                           ),
                                           padding: const EdgeInsets.all(16.0)),
-                                      onPressed: () async {},
+                                      onPressed: () async {
+                                        Navigator.pushReplacementNamed(context,
+                                            RegisterSuccessScreen.routeName);
+                                      },
                                       child: const Text(
                                         'Create Account',
                                         style: TextStyle(

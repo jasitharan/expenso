@@ -1,4 +1,5 @@
-import 'package:expenso/screens/register_screen.dart';
+import 'package:expenso/screens/auth/forgot_password_screen.dart';
+import 'package:expenso/screens/auth/register_screen.dart';
 import 'package:expenso/shared/input_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:validators/validators.dart';
@@ -88,7 +89,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 SizedBox(
                                   width: double.infinity,
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.pushReplacementNamed(context,
+                                          ForgotPasswordScreen.routeName);
+                                    },
                                     child: const Text(
                                       'Forgot Password ?',
                                       textAlign: TextAlign.right,

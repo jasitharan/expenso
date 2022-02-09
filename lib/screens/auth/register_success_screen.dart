@@ -1,10 +1,16 @@
 import 'package:expenso/screens/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 
-class GettingStartedScreen extends StatelessWidget {
-  const GettingStartedScreen({Key? key}) : super(key: key);
-  static const routeName = '/gettingstarted-screen';
+class RegisterSuccessScreen extends StatefulWidget {
+  const RegisterSuccessScreen({Key? key}) : super(key: key);
 
+  static const routeName = '/register-success-screen';
+
+  @override
+  _RegisterSuccessScreenState createState() => _RegisterSuccessScreenState();
+}
+
+class _RegisterSuccessScreenState extends State<RegisterSuccessScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,26 +18,32 @@ class GettingStartedScreen extends StatelessWidget {
         child: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/gettingStarted.png"),
-              fit: BoxFit.cover,
+              image: AssetImage("assets/images/login_background.png"),
+              fit: BoxFit.fitWidth,
             ),
-            color: Colors.white,
           ),
           child: SizedBox(
             width: double.infinity,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 80.0),
-                  child: Text(
-                    "EXPENSO",
-                    style: TextStyle(
-                        fontSize: 72, color: Color.fromRGBO(105, 105, 105, 1)),
-                  ),
+                const SizedBox(
+                  height: 125,
                 ),
+                const Image(
+                    height: 80,
+                    width: 80,
+                    fit: BoxFit.cover,
+                    image: AssetImage('assets/images/check.png')),
+                const SizedBox(height: 10),
+                const Text(
+                  'Thank you for registering !',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 50),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 64.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: SizedBox(
                     width: 200,
                     child: ElevatedButton(
@@ -47,7 +59,7 @@ class GettingStartedScreen extends StatelessWidget {
                               context, LoginScreen.routeName);
                         },
                         child: const Text(
-                          'Get Start',
+                          'Login',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
