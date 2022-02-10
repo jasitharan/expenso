@@ -1,5 +1,6 @@
 import 'package:expenso/screens/auth/forgot_password_screen.dart';
 import 'package:expenso/screens/auth/register_screen.dart';
+import 'package:expenso/screens/home_screen.dart';
 import 'package:expenso/shared/input_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:validators/validators.dart';
@@ -119,7 +120,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ),
                                             padding:
                                                 const EdgeInsets.all(16.0)),
-                                        onPressed: () async {},
+                                        onPressed: () async {
+                                          Navigator.pushReplacementNamed(
+                                              context, HomeScreen.routeName);
+                                        },
                                         child: const Text(
                                           'Login',
                                           style: TextStyle(

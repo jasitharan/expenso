@@ -6,6 +6,7 @@ import 'package:expenso/screens/auth/register_success_screen.dart';
 import 'package:expenso/screens/auth/reset_password_screen.dart';
 import 'package:expenso/screens/auth/reset_password_success.dart';
 import 'package:expenso/screens/getting_started_screen.dart';
+import 'package:expenso/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
             const ForgotPasswordSuccessScreen(),
         ResetPasswordScreen.routeName: (ctx) => const ResetPasswordScreen(),
         ResetPasswordSuccessScreen.routeName: (ctx) =>
-            const ResetPasswordSuccessScreen()
+            const ResetPasswordSuccessScreen(),
+        HomeScreen.routeName: (ctx) => const HomeScreen()
       },
     );
   }
