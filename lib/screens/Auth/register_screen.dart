@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:expenso/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:validators/validators.dart';
 
 import '../../constants.dart';
@@ -20,7 +21,6 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKeyForRegister = GlobalKey<FormState>();
-  final AuthProvider _auth = AuthProvider();
 
   String _email = '';
   String _password = '';
@@ -30,6 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _auth = Provider.of<AuthProvider>(context, listen: false);
     final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(

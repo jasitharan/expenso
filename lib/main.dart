@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:expenso/routes.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'constants.dart';
@@ -18,16 +18,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<UserModel?>.value(
-      value: AuthProvider().user,
-      initialData: null,
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: kAppName,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          routes: getRoutes()),
+    return MultiProvider(
+      providers: [
+        Provider.value(value: AuthProvider()),
+      ],
+      builder: (context, child) => StreamProvider<UserModel?>.value(
+        initialData: null,
+        value: Provider.of<AuthProvider>(context, listen: false).user,
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: kAppName,
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            routes: getRoutes()),
+      ),
     );
   }
 }

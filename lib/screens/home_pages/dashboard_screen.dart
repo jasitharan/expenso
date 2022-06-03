@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/auth_provider.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({Key? key}) : super(key: key);
@@ -10,6 +13,7 @@ class DashBoardScreen extends StatefulWidget {
 class _DashBoardScreenState extends State<DashBoardScreen> {
   @override
   Widget build(BuildContext context) {
+    final _auth = Provider.of<AuthProvider>(context, listen: false);
     return SafeArea(
       child: Container(
         color: const Color.fromRGBO(235, 241, 245, 1),
@@ -27,7 +31,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   highlightColor: Colors.transparent,
                   focusColor: Colors.transparent,
                   splashColor: Colors.transparent,
-                  onTap: () {},
+                  onTap: () async {
+                    await _auth.signOut();
+                  },
                   child: const Image(
                     height: 80,
                     width: 80,

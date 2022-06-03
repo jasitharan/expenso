@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:expenso/providers/auth_provider.dart';
 import 'package:expenso/screens/Auth/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:validators/validators.dart';
 
 import '../../constants.dart';
-import '../../providers/auth_provider.dart';
 import '../../theme/themes.dart';
 import 'forgot_password_screen.dart';
 
@@ -21,7 +22,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKeyForLogin = GlobalKey<FormState>();
-  final AuthProvider _auth = AuthProvider();
 
   bool _loading = false;
 
@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _auth = Provider.of<AuthProvider>(context, listen: false);
     final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
