@@ -1,0 +1,9 @@
+<svg width="428" height="705" viewBox="0 0 428 705" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="354" width="12" height="12" rx="6" fill="#0094F1"/>
+<rect opacity="0.4" x="354" y="32" width="12" height="12" rx="6" fill="#0094F1"/>
+<rect opacity="0.2" x="386" width="12" height="12" rx="6" fill="#0094F1"/>
+<rect opacity="0.8" x="386" y="32" width="12" height="12" rx="6" fill="#0094F1"/>
+<ellipse opacity="0.1" cx="385.5" cy="205" rx="79.5" ry="56" fill="#207ACE"/>
+<ellipse opacity="0.1" cx="76.5984" cy="139.024" rx="119.5" ry="86.5" transform="rotate(-0.73408 76.5984 139.024)" fill="#207ACE"/>
+<path opacity="0.1" d="M181.5 592C181.5 654.408 109.642 705 21 705C-67.6417 705 -139.5 654.408 -139.5 592C-139.5 529.592 -67.6417 479 21 479C109.642 479 181.5 529.592 181.5 592Z" fill="#207ACE"/>
+</svg>

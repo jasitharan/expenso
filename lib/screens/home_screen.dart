@@ -1,5 +1,6 @@
-import 'package:expenso/screens/page/dashboard_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'home_pages/dashboard_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

@@ -1,5 +1,5 @@
-import 'package:expenso/screens/auth/forgot_password_screen.dart';
-import 'package:expenso/screens/auth/register_screen.dart';
+import 'package:expenso/screens/Auth/forgot_password_screen.dart';
+import 'package:expenso/screens/Auth/register_screen.dart';
 import 'package:expenso/screens/home_screen.dart';
 import 'package:expenso/shared/input_text_field.dart';
 import 'package:flutter/material.dart';

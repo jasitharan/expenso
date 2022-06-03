@@ -1,5 +1,5 @@
-import 'package:expenso/screens/auth/login_screen.dart';
-import 'package:expenso/screens/auth/register_success_screen.dart';
+import 'package:expenso/screens/Auth/login_screen.dart';
+import 'package:expenso/screens/Auth/register_success_screen.dart';
 import 'package:expenso/shared/input_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:validators/validators.dart';

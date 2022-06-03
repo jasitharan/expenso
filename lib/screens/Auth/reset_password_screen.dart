@@ -1,19 +1,18 @@
-import 'package:expenso/screens/auth/forgot_password_success_screen.dart';
+import 'package:expenso/screens/Auth/forgot_password_success_screen.dart';
 import 'package:expenso/shared/input_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:validators/validators.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({Key? key}) : super(key: key);
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({Key? key}) : super(key: key);
 
-  static const routeName = '/forgot-password-screen';
+  static const routeName = '/reset-password-screen';
 
   @override
-  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
+  _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  String email = '';
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -35,20 +34,36 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   height: 150,
                 ),
                 const Text(
-                  'Forget Password ?',
+                  'Reset Password',
                   style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 24.0, horizontal: 32),
                   child: InputTextField(
-                    iconName: 'assets/images/email2PrefixIcon.png',
-                    hintText: 'Email',
-                    initialValue: email,
-                    color: Colors.grey,
-                    validator: (val) => !isEmail(val) ? 'Enter an email' : null,
+                    initialValue: password,
+                    iconName: 'assets/images/password2PrefixIcon.png',
+                    hintText: 'Password',
+                    isPassword: true,
+                    validator: (val) =>
+                        val!.length < 8 ? 'Password min 8 characters' : null,
                     onChanged: (val) {
-                      email = val;
+                      password = val;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 32, right: 32, bottom: 24),
+                  child: InputTextField(
+                    initialValue: password,
+                    iconName: 'assets/images/password2PrefixIcon.png',
+                    hintText: 'Confirm Password',
+                    isPassword: true,
+                    validator: (val) =>
+                        val!.length < 8 ? 'Password min 8 characters' : null,
+                    onChanged: (val) {
+                      password = val;
                     },
                   ),
                 ),
@@ -67,10 +82,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             context, ForgotPasswordSuccessScreen.routeName);
                       },
                       child: const Text(
-                        'Send reset link',
+                        'Update Password',
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Raleway'),
                       )),

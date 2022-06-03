@@ -1,4 +1,4 @@
-import 'package:expenso/screens/auth/login_screen.dart';
+import 'package:expenso/screens/Auth/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class RegisterSuccessScreen extends StatefulWidget {
