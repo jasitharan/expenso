@@ -38,7 +38,7 @@ class _RegisterSuccessScreenState extends State<RegisterSuccessScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 50.0, right: 16),
                 child: Image.asset(
-                  'assets/images/login_background.png',
+                  kAuthBackgroundImage,
                 ),
               ),
             ),
@@ -54,7 +54,7 @@ class _RegisterSuccessScreenState extends State<RegisterSuccessScreen> {
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,
-                      image: AssetImage('assets/images/check.png')),
+                      image: AssetImage(kCheckIcon)),
                   const SizedBox(height: 10),
                   const Text(
                     'Thank you for registering !',

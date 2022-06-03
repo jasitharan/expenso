@@ -54,7 +54,7 @@ class _ClassTextFormFieldState extends State<ClassTextFormField> {
             child: Image(
                 height: 15,
                 width: 15,
-                color: myFocusNode.hasFocus ? Colors.orange : Colors.grey,
+                color: myFocusNode.hasFocus ? Colors.orange : Colors.grey[700],
                 image: AssetImage(widget.imageName)),
           ),
           hintText: widget.hintText,

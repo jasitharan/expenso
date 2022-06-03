@@ -33,7 +33,7 @@ class GettingStartedScreen extends StatelessWidget {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.only(top: 200, bottom: 120),
-                child: Image.asset('assets/images/back_image.png'),
+                child: Image.asset(kGettingStartedImage),
               ),
             ),
             SizedBox(

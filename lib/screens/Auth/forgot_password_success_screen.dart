@@ -41,7 +41,7 @@ class _ForgotPasswordSuccessScreenState
               child: Padding(
                 padding: const EdgeInsets.only(top: 50.0, right: 16),
                 child: Image.asset(
-                  'assets/images/login_background.png',
+                  kAuthBackgroundImage,
                 ),
               ),
             ),

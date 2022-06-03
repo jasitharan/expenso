@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'theme/themes.dart';
 
 const String kAppName = "";
 const String kBackgroundSvg = "assets/svgs/gettingStarted.svg";
 const String kAuthBackgroundSvg = "assets/svgs/auth_background.svg";
-const String kAppleIcon = "assets/icons/apple_icon.png";
-const String kGoogleIcon = "assets/icons/google_icon.png";
-const String kLiverIcon = "assets/icons/liver_icon.png";
-const String kEmailIcon = "assets/icons/email_icon.png";
-const String kUserIcon = "assets/icons/user_icon.png";
-const String kPasswordIcon = "assets/icons/password_icon.png";
-const String kGfrIcon = "assets/icons/gfr_icon.png";
-const String kCrclIcon = "assets/icons/crcl_icon.png";
-const String kSignInImage = "assets/images/signin_bottom_image.png";
-const String kSignUpImage = "assets/images/signup_bottom_image.png";
-
-const statusBarColor = SystemUiOverlayStyle(statusBarColor: MyColors.darkBlue);
+const String kGettingStartedImage = 'assets/images/back_image.png';
+const String kAuthBackgroundImage = "assets/images/login_background.png";
+const String kGoogleIcon = 'assets/images/google.png';
+const String kEmailIcon = 'assets/images/email2PrefixIcon.png';
+const String kEmailIcon2 = 'assets/images/emailPrefixIcon.png';
+const String kPasswordIcon = 'assets/images/password2PrefixIcon.png';
+const String kPasswordIcon2 = 'assets/images/passwordPrefixIcon.png';
+const String kUserIcon = 'assets/images/userPrefixIcon.png';
+const String kPhoneIcon = 'assets/images/phonePrefixIcon.png';
+const String kCheckIcon = 'assets/images/check.png';
 
 const divider = Divider(
   color: MyColors.midGold,
@@ -58,5 +55,3 @@ const sizedBox40 = SizedBox(
 const sizedBox50 = SizedBox(
   height: 50,
 );
-
-const kCharToBEIgnored = 0xA0;

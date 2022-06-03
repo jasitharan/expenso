@@ -42,7 +42,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 50.0, right: 16),
                 child: Image.asset(
-                  'assets/images/login_background.png',
+                  kAuthBackgroundImage,
                 ),
               ),
             ),
@@ -62,7 +62,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 24.0, horizontal: 32),
                     child: ClassTextFormField(
-                      imageName: 'assets/images/email2PrefixIcon.png',
+                      imageName: kEmailIcon,
                       hintText: 'Email',
                       validator: (val) =>
                           !isEmail(val!) ? 'Enter an email' : null,

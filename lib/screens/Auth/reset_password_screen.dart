@@ -41,7 +41,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 50.0, right: 16),
                 child: Image.asset(
-                  'assets/images/login_background.png',
+                  kAuthBackgroundImage,
                 ),
               ),
             ),
@@ -61,7 +61,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 24.0, horizontal: 32),
                     child: ClassTextFormField(
-                      imageName: 'assets/images/password2PrefixIcon.png',
+                      imageName: kPasswordIcon,
                       hintText: 'Password',
                       isPassword: true,
                       validator: (val) =>
@@ -75,7 +75,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     padding:
                         const EdgeInsets.only(left: 32, right: 32, bottom: 24),
                     child: ClassTextFormField(
-                      imageName: 'assets/images/password2PrefixIcon.png',
+                      imageName: kPasswordIcon,
                       hintText: 'Confirm Password',
                       isPassword: true,
                       validator: (val) =>

@@ -52,7 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 50.0, right: 16),
                       child: Image.asset(
-                        'assets/images/login_background.png',
+                        kAuthBackgroundImage,
                       ),
                     ),
                   ),
@@ -78,8 +78,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     height: 100.0,
                                   ),
                                   ClassTextFormField(
-                                    imageName:
-                                        'assets/images/userPrefixIcon.png',
+                                    imageName: kUserIcon,
                                     hintText: 'Name',
                                     validator: (val) {
                                       final temp =
@@ -96,8 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     height: 15,
                                   ),
                                   ClassTextFormField(
-                                    imageName:
-                                        'assets/images/emailPrefixIcon.png',
+                                    imageName: kEmailIcon2,
                                     hintText: 'Email',
                                     validator: (val) => !isEmail(val!)
                                         ? 'Enter an email'
@@ -110,8 +108,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     height: 15,
                                   ),
                                   ClassTextFormField(
-                                    imageName:
-                                        'assets/images/phonePrefixIcon.png',
+                                    imageName: kPhoneIcon,
                                     hintText: 'Phone',
                                     validator: (val) => !isNumeric(val!)
                                         ? 'Enter an phone number'
@@ -124,8 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     height: 15,
                                   ),
                                   ClassTextFormField(
-                                    imageName:
-                                        'assets/images/passwordPrefixIcon.png',
+                                    imageName: kPasswordIcon2,
                                     hintText: 'Password',
                                     isPassword: true,
                                     validator: (val) => val!.length < 8
@@ -139,8 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     height: 15,
                                   ),
                                   ClassTextFormField(
-                                    imageName:
-                                        'assets/images/passwordPrefixIcon.png',
+                                    imageName: kPasswordIcon2,
                                     hintText: 'Confirm Password',
                                     isPassword: true,
                                     validator: (val) {

@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 50.0, right: 16),
                     child: Image.asset(
-                      'assets/images/login_background.png',
+                      kAuthBackgroundImage,
                     ),
                   ),
                 ),
@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 15,
                               ),
                               ClassTextFormField(
-                                imageName: 'assets/images/email2PrefixIcon.png',
+                                imageName: kEmailIcon,
                                 hintText: 'Email',
                                 validator: (val) =>
                                     !isEmail(val!) ? 'Enter an email' : null,
@@ -84,8 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               ClassTextFormField(
                                 isPassword: true,
-                                imageName:
-                                    'assets/images/password2PrefixIcon.png',
+                                imageName: kPasswordIcon,
                                 hintText: 'Password',
                                 validator: (val) => val!.length < 8
                                     ? 'Password min 8 characters'
@@ -111,9 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 30,
-                              ),
+                              sizedBox30,
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 24.0),
@@ -142,34 +139,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                       )),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 50,
-                              ),
+                              sizedBox50,
                               Row(children: const [
                                 Expanded(
                                     child: Divider(
                                   color: Color.fromRGBO(0, 0, 0, 0.4),
                                 )),
-                                SizedBox(
-                                  width: 10,
-                                ),
+                                sizedBox10,
                                 Text(
                                   "or",
                                   style: TextStyle(
                                     color: Color.fromRGBO(0, 0, 0, 0.4),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 10,
-                                ),
+                                sizedBox10,
                                 Expanded(
                                     child: Divider(
                                   color: Color.fromRGBO(0, 0, 0, 0.4),
                                 )),
                               ]),
-                              const SizedBox(
-                                height: 30,
-                              ),
+                              sizedBox30,
                               SizedBox(
                                 width: 300,
                                 child: OutlinedButton(
@@ -188,9 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: const [
-                                        Image(
-                                            image: AssetImage(
-                                                'assets/images/google.png')),
+                                        Image(image: AssetImage(kGoogleIcon)),
                                         SizedBox(
                                           width: 16,
                                         ),
@@ -206,9 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ],
                                     )),
                               ),
-                              const SizedBox(
-                                height: 30,
-                              ),
+                              sizedBox30,
                               ClassicTextButton(
                                 leading: 'Don’t have an account?',
                                 title: 'Sign up',
@@ -217,9 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       context, RegisterScreen.routeName);
                                 },
                               ),
-                              const SizedBox(
-                                height: 50,
-                              ),
+                              sizedBox50
                             ],
                           ),
                         ))
