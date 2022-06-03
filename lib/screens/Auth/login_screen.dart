@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:expenso/screens/Auth/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:validators/validators.dart';
 
 import '../../constants.dart';
+import '../../providers/auth_provider.dart';
 import '../../theme/themes.dart';
-import '../home_screen.dart';
 import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,12 +20,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKeyForLogin = GlobalKey<FormState>();
+  final AuthProvider _auth = AuthProvider();
 
-  final bool _loading = false;
+  bool _loading = false;
 
-  String email = '';
-  String password = '';
+  String _email = '';
+  String _password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 350,
                     ),
                     Form(
-                        key: _formKey,
+                        key: _formKeyForLogin,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 36.0),
                           child: Column(
@@ -76,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 validator: (val) =>
                                     !isEmail(val!) ? 'Enter an email' : null,
                                 onChanged: (val) {
-                                  email = val;
+                                  _email = val;
                                 },
                               ),
                               const SizedBox(
@@ -90,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ? 'Password min 8 characters'
                                     : null,
                                 onChanged: (val) {
-                                  password = val;
+                                  _password = val;
                                 },
                               ),
                               const SizedBox(
@@ -126,8 +129,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                           ),
                                           padding: const EdgeInsets.all(16.0)),
                                       onPressed: () async {
-                                        Navigator.pushReplacementNamed(
-                                            context, HomeScreen.routeName);
+                                        if (_formKeyForLogin.currentState!
+                                            .validate()) {
+                                          setState(() {
+                                            _loading = true;
+                                          });
+
+                                          final result = await _auth.signIn(
+                                              _email, _password);
+
+                                          if (result == null) {
+                                            showSnacBar(context,
+                                                'Please provide valid information');
+                                            setState(() {
+                                              _loading = false;
+                                            });
+                                          } else if (Platform.isIOS) {
+                                            Navigator.of(context)
+                                                .pushNamedAndRemoveUntil(
+                                              '/',
+                                              (Route<dynamic> route) => false,
+                                            );
+                                          }
+                                        }
                                       },
                                       child: const Text(
                                         'Login',
@@ -162,7 +186,28 @@ class _LoginScreenState extends State<LoginScreen> {
                               SizedBox(
                                 width: 300,
                                 child: OutlinedButton(
-                                    onPressed: () async {},
+                                    onPressed: () async {
+                                      setState(() {
+                                        _loading = true;
+                                      });
+
+                                      var result =
+                                          await _auth.signInWithGoogle();
+
+                                      if (result == null) {
+                                        showSnacBar(context,
+                                            'Something went wrong Please try again.');
+                                        setState(() {
+                                          _loading = false;
+                                        });
+                                      } else if (Platform.isIOS) {
+                                        Navigator.of(context)
+                                            .pushNamedAndRemoveUntil(
+                                          '/',
+                                          (Route<dynamic> route) => false,
+                                        );
+                                      }
+                                    },
                                     style: OutlinedButton.styleFrom(
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -177,7 +222,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: const [
-                                        Image(image: AssetImage(kGoogleIcon)),
+                                        Image(
+                                          image: AssetImage(
+                                            kGoogleIcon,
+                                          ),
+                                        ),
                                         SizedBox(
                                           width: 16,
                                         ),

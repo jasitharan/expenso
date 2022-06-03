@@ -1,10 +1,12 @@
-import 'package:expenso/screens/Auth/register_success_screen.dart';
+import 'dart:io';
+
 import 'package:expenso/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:validators/validators.dart';
 
 import '../../constants.dart';
+import '../../providers/auth_provider.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -17,14 +19,14 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKeyForRegister = GlobalKey<FormState>();
+  final AuthProvider _auth = AuthProvider();
 
-  String email = '';
-  String password = '';
-  String confirmPassword = '';
-  String name = '';
-  String phoneNumber = '';
-  final bool _loading = false;
+  String _email = '';
+  String _password = '';
+  String _name = '';
+  String _phoneNumber = '';
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           height: 8.0,
                         ),
                         Form(
-                            key: _formKey,
+                            key: _formKeyForRegister,
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 36.0),
@@ -88,7 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           : null;
                                     },
                                     onChanged: (val) {
-                                      name = val;
+                                      _name = val;
                                     },
                                   ),
                                   const SizedBox(
@@ -101,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         ? 'Enter an email'
                                         : null,
                                     onChanged: (val) {
-                                      email = val;
+                                      _email = val;
                                     },
                                   ),
                                   const SizedBox(
@@ -114,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         ? 'Enter an phone number'
                                         : null,
                                     onChanged: (val) {
-                                      phoneNumber = val;
+                                      _phoneNumber = val;
                                     },
                                   ),
                                   const SizedBox(
@@ -128,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         ? 'Password min 8 characters'
                                         : null,
                                     onChanged: (val) {
-                                      password = val;
+                                      _password = val;
                                     },
                                   ),
                                   const SizedBox(
@@ -139,13 +141,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     hintText: 'Confirm Password',
                                     isPassword: true,
                                     validator: (val) {
-                                      return password == val
+                                      return _password == val
                                           ? null
                                           : 'Passwords not match';
                                     },
-                                    onChanged: (val) {
-                                      confirmPassword = val;
-                                    },
+                                    onChanged: (val) {},
                                   ),
                                   const SizedBox(
                                     height: 50,
@@ -164,9 +164,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             padding:
                                                 const EdgeInsets.all(16.0)),
                                         onPressed: () async {
-                                          Navigator.pushReplacementNamed(
-                                              context,
-                                              RegisterSuccessScreen.routeName);
+                                          if (_formKeyForRegister.currentState!
+                                              .validate()) {
+                                            setState(() {
+                                              _loading = true;
+                                            });
+
+                                            final result = await _auth.register(
+                                              _email,
+                                              _password,
+                                              _name,
+                                              _phoneNumber,
+                                            );
+
+                                            if (result == null) {
+                                              showSnacBar(context,
+                                                  'Please provide valid information');
+                                              setState(() {
+                                                _loading = false;
+                                              });
+                                            } else if (Platform.isIOS) {
+                                              Navigator.of(context)
+                                                  .pushNamedAndRemoveUntil(
+                                                '/',
+                                                (Route<dynamic> route) => false,
+                                              );
+                                            }
+                                          }
                                         },
                                         child: const Text(
                                           'Create Account',

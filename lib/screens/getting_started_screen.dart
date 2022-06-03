@@ -1,10 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:expenso/screens/Auth/wrapper.dart';
 import 'package:expenso/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../constants.dart';
-import 'Auth/login_screen.dart';
 
 class GettingStartedScreen extends StatelessWidget {
   const GettingStartedScreen({Key? key}) : super(key: key);
@@ -57,7 +57,9 @@ class GettingStartedScreen extends StatelessWidget {
                       child: ClassicButton(
                         handler: () async {
                           Navigator.pushReplacementNamed(
-                              context, LoginScreen.routeName);
+                            context,
+                            Wrapper.routeName,
+                          );
                         },
                         title: 'Get Start',
                       )),

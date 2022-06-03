@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'theme/themes.dart';
 
-const String kAppName = "";
+const String kAppName = 'Expenso';
 const String kBackgroundSvg = "assets/svgs/gettingStarted.svg";
 const String kAuthBackgroundSvg = "assets/svgs/auth_background.svg";
 const String kGettingStartedImage = 'assets/images/back_image.png';
@@ -15,6 +15,8 @@ const String kPasswordIcon2 = 'assets/images/passwordPrefixIcon.png';
 const String kUserIcon = 'assets/images/userPrefixIcon.png';
 const String kPhoneIcon = 'assets/images/phonePrefixIcon.png';
 const String kCheckIcon = 'assets/images/check.png';
+
+const String kApiUrl = 'https://myflutternewsapp.herokuapp.com/api';
 
 const divider = Divider(
   color: MyColors.midGold,
