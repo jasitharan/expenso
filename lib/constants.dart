@@ -4,7 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'theme/themes.dart';
 
 const String kAppName = "";
-const String kAuthBackgroundSvg = "assets/svgs/gettingStarted.svg";
+const String kBackgroundSvg = "assets/svgs/gettingStarted.svg";
+const String kAuthBackgroundSvg = "assets/svgs/auth_background.svg";
 const String kAppleIcon = "assets/icons/apple_icon.png";
 const String kGoogleIcon = "assets/icons/google_icon.png";
 const String kLiverIcon = "assets/icons/liver_icon.png";

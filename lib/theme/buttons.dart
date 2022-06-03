@@ -10,23 +10,23 @@ class ClassicButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
     return SizedBox(
-      width: mediaQuery.size.width * 0.6,
+      width: 200,
       child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              primary: MyColors.darkBlue,
+          style: OutlinedButton.styleFrom(
+              backgroundColor: const Color.fromRGBO(3, 180, 253, 0.76),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(32.0),
+                borderRadius: BorderRadius.circular(50.0),
               ),
-              padding: const EdgeInsets.all(Insets.s)),
-          onPressed: () async => handler(),
+              padding: const EdgeInsets.all(16.0)),
+          onPressed: () => handler(),
           child: Text(
             title,
             style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-            ),
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Raleway'),
           )),
     );
   }

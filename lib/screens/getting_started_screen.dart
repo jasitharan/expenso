@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:expenso/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -17,18 +18,21 @@ class GettingStartedScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            SizedBox(
-              width: mediaQuery.size.width,
-              child: SvgPicture.asset(
-                kAuthBackgroundSvg,
-                fit: BoxFit.fill,
-                height: 690,
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: SizedBox(
+                width: mediaQuery.size.width,
+                child: SvgPicture.asset(
+                  kBackgroundSvg,
+                  fit: BoxFit.fill,
+                  height: 690,
+                ),
               ),
             ),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
-                padding: const EdgeInsets.only(top: 200, bottom: 100),
+                padding: const EdgeInsets.only(top: 200, bottom: 120),
                 child: Image.asset('assets/images/back_image.png'),
               ),
             ),
@@ -49,31 +53,14 @@ class GettingStartedScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 64.0),
-                    child: SizedBox(
-                      width: 200,
-                      child: ElevatedButton(
-                          style: OutlinedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromRGBO(3, 180, 253, 0.76),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0),
-                              ),
-                              padding: const EdgeInsets.all(16.0)),
-                          onPressed: () async {
-                            Navigator.pushReplacementNamed(
-                                context, LoginScreen.routeName);
-                          },
-                          child: const Text(
-                            'Get Start',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Raleway'),
-                          )),
-                    ),
-                  ),
+                      padding: const EdgeInsets.only(bottom: 64.0),
+                      child: ClassicButton(
+                        handler: () async {
+                          Navigator.pushReplacementNamed(
+                              context, LoginScreen.routeName);
+                        },
+                        title: 'Get Start',
+                      )),
                 ],
               ),
             ),
