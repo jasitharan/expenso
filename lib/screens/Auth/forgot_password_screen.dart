@@ -1,4 +1,4 @@
-import 'package:expenso/shared/input_text_field.dart';
+import 'package:expenso/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:validators/validators.dart';
@@ -61,13 +61,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 24.0, horizontal: 32),
-                    child: InputTextField(
-                      iconName: 'assets/images/email2PrefixIcon.png',
+                    child: ClassTextFormField(
+                      imageName: 'assets/images/email2PrefixIcon.png',
                       hintText: 'Email',
-                      initialValue: email,
-                      color: Colors.grey,
                       validator: (val) =>
-                          !isEmail(val) ? 'Enter an email' : null,
+                          !isEmail(val!) ? 'Enter an email' : null,
                       onChanged: (val) {
                         email = val;
                       },

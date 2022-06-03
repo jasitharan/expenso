@@ -1,5 +1,5 @@
 import 'package:expenso/screens/Auth/forgot_password_success_screen.dart';
-import 'package:expenso/shared/input_text_field.dart';
+import 'package:expenso/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -60,9 +60,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 24.0, horizontal: 32),
-                    child: InputTextField(
-                      initialValue: password,
-                      iconName: 'assets/images/password2PrefixIcon.png',
+                    child: ClassTextFormField(
+                      imageName: 'assets/images/password2PrefixIcon.png',
                       hintText: 'Password',
                       isPassword: true,
                       validator: (val) =>
@@ -75,9 +74,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 32, right: 32, bottom: 24),
-                    child: InputTextField(
-                      initialValue: password,
-                      iconName: 'assets/images/password2PrefixIcon.png',
+                    child: ClassTextFormField(
+                      imageName: 'assets/images/password2PrefixIcon.png',
                       hintText: 'Confirm Password',
                       isPassword: true,
                       validator: (val) =>

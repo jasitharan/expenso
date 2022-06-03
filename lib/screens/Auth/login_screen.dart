@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:validators/validators.dart';
 
 import '../../constants.dart';
-import '../../shared/input_text_field.dart';
+import '../../theme/themes.dart';
 import '../home_screen.dart';
 import 'forgot_password_screen.dart';
 
@@ -70,13 +70,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               const SizedBox(
                                 height: 15,
                               ),
-                              InputTextField(
-                                iconName: 'assets/images/email2PrefixIcon.png',
+                              ClassTextFormField(
+                                imageName: 'assets/images/email2PrefixIcon.png',
                                 hintText: 'Email',
-                                initialValue: email,
-                                color: Colors.grey,
                                 validator: (val) =>
-                                    !isEmail(val) ? 'Enter an email' : null,
+                                    !isEmail(val!) ? 'Enter an email' : null,
                                 onChanged: (val) {
                                   email = val;
                                 },
@@ -84,12 +82,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               const SizedBox(
                                 height: 15,
                               ),
-                              InputTextField(
-                                initialValue: password,
-                                iconName:
+                              ClassTextFormField(
+                                isPassword: true,
+                                imageName:
                                     'assets/images/password2PrefixIcon.png',
                                 hintText: 'Password',
-                                isPassword: true,
                                 validator: (val) => val!.length < 8
                                     ? 'Password min 8 characters'
                                     : null,
@@ -212,28 +209,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               const SizedBox(
                                 height: 30,
                               ),
-                              Wrap(
-                                alignment: WrapAlignment.center,
-                                children: [
-                                  const Text(
-                                    'Don’t have an account? ',
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pushReplacementNamed(
-                                          context, RegisterScreen.routeName);
-                                    },
-                                    child: const Text(
-                                      'Sign up',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Color.fromRGBO(
-                                              10, 78, 178, 0.75)),
-                                    ),
-                                  ),
-                                ],
+                              ClassicTextButton(
+                                leading: 'Don’t have an account?',
+                                title: 'Sign up',
+                                handler: () {
+                                  Navigator.pushReplacementNamed(
+                                      context, RegisterScreen.routeName);
+                                },
                               ),
                               const SizedBox(
                                 height: 50,

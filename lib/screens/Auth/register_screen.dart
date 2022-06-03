@@ -1,10 +1,10 @@
 import 'package:expenso/screens/Auth/register_success_screen.dart';
+import 'package:expenso/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:validators/validators.dart';
 
 import '../../constants.dart';
-import '../../shared/input_text_field.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -77,11 +77,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   const SizedBox(
                                     height: 100.0,
                                   ),
-                                  InputTextField(
-                                    initialValue: name,
-                                    iconName:
+                                  ClassTextFormField(
+                                    imageName:
                                         'assets/images/userPrefixIcon.png',
-                                    color: Colors.grey,
                                     hintText: 'Name',
                                     validator: (val) {
                                       final temp =
@@ -97,13 +95,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   const SizedBox(
                                     height: 15,
                                   ),
-                                  InputTextField(
-                                    initialValue: email,
-                                    iconName:
+                                  ClassTextFormField(
+                                    imageName:
                                         'assets/images/emailPrefixIcon.png',
                                     hintText: 'Email',
-                                    validator: (val) =>
-                                        !isEmail(val) ? 'Enter an email' : null,
+                                    validator: (val) => !isEmail(val!)
+                                        ? 'Enter an email'
+                                        : null,
                                     onChanged: (val) {
                                       email = val;
                                     },
@@ -111,12 +109,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   const SizedBox(
                                     height: 15,
                                   ),
-                                  InputTextField(
-                                    initialValue: phoneNumber,
-                                    iconName:
+                                  ClassTextFormField(
+                                    imageName:
                                         'assets/images/phonePrefixIcon.png',
                                     hintText: 'Phone',
-                                    validator: (val) => !isNumeric(val)
+                                    validator: (val) => !isNumeric(val!)
                                         ? 'Enter an phone number'
                                         : null,
                                     onChanged: (val) {
@@ -126,9 +123,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   const SizedBox(
                                     height: 15,
                                   ),
-                                  InputTextField(
-                                    initialValue: password,
-                                    iconName:
+                                  ClassTextFormField(
+                                    imageName:
                                         'assets/images/passwordPrefixIcon.png',
                                     hintText: 'Password',
                                     isPassword: true,
@@ -142,9 +138,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   const SizedBox(
                                     height: 15,
                                   ),
-                                  InputTextField(
-                                    initialValue: confirmPassword,
-                                    iconName:
+                                  ClassTextFormField(
+                                    imageName:
                                         'assets/images/passwordPrefixIcon.png',
                                     hintText: 'Confirm Password',
                                     isPassword: true,
@@ -190,28 +185,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   const SizedBox(
                                     height: 50,
                                   ),
-                                  Wrap(
-                                    alignment: WrapAlignment.center,
-                                    children: [
-                                      const Text(
-                                        'Already have an account? ',
-                                        style: TextStyle(
-                                            fontSize: 16, color: Colors.grey),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.pushReplacementNamed(
-                                              context, LoginScreen.routeName);
-                                        },
-                                        child: const Text(
-                                          'Login Here',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Color.fromRGBO(
-                                                  10, 78, 178, 0.75)),
-                                        ),
-                                      ),
-                                    ],
+                                  ClassicTextButton(
+                                    leading: 'Already have an account?',
+                                    title: 'Login Here',
+                                    handler: () {
+                                      Navigator.pushReplacementNamed(
+                                          context, LoginScreen.routeName);
+                                    },
                                   ),
                                   const SizedBox(
                                     height: 50,
