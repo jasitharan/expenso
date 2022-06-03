@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:expenso/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -184,12 +182,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               setState(() {
                                                 _loading = false;
                                               });
-                                            } else if (Platform.isIOS) {
-                                              Navigator.of(context)
-                                                  .pushNamedAndRemoveUntil(
-                                                '/',
-                                                (Route<dynamic> route) => false,
-                                              );
                                             }
                                           }
                                         },

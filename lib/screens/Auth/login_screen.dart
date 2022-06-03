@@ -145,12 +145,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                             setState(() {
                                               _loading = false;
                                             });
-                                          } else if (Platform.isIOS) {
-                                            Navigator.of(context)
-                                                .pushNamedAndRemoveUntil(
-                                              '/',
-                                              (Route<dynamic> route) => false,
-                                            );
                                           }
                                         }
                                       },
