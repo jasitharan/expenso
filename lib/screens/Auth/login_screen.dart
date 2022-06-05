@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:expenso/providers/auth_provider.dart';
-import 'package:expenso/screens/Auth/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +11,8 @@ import '../../theme/themes.dart';
 import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  final Function toggleAuth;
+  const LoginScreen({Key? key, required this.toggleAuth}) : super(key: key);
 
   static const routeName = '/login-screen';
 
@@ -239,13 +239,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               sizedBox30,
                               ClassicTextButton(
-                                leading: 'Don’t have an account?',
-                                title: 'Sign up',
-                                handler: () {
-                                  Navigator.pushReplacementNamed(
-                                      context, RegisterScreen.routeName);
-                                },
-                              ),
+                                  leading: 'Don’t have an account?',
+                                  title: 'Sign up',
+                                  handler: () => widget.toggleAuth()),
                               sizedBox50
                             ],
                           ),

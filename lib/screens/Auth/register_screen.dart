@@ -6,10 +6,11 @@ import 'package:validators/validators.dart';
 
 import '../../constants.dart';
 import '../../providers/auth_provider.dart';
-import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+  final Function toggleAuth;
+
+  const RegisterScreen({Key? key, required this.toggleAuth}) : super(key: key);
 
   static const routeName = '/register-screen';
 
@@ -198,13 +199,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     height: 50,
                                   ),
                                   ClassicTextButton(
-                                    leading: 'Already have an account?',
-                                    title: 'Login Here',
-                                    handler: () {
-                                      Navigator.pushReplacementNamed(
-                                          context, LoginScreen.routeName);
-                                    },
-                                  ),
+                                      leading: 'Already have an account?',
+                                      title: 'Login Here',
+                                      handler: () => widget.toggleAuth()),
                                   const SizedBox(
                                     height: 50,
                                   ),
