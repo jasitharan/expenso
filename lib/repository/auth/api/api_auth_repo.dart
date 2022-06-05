@@ -3,13 +3,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 
-import '../../../constants.dart';
+import '../../env.dart';
 import '../auth_repo.dart';
 import 'auth_api.dart';
 import 'models/api_user_model.dart';
 
 class ApiAuthRepo implements AuthRepo {
-  static const String baseUrl = kApiUrl;
   final controller = StreamController<ApiUserModel?>();
 
   ApiUserModel? userInstance;
@@ -28,7 +27,7 @@ class ApiAuthRepo implements AuthRepo {
       String name, String phoneNumber, String email, String password) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/register'),
+        Uri.parse('$kApiUrl/register'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -59,7 +58,7 @@ class ApiAuthRepo implements AuthRepo {
   Future signIn(String email, String password) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/login'),
+        Uri.parse('$kApiUrl/login'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -94,7 +93,7 @@ class ApiAuthRepo implements AuthRepo {
   Future signOut() async {
     try {
       final response = await http
-          .post(Uri.parse('$baseUrl/logout'), headers: <String, String>{
+          .post(Uri.parse('$kApiUrl/logout'), headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer ${userInstance!.uid}',
       });
@@ -116,7 +115,7 @@ class ApiAuthRepo implements AuthRepo {
   Future forgotPassword(String email) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/forgot-password'),
+        Uri.parse('$kApiUrl/forgot-password'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -139,7 +138,7 @@ class ApiAuthRepo implements AuthRepo {
   Future resetPassword(String email, String code, String password) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/reset-password'),
+        Uri.parse('$kApiUrl/reset-password'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

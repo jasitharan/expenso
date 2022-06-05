@@ -16,8 +16,6 @@ const String kUserIcon = 'assets/images/userPrefixIcon.png';
 const String kPhoneIcon = 'assets/images/phonePrefixIcon.png';
 const String kCheckIcon = 'assets/images/check.png';
 
-const String kApiUrl = 'http://192.168.8.176:8000/api';
-
 const divider = Divider(
   color: MyColors.midGold,
   indent: 30,

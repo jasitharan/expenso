@@ -13,6 +13,17 @@ class DashBoardScreen extends StatefulWidget {
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
   bool _loading = false;
+  // bool _isInit = true;
+
+  // @override
+  // Future<void> didChangeDependencies() async {
+  //   if (_isInit) {
+  //     final _user = Provider.of<UserModel>(context, listen: false);
+  //     final _expense = Provider.of<ExpenseTypeProvider>(context, listen: false);
+  //   }
+  //   _isInit = false;
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
