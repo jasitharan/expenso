@@ -136,6 +136,34 @@ class ApiAuthRepo implements AuthRepo {
   }
 
   @override
+  Future resetPassword(String email, String code, String password) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/reset-password'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'email': email,
+          'token': code,
+          'password': password,
+          'password_confirmation': password
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return response.statusCode;
+      } else if (response.statusCode == 404) {
+        return response.statusCode;
+      } else {
+        return null;
+      }
+    } on Exception {
+      return null;
+    }
+  }
+
+  @override
   Stream<ApiUserModel?> getUser() {
     return controller.stream;
   }

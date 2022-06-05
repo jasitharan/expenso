@@ -5,13 +5,15 @@ import 'design_system.dart';
 class ClassicButton extends StatelessWidget {
   final String title;
   final Function handler;
-  const ClassicButton({Key? key, required this.title, required this.handler})
+  final double size;
+  const ClassicButton(
+      {Key? key, required this.title, required this.handler, this.size = 200})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200,
+      width: size,
       child: ElevatedButton(
           style: OutlinedButton.styleFrom(
               backgroundColor: const Color.fromRGBO(3, 180, 253, 0.76),
@@ -87,12 +89,16 @@ class ClassicTextButton extends StatelessWidget {
   final String leading;
   final String title;
   final Function handler;
-  const ClassicTextButton(
-      {Key? key,
-      required this.leading,
-      required this.title,
-      required this.handler})
-      : super(key: key);
+  final double fontSize;
+  final Color titleColor;
+  const ClassicTextButton({
+    Key? key,
+    required this.leading,
+    required this.title,
+    required this.handler,
+    this.fontSize = 16,
+    this.titleColor = Colors.blue,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +109,7 @@ class ClassicTextButton extends StatelessWidget {
         children: [
           Text(
             leading,
-            style: const TextStyle(color: MyColors.midGray, fontSize: 16),
+            style: TextStyle(color: MyColors.midGray, fontSize: fontSize),
           ),
           const SizedBox(
             width: 10,
@@ -112,8 +118,7 @@ class ClassicTextButton extends StatelessWidget {
             onTap: () => handler(),
             child: Text(
               title,
-              style:
-                  const TextStyle(color: MyColors.lightDarkBlue, fontSize: 16),
+              style: TextStyle(color: Colors.blue, fontSize: fontSize),
             ),
           )
         ],

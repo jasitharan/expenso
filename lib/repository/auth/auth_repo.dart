@@ -12,6 +12,8 @@ abstract class AuthRepo {
 
   Future forgotPassword(String email);
 
+  Future resetPassword(String email, String code, String password);
+
   Future signOut();
 
   Stream getUser();

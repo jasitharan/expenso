@@ -155,15 +155,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              return ListTile(
-                                leading: Container(
-                                  child: const Image(
-                                      image:
-                                          AssetImage('assets/images/home.png')),
-                                ),
-                                title: const Text('Nike Store'),
-                                subtitle: const Text('Clothing'),
-                                trailing: const Text(
+                              return const ListTile(
+                                leading: Image(
+                                    image:
+                                        AssetImage('assets/images/home.png')),
+                                title: Text('Nike Store'),
+                                subtitle: Text('Clothing'),
+                                trailing: Text(
                                   '- ₹1782.00',
                                   style: TextStyle(color: Colors.red),
                                 ),

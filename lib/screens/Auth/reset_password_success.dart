@@ -1,3 +1,4 @@
+import 'package:expenso/screens/Auth/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -45,14 +46,18 @@ class _ResetPasswordSuccessScreenState
                 ),
               ),
             ),
-            SizedBox(
-              width: double.infinity,
+            SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(
-                    height: 150,
+                    height: 350,
                   ),
+                  const Image(
+                      height: 80,
+                      width: 80,
+                      fit: BoxFit.cover,
+                      image: AssetImage(kCheckIcon)),
                   const Text(
                     'Password reset',
                     style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
@@ -103,7 +108,10 @@ class _ResetPasswordSuccessScreenState
                         width: 8,
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushReplacementNamed(
+                              context, Wrapper.routeName);
+                        },
                         child: const Text(
                           'Sign In',
                           style: TextStyle(color: Colors.blue, fontSize: 20),

@@ -47,4 +47,8 @@ class AuthProvider {
   Future forgotPassword(String email) async {
     return await _authRepo.forgotPassword(email);
   }
+
+  Future resetPassword(String email, String code, String password) async {
+    return await _authRepo.resetPassword(email, code, password);
+  }
 }
