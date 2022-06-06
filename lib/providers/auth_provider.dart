@@ -35,15 +35,6 @@ class AuthProvider {
     return _userFromServer(user);
   }
 
-  Future<UserModel?> signInWithGoogle() async {
-    dynamic user = await _authRepo.signInWithGoogle();
-    return _userFromServer(user);
-  }
-
-  Future<UserModel?> signInWithApple() async {
-    throw UnimplementedError();
-  }
-
   Future<void> signOut() async {
     await _authRepo.signOut();
   }

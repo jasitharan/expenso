@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 
 import '../../env.dart';
 import '../auth_repo.dart';
@@ -77,16 +76,6 @@ class ApiAuthRepo implements AuthRepo {
     } catch (e) {
       return null;
     }
-  }
-
-  @override
-  Future signInWithGoogle() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future signInWithApple({List<Scope> scopes = const []}) {
-    throw UnimplementedError();
   }
 
   @override
