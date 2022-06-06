@@ -5,7 +5,8 @@ import 'package:expenso/repository/expense/expense_repo.dart';
 class ExpenseProvider {
   final ExpenseRepo _expenseRepo = ApiExpenseRepo();
 
-  List<ExpenseModel> expensesList = [];
+  List<ExpenseModel> recentExpensesList = [];
+  bool isFetchRecExpDone = false;
 
   ExpenseModel? _expenseFromServer(dynamic expense) {
     return expense != null ? ExpenseModel.fromJson(expense) : null;
@@ -34,17 +35,17 @@ class ExpenseProvider {
     return _expenseFromServer(result);
   }
 
-  Future getExpenses(String token, DateTime? date) async {
+  Future getExpenses(String token, DateTime? date, int? skip, int? take) async {
     String query = '';
     if (date != null) {
       query = '?createdDate=${date.year}-${date.month}-${date.day}';
     }
 
-    dynamic result = await _expenseRepo.getAllExpense(token, query);
-
-    if (date == null) {
-      expensesList = expenseFromJson(result);
+    if (skip != null && take != null) {
+      query = '&&skip=$skip&take=$take';
     }
+
+    dynamic result = await _expenseRepo.getAllExpense(token, query);
 
     return result == null ? result : expenseFromJson(result);
   }

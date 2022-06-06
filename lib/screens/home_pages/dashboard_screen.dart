@@ -32,10 +32,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       _graphSelectButton[0] = true;
       final _user = Provider.of<UserModel>(context, listen: false);
       final _expense = Provider.of<ExpenseProvider>(context, listen: false);
-      await _expense.getExpenses(_user.uid, null);
+      if (!_expense.isFetchRecExpDone) {
+        _expense.recentExpensesList =
+            await _expense.getExpenses(_user.uid, null, 0, 10);
+        _expense.isFetchRecExpDone = true;
+      }
 
       //Only approved Expenses
-      filteredList = _expense.expensesList
+      filteredList = _expense.recentExpensesList
           .where(
             (element) => element.status == 'Approved',
           )
@@ -80,8 +84,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           await _auth.signOut();
                         },
                         child: const Image(
-                          height: 80,
-                          width: 80,
+                          height: 45,
+                          width: 45,
                           fit: BoxFit.cover,
                           image: AssetImage('assets/images/bell.png'),
                         ),
