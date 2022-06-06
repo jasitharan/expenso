@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expenso/constants.dart';
 import 'package:expenso/providers/expense_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
@@ -122,10 +123,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: const [
+                      children: [
                         Text(
-                          'September 23, 2021',
-                          style: TextStyle(
+                          DateFormat.yMMMMd().format(DateTime.now()),
+                          style: const TextStyle(
                               color: Color.fromRGBO(
                                 3,
                                 15,
@@ -134,17 +135,22 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               ),
                               fontSize: 16),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
-                        Image(image: AssetImage('assets/images/calendar.png')),
-                        SizedBox(
+                        const Image(
+                            image: AssetImage('assets/images/calendar.png')),
+                        const SizedBox(
                           width: 20,
                         ),
                       ],
                     ),
                     const SizedBox(
                       height: 300,
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: LineChartSample2(),
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

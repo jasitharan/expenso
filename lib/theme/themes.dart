@@ -3,6 +3,7 @@ export 'design_system.dart';
 export 'cards.dart';
 export 'text_form_fields.dart';
 export 'snacbars.dart';
+export 'charts.dart';
 export 'custom_scroll.dart';
 export 'list_tiles.dart';
 import 'package:flutter/material.dart';
