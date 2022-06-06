@@ -33,18 +33,17 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       final _user = Provider.of<UserModel>(context, listen: false);
       final _expense = Provider.of<ExpenseProvider>(context, listen: false);
       if (!_expense.isFetchRecExpDone) {
-        _expense.recentExpensesList =
-            await _expense.getExpenses(_user.uid, null, 0, 10);
-        _expense.isFetchRecExpDone = true;
+        _expense.recentExpensesList = await _expense.getExpenses(_user.uid,
+            date: null, skip: 0, take: 10, status: 'Approved');
+        if (_expense.recentExpensesList != null) {
+          _expense.isFetchRecExpDone = true;
+        }
       }
 
       //Only approved Expenses
-      filteredList = _expense.recentExpensesList
-          .where(
-            (element) => element.status == 'Approved',
-          )
-          .toList();
-
+      if (_expense.recentExpensesList != null) {
+        filteredList = _expense.recentExpensesList!;
+      }
       setState(() {
         _loading = false;
       });
@@ -208,7 +207,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 24.0, bottom: 8),
                         child: Text(
-                          'Recent Spendings',
+                          'Recent Approved Spendings',
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
