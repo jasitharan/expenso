@@ -1,6 +1,9 @@
+import 'package:expenso/screens/home_pages/expenses_screen.dart';
+import 'package:expenso/screens/home_pages/pending_expenses_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'home_pages/dashboard_screen.dart';
+import 'home_pages/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> screens = [
     const DashBoardScreen(),
-    const DashBoardScreen(),
+    const ProfileScreen(),
     const DashBoardScreen(),
     const DashBoardScreen()
   ];
@@ -57,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   MaterialButton(
                     onPressed: () {
                       setState(() {
-                        currentScreen = const DashBoardScreen();
+                        currentScreen = const ExpensesScreen();
                         currentTab = 1;
                       });
                     },
@@ -73,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   MaterialButton(
                     onPressed: () {
                       setState(() {
-                        currentScreen = const DashBoardScreen();
+                        currentScreen = const PendingExpensesScreen();
                         currentTab = 2;
                       });
                     },
@@ -84,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   MaterialButton(
                     onPressed: () {
                       setState(() {
-                        currentScreen = const DashBoardScreen();
+                        currentScreen = const ProfileScreen();
                         currentTab = 3;
                       });
                     },

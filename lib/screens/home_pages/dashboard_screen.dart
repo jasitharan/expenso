@@ -21,6 +21,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   bool _loading = false;
   bool _isInit = true;
   List<ExpenseModel> filteredList = [];
+  final List<bool> _graphSelectButton = List.filled(3, false);
 
   @override
   Future<void> didChangeDependencies() async {
@@ -28,6 +29,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       setState(() {
         _loading = true;
       });
+      _graphSelectButton[0] = true;
       final _user = Provider.of<UserModel>(context, listen: false);
       final _expense = Provider.of<ExpenseProvider>(context, listen: false);
       await _expense.getExpenses(_user.uid, null);
@@ -145,6 +147,51 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         ),
                       ],
                     ),
+                    sizedBox25,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ClassicStylishButton(
+                          handler: () {
+                            setState(() {
+                              _graphSelectButton[0] = true;
+                              _graphSelectButton[1] = false;
+                              _graphSelectButton[2] = false;
+                            });
+                          },
+                          title: 'Month',
+                          isClicked: _graphSelectButton[0],
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        ClassicStylishButton(
+                          handler: () {
+                            setState(() {
+                              _graphSelectButton[0] = false;
+                              _graphSelectButton[1] = true;
+                              _graphSelectButton[2] = false;
+                            });
+                          },
+                          title: 'Week',
+                          isClicked: _graphSelectButton[1],
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        ClassicStylishButton(
+                          handler: () {
+                            setState(() {
+                              _graphSelectButton[0] = false;
+                              _graphSelectButton[1] = false;
+                              _graphSelectButton[2] = true;
+                            });
+                          },
+                          title: 'Day',
+                          isClicked: _graphSelectButton[2],
+                        ),
+                      ],
+                    ),
                     const SizedBox(
                       height: 300,
                       child: Padding(
@@ -152,33 +199,15 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         child: LineChartSample2(),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(left: 16.0),
-                          child: Text(
-                            'Recent Spendings',
-                            style: TextStyle(fontSize: 18),
-                          ),
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 24.0, bottom: 8),
+                        child: Text(
+                          'Recent Spendings',
+                          style: TextStyle(fontSize: 18),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: ElevatedButton(
-                              style: OutlinedButton.styleFrom(
-                                backgroundColor:
-                                    const Color.fromRGBO(249, 249, 249, 1),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                ),
-                              ),
-                              onPressed: () {},
-                              child: const Text(
-                                'See All',
-                                style: TextStyle(color: Colors.grey),
-                              )),
-                        )
-                      ],
+                      ),
                     ),
                     const SizedBox(
                       height: 15,

@@ -127,11 +127,39 @@ class ClassicTextButton extends StatelessWidget {
   }
 }
 
-class ClassicStylishButton extends StatelessWidget {
-  const ClassicStylishButton({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class ClassicStylishButton extends StatefulWidget {
+  final String title;
+  final Function handler;
+  bool isClicked;
+  ClassicStylishButton({
+    Key? key,
+    required this.title,
+    required this.handler,
+    this.isClicked = false,
+  }) : super(key: key);
 
   @override
+  State<ClassicStylishButton> createState() => _ClassicStylishButtonState();
+}
+
+class _ClassicStylishButtonState extends State<ClassicStylishButton> {
+  @override
   Widget build(BuildContext context) {
-    return Container();
+    return ElevatedButton(
+        style: OutlinedButton.styleFrom(
+          backgroundColor: widget.isClicked
+              ? const Color.fromRGBO(0, 146, 212, 1)
+              : Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50.0),
+          ),
+        ),
+        onPressed: () => widget.handler(),
+        child: Text(
+          widget.title,
+          style:
+              TextStyle(color: widget.isClicked ? Colors.white : Colors.grey),
+        ));
   }
 }

@@ -1,4 +1,5 @@
 import 'package:expenso/screens/Auth/wrapper.dart';
+import 'package:expenso/screens/notification_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expenso/screens/Auth/forgot_password_screen.dart';
@@ -14,4 +15,5 @@ Map<String, Widget Function(BuildContext)> getRoutes() => {
       ResetPasswordScreen.routeName: (ctx) => const ResetPasswordScreen(),
       ResetPasswordSuccessScreen.routeName: (ctx) =>
           const ResetPasswordSuccessScreen(),
+      NotificationScreen.routeName: (ctx) => const NotificationScreen(),
     };
