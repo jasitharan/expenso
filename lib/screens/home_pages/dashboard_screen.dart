@@ -1,8 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expenso/constants.dart';
+import 'package:expenso/providers/expense_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
+import '../../providers/models/expense_model.dart';
+import '../../providers/models/user_model.dart';
+import '../../theme/themes.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({Key? key}) : super(key: key);
@@ -13,21 +18,39 @@ class DashBoardScreen extends StatefulWidget {
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
   bool _loading = false;
-  // bool _isInit = true;
+  bool _isInit = true;
+  List<ExpenseModel> filteredList = [];
 
-  // @override
-  // Future<void> didChangeDependencies() async {
-  //   if (_isInit) {
-  //     final _user = Provider.of<UserModel>(context, listen: false);
-  //     final _expense = Provider.of<ExpenseTypeProvider>(context, listen: false);
-  //   }
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
+  @override
+  Future<void> didChangeDependencies() async {
+    if (_isInit) {
+      setState(() {
+        _loading = true;
+      });
+      final _user = Provider.of<UserModel>(context, listen: false);
+      final _expense = Provider.of<ExpenseProvider>(context, listen: false);
+      await _expense.getExpenses(_user.uid, null);
+
+      //Only approved Expenses
+      filteredList = _expense.expensesList
+          .where(
+            (element) => element.status == 'Approved',
+          )
+          .toList();
+
+      setState(() {
+        _loading = false;
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final _user = Provider.of<UserModel>(context, listen: false);
     final _auth = Provider.of<AuthProvider>(context, listen: false);
+
     return _loading
         ? loading
         : SafeArea(
@@ -62,25 +85,32 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       ),
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(50.0),
-                        child: const Image(
-                          height: 50,
-                          width: 50,
-                          fit: BoxFit.cover,
-                          image: AssetImage('assets/images/human.png'),
-                        ),
+                        child: _user.imageUrl == null
+                            ? const Image(
+                                image: AssetImage('assets/images/check.png'))
+                            : CachedNetworkImage(
+                                imageUrl: kBackendUrl + _user.imageUrl!,
+                                fit: BoxFit.cover,
+                                height: 50,
+                                width: 50,
+                                errorWidget: (context, url, error) =>
+                                    const Image(
+                                        image: AssetImage(
+                                            'assets/images/check.png')),
+                              ),
                       ),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
-                            'John Doe',
-                            style: TextStyle(
+                            _user.name!,
+                            style: const TextStyle(
                                 fontSize: 18,
                                 color: Color.fromRGBO(60, 90, 154, 1),
                                 fontFamily: 'Raleway',
                                 fontWeight: FontWeight.bold),
                           ),
-                          Text(
+                          const Text(
                             'Recomended actions for you',
                             style: TextStyle(color: Colors.grey, fontSize: 14),
                           ),
@@ -162,21 +192,21 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             ),
                           ),
                           ListView.builder(
-                            itemCount: 10,
+                            itemCount: filteredList.length > 15
+                                ? 15
+                                : filteredList.length,
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
-                              return const ListTile(
-                                leading: Image(
-                                    image:
-                                        AssetImage('assets/images/home.png')),
-                                title: Text('Nike Store'),
-                                subtitle: Text('Clothing'),
-                                trailing: Text(
-                                  '- ₹1782.00',
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              );
+                              return ExpenseTile(
+                                  title: filteredList[index].expenseFor,
+                                  subTitle: filteredList[index]
+                                      .expenseTypeName
+                                      .toString(),
+                                  price: filteredList[index]
+                                      .expenseCost
+                                      .toString(),
+                                  image: filteredList[index].expenseTypeImage);
                             },
                           )
                         ],

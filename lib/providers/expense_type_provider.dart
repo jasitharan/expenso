@@ -5,6 +5,8 @@ import 'package:expenso/repository/expenseType/expense_type_repo.dart';
 class ExpenseTypeProvider {
   final ExpenseTypeRepo _expenseTypesRepo = ApiExpenseTypesRepo();
 
+  List<ExpenseTypeModel> expenseTypes = [];
+
   // ExpenseTypeModel? _expenseFromServer(dynamic expense) {
   //   return expense != null ? ExpenseTypeModel.fromJson(expense) : null;
   // }
@@ -13,7 +15,11 @@ class ExpenseTypeProvider {
     String token,
   ) async {
     dynamic result = await _expenseTypesRepo.getAllExpenseTypes(token);
-
-    return result == null ? result : expenseTypesFromJson(result);
+    List<ExpenseTypeModel>? types;
+    if (result != null) {
+      types = expenseTypesFromJson(result);
+      expenseTypes = types;
+    }
+    return types;
   }
 }

@@ -5,6 +5,8 @@ import 'package:expenso/repository/expense/expense_repo.dart';
 class ExpenseProvider {
   final ExpenseRepo _expenseRepo = ApiExpenseRepo();
 
+  List<ExpenseModel> expensesList = [];
+
   ExpenseModel? _expenseFromServer(dynamic expense) {
     return expense != null ? ExpenseModel.fromJson(expense) : null;
   }
@@ -39,6 +41,10 @@ class ExpenseProvider {
     }
 
     dynamic result = await _expenseRepo.getAllExpense(token, query);
+
+    if (date == null) {
+      expensesList = expenseFromJson(result);
+    }
 
     return result == null ? result : expenseFromJson(result);
   }

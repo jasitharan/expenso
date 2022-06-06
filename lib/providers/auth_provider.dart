@@ -7,7 +7,11 @@ class AuthProvider {
 
   UserModel? _userFromServer(dynamic user) {
     return user != null
-        ? UserModel(uid: user.uid, email: user.email, name: user.displayName)
+        ? UserModel(
+            uid: user.uid,
+            email: user.email,
+            name: user.displayName,
+            imageUrl: user.imageUrl)
         : null;
   }
 

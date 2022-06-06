@@ -13,9 +13,15 @@ class ExpenseModel {
   int expenseTypeId;
   double expenseCost;
   DateTime createdDate;
+  String expenseTypeName;
+  String expenseTypeImage;
+  String status;
 
   ExpenseModel(
       {this.id,
+      required this.expenseTypeName,
+      required this.expenseTypeImage,
+      required this.status,
       required this.expenseFor,
       required this.expenseTypeId,
       required this.expenseCost,
@@ -34,6 +40,9 @@ class ExpenseModel {
   factory ExpenseModel.fromMap(Map<String, dynamic> map) {
     return ExpenseModel(
         id: map['id'] as int,
+        status: map['status'] as String,
+        expenseTypeName: map['expenseType_name'] as String,
+        expenseTypeImage: map['expenseType_image'] as String,
         expenseFor: map['expenseFor'] as String,
         expenseTypeId: map['expenseType_id'] as int,
         expenseCost: double.tryParse(map['expenseCost'].toString()) ??
