@@ -32,17 +32,23 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       _graphSelectButton[0] = true;
       final _user = Provider.of<UserModel>(context, listen: false);
       final _expense = Provider.of<ExpenseProvider>(context, listen: false);
-      if (!_expense.isFetchRecExpDone) {
-        _expense.recentExpensesList = await _expense.getExpenses(_user.uid,
-            date: null, skip: 0, take: 10, status: 'Approved');
-        if (_expense.recentExpensesList != null) {
-          _expense.isFetchRecExpDone = true;
+      if (!_expense.recentExpenses.getIsDone()) {
+        _expense.recentExpenses.setList(
+          await _expense.getExpenses(_user.uid,
+              startDate: null,
+              endDate: null,
+              skip: 0,
+              take: 10,
+              status: 'Approved'),
+        );
+        if (_expense.recentExpenses.getList() != null) {
+          _expense.recentExpenses.setIsDone(true);
         }
       }
 
       //Only approved Expenses
-      if (_expense.recentExpensesList != null) {
-        filteredList = _expense.recentExpensesList!;
+      if (_expense.recentExpenses.getList() != null) {
+        filteredList = _expense.recentExpenses.getList()!;
       }
       setState(() {
         _loading = false;
