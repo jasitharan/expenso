@@ -22,7 +22,7 @@ class ExpenseTypeGridTile extends StatelessWidget {
         InkWell(
           onTap: () {
             Navigator.pushNamed(context, ExpensesScreen.routeName,
-                arguments: {'expTypeId': expTypeId});
+                arguments: {'expTypeId': expTypeId, 'expTypeName': title});
           },
           child: Container(
             height: 70,

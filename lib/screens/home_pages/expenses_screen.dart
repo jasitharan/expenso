@@ -30,6 +30,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   String currentDate = '';
   DateTime endDate = DateTime.now();
   int? expTypeId;
+  String? expTypeName;
 
   @override
   Future<void> didChangeDependencies() async {
@@ -38,11 +39,12 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
         _loading = true;
       });
       final modalRoute = ModalRoute.of(context);
-      Map<String, int>? arguments;
+      Map<String, dynamic>? arguments;
       if (modalRoute != null) {
-        arguments = modalRoute.settings.arguments as Map<String, int>?;
+        arguments = modalRoute.settings.arguments as Map<String, dynamic>?;
       }
       expTypeId = arguments?['expTypeId'];
+      expTypeName = arguments?['expTypeName'];
 
       final _user = Provider.of<UserModel>(context, listen: false);
       final _expense = Provider.of<ExpenseProvider>(context, listen: false);
@@ -114,13 +116,15 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               child: Column(
                 children: [
                   sizedBox10,
-                  const Align(
+                  Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 16.0, bottom: 8),
+                      padding: const EdgeInsets.only(left: 16.0, bottom: 8),
                       child: Text(
-                        'Expenses',
-                        style: TextStyle(fontSize: 22),
+                        expTypeName != null
+                            ? '$expTypeName Expenses'
+                            : 'Expenses',
+                        style: const TextStyle(fontSize: 22),
                       ),
                     ),
                   ),
