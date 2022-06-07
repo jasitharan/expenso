@@ -63,18 +63,38 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     return Scaffold(
       body: _loading
           ? loading
-          : ListView.builder(
-              itemCount: filteredList.length,
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return ExpenseTile(
-                  title: filteredList[index].expenseFor,
-                  subTitle: filteredList[index].expenseTypeName.toString(),
-                  price: filteredList[index].expenseCost.toString(),
-                  image: filteredList[index].expenseTypeImage,
-                );
-              },
+          : SafeArea(
+              child: Column(
+                children: [
+                  sizedBox40,
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 16.0, bottom: 8),
+                      child: Text(
+                        'Expenses',
+                        style: TextStyle(fontSize: 22),
+                      ),
+                    ),
+                  ),
+                  sizedBox30,
+                  ListView.builder(
+                    itemCount: filteredList.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return ExpenseTile(
+                        title: filteredList[index].expenseFor,
+                        subTitle:
+                            filteredList[index].expenseTypeName.toString(),
+                        status: filteredList[index].status,
+                        price: filteredList[index].expenseCost.toString(),
+                        image: filteredList[index].expenseTypeImage,
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
     );
   }

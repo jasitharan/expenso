@@ -19,8 +19,8 @@ const String kBackendUrl = 'http://192.168.8.176:8000';
 
 const divider = Divider(
   color: MyColors.midGold,
-  indent: 30,
-  endIndent: 30,
+  indent: 20,
+  endIndent: 20,
   thickness: 0.75,
 );
 
