@@ -43,6 +43,7 @@ class ExpenseProvider {
     int? skip,
     int? take,
     String? status,
+    int? expTypeId,
   }) async {
     String query = '';
     if (startDate != null && endDate != null) {
@@ -55,7 +56,11 @@ class ExpenseProvider {
     }
 
     if (skip != null && take != null) {
-      query += 'skip=$skip&take=$take';
+      query += 'skip=$skip&take=$take&';
+    }
+
+    if (expTypeId != null) {
+      query += 'expenseType_id=$expTypeId';
     }
 
     dynamic result = await _expenseRepo.getAllExpense(token, query);

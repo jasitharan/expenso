@@ -10,6 +10,7 @@ import '../../theme/themes.dart';
 
 class ExpensesScreen extends StatefulWidget {
   const ExpensesScreen({Key? key}) : super(key: key);
+  static const routeName = '/expenses-screen';
 
   @override
   State<ExpensesScreen> createState() => _ExpensesScreenState();
@@ -18,6 +19,7 @@ class ExpensesScreen extends StatefulWidget {
 class _ExpensesScreenState extends State<ExpensesScreen> {
   bool _loading = false;
   bool _isInit = true;
+  List<ExpenseModel> originalList = [];
   List<ExpenseModel> filteredList = [];
   DateTime startDate = DateTime(
     DateTime.now().year,
@@ -26,8 +28,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   );
   String prevDate = DateTime(1990, 10, 10).toString();
   String currentDate = '';
-
   DateTime endDate = DateTime.now();
+  int? expTypeId;
 
   @override
   Future<void> didChangeDependencies() async {
@@ -35,20 +37,37 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       setState(() {
         _loading = true;
       });
+      final modalRoute = ModalRoute.of(context);
+      Map<String, int>? arguments;
+      if (modalRoute != null) {
+        arguments = modalRoute.settings.arguments as Map<String, int>?;
+      }
+      expTypeId = arguments?['expTypeId'];
+
       final _user = Provider.of<UserModel>(context, listen: false);
       final _expense = Provider.of<ExpenseProvider>(context, listen: false);
-      if (!_expense.expenses.getIsDone()) {
-        _expense.expenses.setList(await _expense.getExpenses(
+      if (!_expense.expenses.getIsDone() || expTypeId != null) {
+        List<ExpenseModel> result = await _expense.getExpenses(
           _user.uid,
           startDate: startDate,
           endDate: endDate,
-        ));
-        if (_expense.expenses.getList() != null) {
+          expTypeId: expTypeId,
+        );
+
+        if (expTypeId == null) {
+          _expense.expenses.setList(result);
+        } else {
+          filteredList = result;
+          originalList = result;
+        }
+
+        if (_expense.expenses.getList() != null && expTypeId == null) {
           _expense.expenses.setIsDone(true);
         }
       }
 
-      if (_expense.expenses.getList() != null) {
+      if (_expense.expenses.getList() != null && expTypeId == null) {
+        originalList = _expense.expenses.getList()!;
         filteredList = _expense.expenses.getList()!;
       }
 
@@ -82,13 +101,18 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
     return Scaffold(
       backgroundColor: const Color.fromRGBO(235, 241, 245, 1),
+      appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(235, 241, 245, 1),
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
       body: _loading
           ? loading
           : SafeArea(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    sizedBox40,
+                    sizedBox10,
                     const Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
@@ -131,9 +155,12 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
                                   if (_filter != 'All') {
                                     filterList(
-                                      await _expense.getExpenses(_user.uid,
-                                          startDate: startDate,
-                                          endDate: endDate),
+                                      await _expense.getExpenses(
+                                        _user.uid,
+                                        startDate: startDate,
+                                        endDate: endDate,
+                                        expTypeId: expTypeId,
+                                      ),
                                       _filter,
                                     );
                                   }
@@ -162,7 +189,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                   case 'Approved':
                                     _filter = 'Approved';
                                     filterList(
-                                      _expense.expenses.getList()!,
+                                      originalList,
                                       _filter,
                                     );
 
@@ -170,7 +197,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                   case 'Rejected':
                                     _filter = 'Rejected';
                                     filterList(
-                                      _expense.expenses.getList()!,
+                                      originalList,
                                       _filter,
                                     );
 
@@ -178,7 +205,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                   case 'Pending':
                                     _filter = 'Unknown';
                                     filterList(
-                                      _expense.expenses.getList()!,
+                                      originalList,
                                       _filter,
                                     );
 
@@ -188,7 +215,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                     prevDate =
                                         DateTime(1990, 10, 10).toString();
                                     currentDate = '';
-                                    filteredList = _expense.expenses.getList()!;
+                                    filteredList = originalList;
                                     setState(() {});
                                     break;
                                 }

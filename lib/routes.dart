@@ -1,4 +1,5 @@
 import 'package:expenso/screens/Auth/wrapper.dart';
+import 'package:expenso/screens/home_pages/expenses_screen.dart';
 import 'package:expenso/screens/notification_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,5 +16,6 @@ Map<String, Widget Function(BuildContext)> getRoutes() => {
       ResetPasswordScreen.routeName: (ctx) => const ResetPasswordScreen(),
       ResetPasswordSuccessScreen.routeName: (ctx) =>
           const ResetPasswordSuccessScreen(),
+      ExpensesScreen.routeName: (ctx) => const ExpensesScreen(),
       NotificationScreen.routeName: (ctx) => const NotificationScreen(),
     };

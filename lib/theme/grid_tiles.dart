@@ -1,17 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expenso/constants.dart';
+import 'package:expenso/screens/home_pages/expenses_screen.dart';
 import 'package:flutter/material.dart';
 
 class ExpenseTypeGridTile extends StatelessWidget {
   final String image;
   final String title;
-  final Function handler;
+  final int expTypeId;
 
   const ExpenseTypeGridTile(
       {Key? key,
       required this.image,
       required this.title,
-      required this.handler})
+      required this.expTypeId})
       : super(key: key);
 
   @override
@@ -19,7 +20,10 @@ class ExpenseTypeGridTile extends StatelessWidget {
     return Column(
       children: [
         InkWell(
-          onTap: () => handler(),
+          onTap: () {
+            Navigator.pushNamed(context, ExpensesScreen.routeName,
+                arguments: {'expTypeId': expTypeId});
+          },
           child: Container(
             height: 70,
             width: 70,
