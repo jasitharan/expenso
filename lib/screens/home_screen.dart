@@ -2,6 +2,7 @@ import 'package:expenso/screens/home_pages/expenses_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'home_pages/dashboard_screen.dart';
+import 'home_pages/expense_types_screen.dart';
 import 'home_pages/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -59,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   MaterialButton(
                     onPressed: () {
                       setState(() {
-                        currentScreen = Container();
+                        currentScreen = const ExpenseTypesScreen();
                         currentTab = 1;
                       });
                     },

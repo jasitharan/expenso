@@ -81,6 +81,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     String _filter = 'All';
 
     return Scaffold(
+      backgroundColor: const Color.fromRGBO(235, 241, 245, 1),
       body: _loading
           ? loading
           : SafeArea(
