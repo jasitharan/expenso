@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
@@ -18,6 +19,15 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   bool _loading = false;
   bool _isInit = true;
   List<ExpenseModel> filteredList = [];
+  DateTime startDate = DateTime(
+    DateTime.now().year,
+    DateTime.now().month - 1,
+    DateTime.now().day,
+  );
+  String prevDate = DateTime(1990, 10, 10).toString();
+  String currentDate = '';
+
+  DateTime endDate = DateTime.now();
 
   @override
   Future<void> didChangeDependencies() async {
@@ -30,12 +40,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       if (!_expense.todayExpenses.getIsDone()) {
         _expense.todayExpenses.setList(await _expense.getExpenses(
           _user.uid,
-          startDate: DateTime(
-            DateTime.now().year,
-            DateTime.now().month - 1,
-            DateTime.now().day,
-          ),
-          endDate: DateTime.now(),
+          startDate: startDate,
+          endDate: endDate,
         ));
         if (_expense.todayExpenses.getList() != null) {
           _expense.todayExpenses.setIsDone(true);
@@ -44,10 +50,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
       //Only approved Expenses
       if (_expense.todayExpenses.getList() != null) {
-        filteredList = _expense.todayExpenses
-            .getList()!
-            .where((element) => element.status != 'Unknown')
-            .toList();
+        filteredList = _expense.todayExpenses.getList()!;
       }
 
       setState(() {
@@ -60,40 +63,198 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _user = Provider.of<UserModel>(context, listen: false);
+    final _expense = Provider.of<ExpenseProvider>(context, listen: false);
+    String _filter = 'All';
+
+    void filterList(List<ExpenseModel> list, String filter) {
+      prevDate = DateTime(1990, 10, 10).toString();
+      currentDate = '';
+      filteredList = list
+          .where(
+            (element) => element.status == filter,
+          )
+          .toList();
+
+      setState(() {
+        _loading = false;
+      });
+    }
+
     return Scaffold(
       body: _loading
           ? loading
           : SafeArea(
-              child: Column(
-                children: [
-                  sizedBox40,
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 16.0, bottom: 8),
-                      child: Text(
-                        'Expenses',
-                        style: TextStyle(fontSize: 22),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    sizedBox40,
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 16.0, bottom: 8),
+                        child: Text(
+                          'Expenses',
+                          style: TextStyle(fontSize: 22),
+                        ),
                       ),
                     ),
-                  ),
-                  sizedBox30,
-                  ListView.builder(
-                    itemCount: filteredList.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return ExpenseTile(
-                        title: filteredList[index].expenseFor,
-                        subTitle:
-                            filteredList[index].expenseTypeName.toString(),
-                        status: filteredList[index].status,
-                        price: filteredList[index].expenseCost.toString(),
-                        image: filteredList[index].expenseTypeImage,
-                      );
-                    },
-                  ),
-                ],
+                    sizedBox30,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              '${DateFormat('dd/MM/yyyy').format(startDate)} => ${DateFormat('dd/MM/yyyy').format(endDate)}',
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromRGBO(64, 142, 189, 1)),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                final picked = await showDateRangePicker(
+                                  context: context,
+                                  lastDate: DateTime.now(),
+                                  firstDate: DateTime(2019),
+                                );
+                                if (picked != null) {
+                                  setState(() {
+                                    _loading = true;
+                                  });
+
+                                  startDate = picked.start;
+                                  endDate = picked.end;
+
+                                  if (_filter != 'All') {
+                                    filterList(
+                                      await _expense.getExpenses(_user.uid,
+                                          startDate: startDate,
+                                          endDate: endDate),
+                                      _filter,
+                                    );
+                                  }
+                                }
+                              },
+                              icon: const Icon(
+                                Icons.calendar_today,
+                                size: 24,
+                                color: Color.fromRGBO(64, 142, 189, 1),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 12.0),
+                            child: PopupMenuButton<String>(
+                              icon: const Icon(
+                                Icons.filter_list,
+                                size: 28,
+                                color: Color.fromRGBO(64, 142, 189, 1),
+                              ),
+                              onSelected: (String result) {
+                                switch (result) {
+                                  case 'Approved':
+                                    _filter = 'Approved';
+                                    filterList(
+                                      _expense.todayExpenses.getList()!,
+                                      _filter,
+                                    );
+
+                                    break;
+                                  case 'Rejected':
+                                    _filter = 'Rejected';
+                                    filterList(
+                                      _expense.todayExpenses.getList()!,
+                                      _filter,
+                                    );
+
+                                    break;
+                                  case 'Pending':
+                                    _filter = 'Unknown';
+                                    filterList(
+                                      _expense.todayExpenses.getList()!,
+                                      _filter,
+                                    );
+
+                                    break;
+                                  case 'All':
+                                    _filter = 'All';
+                                    filteredList =
+                                        _expense.todayExpenses.getList()!;
+                                    setState(() {});
+                                    break;
+                                }
+                              },
+                              itemBuilder: (BuildContext context) =>
+                                  <PopupMenuEntry<String>>[
+                                const PopupMenuItem<String>(
+                                  value: 'Approved',
+                                  child: Text('Approved'),
+                                ),
+                                const PopupMenuItem<String>(
+                                  value: 'Rejected',
+                                  child: Text('Rejected'),
+                                ),
+                                const PopupMenuItem<String>(
+                                  value: 'Pending',
+                                  child: Text('Pending'),
+                                ),
+                                const PopupMenuItem<String>(
+                                  value: 'All',
+                                  child: Text('All'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    sizedBox20,
+                    ListView.builder(
+                      itemCount: filteredList.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        String tempPrev = prevDate;
+                        currentDate = DateFormat.yMMMMEEEEd()
+                            .format(filteredList[index].createdDate);
+                        prevDate = currentDate;
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (currentDate != tempPrev) sizedBox10,
+                            if (currentDate != tempPrev)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16.0),
+                                child: Text(
+                                  currentDate,
+                                  style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            if (currentDate != tempPrev) sizedBox20,
+                            ExpenseTile(
+                              title: filteredList[index].expenseFor,
+                              subTitle: filteredList[index]
+                                  .expenseTypeName
+                                  .toString(),
+                              status: filteredList[index].status,
+                              price: filteredList[index].expenseCost.toString(),
+                              image: filteredList[index].expenseTypeImage,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
     );
