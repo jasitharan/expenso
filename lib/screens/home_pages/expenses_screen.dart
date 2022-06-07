@@ -37,20 +37,19 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       });
       final _user = Provider.of<UserModel>(context, listen: false);
       final _expense = Provider.of<ExpenseProvider>(context, listen: false);
-      if (!_expense.todayExpenses.getIsDone()) {
-        _expense.todayExpenses.setList(await _expense.getExpenses(
+      if (!_expense.expenses.getIsDone()) {
+        _expense.expenses.setList(await _expense.getExpenses(
           _user.uid,
           startDate: startDate,
           endDate: endDate,
         ));
-        if (_expense.todayExpenses.getList() != null) {
-          _expense.todayExpenses.setIsDone(true);
+        if (_expense.expenses.getList() != null) {
+          _expense.expenses.setIsDone(true);
         }
       }
 
-      //Only approved Expenses
-      if (_expense.todayExpenses.getList() != null) {
-        filteredList = _expense.todayExpenses.getList()!;
+      if (_expense.expenses.getList() != null) {
+        filteredList = _expense.expenses.getList()!;
       }
 
       setState(() {
@@ -61,25 +60,25 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     super.didChangeDependencies();
   }
 
+  void filterList(List<ExpenseModel> list, String filter) {
+    prevDate = DateTime(1990, 10, 10).toString();
+    currentDate = '';
+    filteredList = list
+        .where(
+          (element) => element.status == filter,
+        )
+        .toList();
+
+    setState(() {
+      _loading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<UserModel>(context, listen: false);
     final _expense = Provider.of<ExpenseProvider>(context, listen: false);
     String _filter = 'All';
-
-    void filterList(List<ExpenseModel> list, String filter) {
-      prevDate = DateTime(1990, 10, 10).toString();
-      currentDate = '';
-      filteredList = list
-          .where(
-            (element) => element.status == filter,
-          )
-          .toList();
-
-      setState(() {
-        _loading = false;
-      });
-    }
 
     return Scaffold(
       body: _loading
@@ -162,7 +161,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                   case 'Approved':
                                     _filter = 'Approved';
                                     filterList(
-                                      _expense.todayExpenses.getList()!,
+                                      _expense.expenses.getList()!,
                                       _filter,
                                     );
 
@@ -170,7 +169,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                   case 'Rejected':
                                     _filter = 'Rejected';
                                     filterList(
-                                      _expense.todayExpenses.getList()!,
+                                      _expense.expenses.getList()!,
                                       _filter,
                                     );
 
@@ -178,15 +177,17 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                   case 'Pending':
                                     _filter = 'Unknown';
                                     filterList(
-                                      _expense.todayExpenses.getList()!,
+                                      _expense.expenses.getList()!,
                                       _filter,
                                     );
 
                                     break;
                                   case 'All':
                                     _filter = 'All';
-                                    filteredList =
-                                        _expense.todayExpenses.getList()!;
+                                    prevDate =
+                                        DateTime(1990, 10, 10).toString();
+                                    currentDate = '';
+                                    filteredList = _expense.expenses.getList()!;
                                     setState(() {});
                                     break;
                                 }

@@ -7,8 +7,7 @@ class ExpenseProvider {
   final ExpenseRepo _expenseRepo = ApiExpenseRepo();
 
   ExpenseStore recentExpenses = ExpenseStore([], false);
-  ExpenseStore pendingExpenses = ExpenseStore([], false);
-  ExpenseStore todayExpenses = ExpenseStore([], false);
+  ExpenseStore expenses = ExpenseStore([], false);
 
   ExpenseModel? _expenseFromServer(dynamic expense) {
     return expense != null ? ExpenseModel.fromJson(expense) : null;

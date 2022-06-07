@@ -1,5 +1,4 @@
 import 'package:expenso/screens/home_pages/expenses_screen.dart';
-import 'package:expenso/screens/home_pages/pending_expenses_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'home_pages/dashboard_screen.dart';
@@ -60,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   MaterialButton(
                     onPressed: () {
                       setState(() {
-                        currentScreen = const ExpensesScreen();
+                        currentScreen = Container();
                         currentTab = 1;
                       });
                     },
@@ -76,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   MaterialButton(
                     onPressed: () {
                       setState(() {
-                        currentScreen = const PendingExpensesScreen();
+                        currentScreen = const ExpensesScreen();
                         currentTab = 2;
                       });
                     },
