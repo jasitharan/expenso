@@ -13,15 +13,15 @@ class ExpenseModel {
   int expenseTypeId;
   double expenseCost;
   DateTime createdDate;
-  String expenseTypeName;
-  String expenseTypeImage;
-  String status;
+  String? expenseTypeName;
+  String? expenseTypeImage;
+  String? status;
 
   ExpenseModel(
       {this.id,
-      required this.expenseTypeName,
-      required this.expenseTypeImage,
-      required this.status,
+      this.expenseTypeName,
+      this.expenseTypeImage,
+      this.status,
       required this.expenseFor,
       required this.expenseTypeId,
       required this.expenseCost,

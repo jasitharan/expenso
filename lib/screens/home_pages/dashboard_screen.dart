@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expenso/constants.dart';
-import 'package:expenso/providers/expense_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
+import '../../providers/expense_provider.dart';
+import '../../providers/expense_type_provider.dart';
 import '../../providers/models/expense_model.dart';
 import '../../providers/models/user_model.dart';
 import '../../theme/themes.dart';
@@ -31,7 +32,20 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       });
       _graphSelectButton[0] = true;
       final _user = Provider.of<UserModel>(context, listen: false);
+
+      final _expenseTypes =
+          Provider.of<ExpenseTypeProvider>(context, listen: false);
+
+      if (!_expenseTypes.isDone) {
+        await _expenseTypes.getExpenseTypes(_user.uid);
+      }
+
+      if (_expenseTypes.expenseTypes != null) {
+        _expenseTypes.isDone = true;
+      }
+
       final _expense = Provider.of<ExpenseProvider>(context, listen: false);
+
       if (!_expense.recentExpenses.getIsDone()) {
         _expense.recentExpenses.setList(
           await _expense.getExpenses(_user.uid,
@@ -243,14 +257,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               return ExpenseTile(
-                                  title: filteredList[index].expenseFor,
-                                  subTitle: filteredList[index]
-                                      .expenseTypeName
-                                      .toString(),
-                                  price: filteredList[index]
-                                      .expenseCost
-                                      .toString(),
-                                  image: filteredList[index].expenseTypeImage);
+                                title: filteredList[index].expenseFor,
+                                subTitle: filteredList[index]
+                                    .expenseTypeName
+                                    .toString(),
+                                price:
+                                    filteredList[index].expenseCost.toString(),
+                                image: filteredList[index].expenseTypeImage!,
+                              );
                             },
                           )
                         ],

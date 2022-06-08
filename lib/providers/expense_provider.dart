@@ -14,9 +14,16 @@ class ExpenseProvider {
   }
 
   Future createExpense(ExpenseModel expense, String token) async {
+    expenses.getList()!.add(expense);
     dynamic result = await _expenseRepo.createExpense(expense.expenseFor,
         expense.expenseTypeId, expense.expenseCost, expense.createdDate, token);
-    return _expenseFromServer(result);
+    ExpenseModel? resultExpense = _expenseFromServer(result);
+
+    if (resultExpense == null) {
+      expenses.getList()!.remove(expense);
+    }
+
+    return resultExpense;
   }
 
   Future editExpense(ExpenseModel expense, String token) async {

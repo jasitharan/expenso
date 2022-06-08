@@ -287,11 +287,11 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                   subTitle: filteredList[index]
                                       .expenseTypeName
                                       .toString(),
-                                  status: filteredList[index].status,
+                                  status: filteredList[index].status!,
                                   price: filteredList[index]
                                       .expenseCost
                                       .toString(),
-                                  image: filteredList[index].expenseTypeImage,
+                                  image: filteredList[index].expenseTypeImage!,
                                 ),
                               ],
                             );

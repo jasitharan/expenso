@@ -132,8 +132,10 @@ class ClassicStylishButton extends StatefulWidget {
   final String title;
   final Function handler;
   bool isClicked;
+  final Color color;
   ClassicStylishButton({
     Key? key,
+    this.color = Colors.white,
     required this.title,
     required this.handler,
     this.isClicked = false,
@@ -150,7 +152,7 @@ class _ClassicStylishButtonState extends State<ClassicStylishButton> {
         style: OutlinedButton.styleFrom(
           backgroundColor: widget.isClicked
               ? const Color.fromRGBO(0, 146, 212, 1)
-              : Colors.white,
+              : widget.color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50.0),
           ),
