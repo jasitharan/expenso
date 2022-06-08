@@ -35,7 +35,6 @@ class ExpenseProvider {
     existingModel.expenseCost = expense.expenseCost;
     existingModel.expenseFor = expense.expenseFor;
     existingModel.expenseTypeId = expense.expenseTypeId;
-    existingModel.expenseTypeImage = expense.expenseTypeImage;
     existingModel.expenseTypeName = expense.expenseTypeName;
 
     dynamic result = await _expenseRepo.editExpense(

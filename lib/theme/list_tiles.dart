@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
-class ExpenseTile extends StatelessWidget {
+class ExpenseTile extends StatefulWidget {
   final String title;
   final String subTitle;
   final String price;
@@ -23,15 +23,20 @@ class ExpenseTile extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ExpenseTile> createState() => _ExpenseTileState();
+}
+
+class _ExpenseTileState extends State<ExpenseTile> {
+  @override
   Widget build(BuildContext context) {
     Color color = Colors.green;
-    String realStatus = status;
+    String realStatus = widget.status;
 
-    if (status == 'Approved') {
+    if (widget.status == 'Approved') {
       color = Colors.green;
-    } else if (status == 'Rejected') {
+    } else if (widget.status == 'Rejected') {
       color = Colors.red;
-    } else if (status == 'Unknown') {
+    } else if (widget.status == 'Unknown') {
       realStatus = 'Pending';
       color = Colors.orange;
     }
@@ -41,7 +46,7 @@ class ExpenseTile extends StatelessWidget {
       children: [
         ListTile(
           leading: CachedNetworkImage(
-            imageUrl: kBackendUrl + image,
+            imageUrl: kBackendUrl + widget.image,
             fit: BoxFit.cover,
             height: 30,
             width: 30,
@@ -49,14 +54,14 @@ class ExpenseTile extends StatelessWidget {
                 const Image(image: AssetImage('assets/images/check.png')),
           ),
           title: Text(
-            title,
+            widget.title,
             style: const TextStyle(fontSize: 16),
           ),
-          subtitle: Text(subTitle),
+          subtitle: Text(widget.subTitle),
           trailing: Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Text(
-              '- ₹$price',
+              '- ₹${widget.price}',
               style: const TextStyle(color: Colors.red),
             ),
           ),
@@ -64,7 +69,7 @@ class ExpenseTile extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            status != ''
+            widget.status != ''
                 ? Padding(
                     padding: const EdgeInsets.only(bottom: 8, left: 72),
                     child: Text(
@@ -73,19 +78,23 @@ class ExpenseTile extends StatelessWidget {
                     ),
                   )
                 : Container(),
-            status != '' && status != 'Approved'
+            widget.status != '' && widget.status != 'Approved'
                 ? Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Row(
                       children: [
                         IconButton(
-                            onPressed: () => editFunction!(),
+                            onPressed: () {
+                              widget.editFunction!();
+                            },
                             icon: const Icon(
                               Icons.edit,
                               color: Color.fromRGBO(64, 142, 189, 1),
                             )),
                         IconButton(
-                            onPressed: () => deleteFunction!(),
+                            onPressed: () {
+                              widget.deleteFunction!();
+                            },
                             icon: const Icon(
                               Icons.delete,
                               color: Colors.red,

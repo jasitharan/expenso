@@ -305,6 +305,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                               expense: filteredList[index],
                                               isEdit: true,
                                             ));
+                                    setState(() {});
                                   },
                                   deleteFunction: () async {
                                     await _expense.deleteExpense(

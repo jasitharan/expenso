@@ -32,6 +32,7 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
   DateTime? selectedDate;
   bool isScaned = false;
   double? expenseCost;
+  String? expenseTypeImage;
 
   @override
   void initState() {
@@ -79,9 +80,9 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
                 height: 38,
                 width: 38,
               ),
-              const Text(
-                'Add New Expense',
-                style: TextStyle(
+              Text(
+                widget.isEdit ? 'Edit Expense' : 'Add New Expense',
+                style: const TextStyle(
                   fontSize: 24,
                   color: Colors.black,
                   fontWeight: FontWeight.w500,
@@ -141,11 +142,13 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
                         }).toList(),
                         onChanged: (val) {
                           setState(() {
+                            ExpenseTypeModel typeModel = _expenseTypes
+                                .expenseTypes!
+                                .firstWhere((element) =>
+                                    element.expType == expTypeName);
                             expTypeName = val!;
-                            expTypeId = _expenseTypes.expenseTypes!
-                                .firstWhere(
-                                    (element) => element.expType == expTypeName)
-                                .id;
+                            expTypeId = typeModel.id;
+                            expenseTypeImage = typeModel.expTypeImage;
                           });
                         },
                       ),
@@ -303,6 +306,7 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
                             expenseTypeId: expTypeId!,
                             expenseFor: expFor!,
                             expenseTypeName: expTypeName!,
+                            expenseTypeImage: expenseTypeImage,
                             status: 'Unknown',
                           ),
                           _user.uid,
