@@ -298,20 +298,22 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
                           _user.uid,
                         );
                       } else {
+                        ExpenseModel expense = ExpenseModel(
+                          createdDate: selectedDate!,
+                          cost: expenseCost!,
+                          title: expFor!,
+                          status: 'Unknown',
+                          type: expenseType!,
+                        );
+                        _expense.expenses.addExpense(expense);
                         await _expense.createExpense(
-                          ExpenseModel(
-                            createdDate: selectedDate!,
-                            cost: expenseCost!,
-                            title: expFor!,
-                            status: 'Unknown',
-                            type: expenseType!,
-                          ),
+                          expense,
                           _user.uid,
                         );
-
-                        setState(() {});
                       }
-                      Navigator.pop(context);
+                      Navigator.pop(
+                        context,
+                      );
                     }
                   },
                 ),

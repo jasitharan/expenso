@@ -49,7 +49,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       final _user = Provider.of<UserModel>(context, listen: false);
       final _expense = Provider.of<ExpenseProvider>(context, listen: false);
       if (!_expense.expenses.getIsDone() || expTypeId != null) {
-        List<ExpenseModel> result = await _expense.getExpenses(
+        List<ExpenseModel>? result = await _expense.getExpenses(
           _user.uid,
           startDate: startDate,
           endDate: endDate,
@@ -58,19 +58,18 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
         if (expTypeId == null) {
           _expense.expenses.setList(result);
+          if (_expense.expenses.getList() != null) {
+            _expense.expenses.setIsDone(true);
+          }
         } else {
-          filteredList = result;
-          originalList = result;
-        }
-
-        if (expTypeId == null) {
-          _expense.expenses.setIsDone(true);
+          filteredList = result ?? [];
+          originalList = result ?? [];
         }
       }
 
-      if (expTypeId == null) {
-        originalList = _expense.expenses.getList();
-        filteredList = _expense.expenses.getList();
+      if (_expense.expenses.getIsDone() && expTypeId == null) {
+        filteredList = _expense.expenses.getList()!;
+        originalList = _expense.expenses.getList()!;
       }
 
       setState(() {
@@ -79,14 +78,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     }
     _isInit = false;
     super.didChangeDependencies();
-  }
-
-  @override
-  void didUpdateWidget(covariant ExpensesScreen oldWidget) {
-    if (oldWidget != widget) {
-      setState(() {});
-    }
-    super.didUpdateWidget(oldWidget);
   }
 
   void filterList(List<ExpenseModel> list, String filter) {
@@ -108,12 +99,12 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<UserModel>(context, listen: false);
-    final _expense = Provider.of<ExpenseProvider>(context, listen: false);
+    final _expense = Provider.of<ExpenseProvider>(context, listen: true);
     String _filter = 'All';
 
     void updateFilteredList() {
       setState(() {
-        filteredList = _expense.expenses.getList();
+        filteredList = _expense.expenses.getList()!;
       });
     }
 

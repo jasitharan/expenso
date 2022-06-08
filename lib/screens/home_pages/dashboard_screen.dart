@@ -36,6 +36,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       final _expenseTypes =
           Provider.of<ExpenseTypeProvider>(context, listen: false);
 
+      // For ExpenseTypes
       if (!_expenseTypes.isDone) {
         await _expenseTypes.getExpenseTypes(_user.uid);
       }
@@ -46,24 +47,43 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
       final _expense = Provider.of<ExpenseProvider>(context, listen: false);
 
+      // For recentExpenses
       if (!_expense.recentExpenses.getIsDone()) {
-        _expense.recentExpenses.setList(
-          await _expense.getExpenses(_user.uid,
-              startDate: null,
-              endDate: null,
-              skip: 0,
-              take: 10,
-              status: 'Approved'),
-        );
-        if (_expense.recentExpenses.getList() != []) {
+        List<ExpenseModel>? result = await _expense.getExpenses(_user.uid,
+            startDate: null,
+            endDate: null,
+            skip: 0,
+            take: 10,
+            status: 'Approved');
+        _expense.recentExpenses.setList(result);
+
+        if (_expense.recentExpenses.getList() != null) {
           _expense.recentExpenses.setIsDone(true);
         }
       }
 
-      //Only approved Expenses
-      if (_expense.recentExpenses.getList() != []) {
-        filteredList = _expense.recentExpenses.getList();
+      if (_expense.recentExpenses.getIsDone()) {
+        filteredList = _expense.recentExpenses.getList()!;
       }
+
+      // For Expenses
+      if (!_expense.expenses.getIsDone()) {
+        List<ExpenseModel>? result = await _expense.getExpenses(
+          _user.uid,
+          startDate: DateTime(
+            DateTime.now().year,
+            DateTime.now().month - 1,
+            DateTime.now().day,
+          ),
+          endDate: DateTime.now(),
+        );
+        _expense.expenses.setList(result);
+
+        if (_expense.expenses.getList() != null) {
+          _expense.expenses.setIsDone(true);
+        }
+      }
+
       setState(() {
         _loading = false;
       });

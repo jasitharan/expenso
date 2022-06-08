@@ -14,7 +14,6 @@ class ExpenseProvider {
   }
 
   Future createExpense(ExpenseModel expense, String token) async {
-    expenses.addExpense(expense);
     dynamic result = await _expenseRepo.createExpense(
       expense.title,
       expense.type.id,
@@ -85,12 +84,12 @@ class ExpenseProvider {
 }
 
 class ExpenseStore {
-  List<ExpenseModel> _list = [];
+  List<ExpenseModel>? _list;
   bool _isDone = false;
 
   ExpenseStore(this._list, this._isDone);
 
-  void setList(List<ExpenseModel> list) {
+  void setList(List<ExpenseModel>? list) {
     _list = list;
   }
 
@@ -98,8 +97,8 @@ class ExpenseStore {
     _isDone = isDone;
   }
 
-  List<ExpenseModel> getList() {
-    return [..._list];
+  List<ExpenseModel>? getList() {
+    return _list == null ? null : [..._list!];
   }
 
   bool getIsDone() {
@@ -107,28 +106,32 @@ class ExpenseStore {
   }
 
   void addExpense(ExpenseModel expense) {
+    if (_list == null) return;
     int index = 0;
-    while (expense.createdDate.isBefore(_list[index].createdDate)) {
+    while (expense.createdDate.isBefore(_list![index].createdDate)) {
       index++;
     }
 
-    _list.insert(index, expense);
+    _list!.insert(index, expense);
   }
 
   void editExpense(ExpenseModel expense) {
+    if (_list == null) return;
     ExpenseModel existingModel =
-        _list.where((element) => element.id == expense.id).first;
-    int index = _list.indexOf(existingModel);
-    _list.remove(existingModel);
-    _list.insert(index, expense);
+        _list!.where((element) => element.id == expense.id).first;
+    int index = _list!.indexOf(existingModel);
+    _list!.remove(existingModel);
+    _list!.insert(index, expense);
   }
 
   void removeExpenseWithId(int id) {
-    ExpenseModel expense = _list.where((element) => element.id == id).first;
-    _list.remove(expense);
+    if (_list == null) return;
+    ExpenseModel expense = _list!.where((element) => element.id == id).first;
+    _list!.remove(expense);
   }
 
   void removeExpense(ExpenseModel expense) {
-    _list.remove(expense);
+    if (_list == null) return;
+    _list!.remove(expense);
   }
 }

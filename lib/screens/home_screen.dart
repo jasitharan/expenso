@@ -17,13 +17,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int currentTab = 0;
 
-  final List<Widget> screens = [
-    const DashBoardScreen(),
-    const ProfileScreen(),
-    const DashBoardScreen(),
-    const DashBoardScreen()
-  ];
-
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = const DashBoardScreen();
 
@@ -41,7 +34,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               context: context,
               builder: (context) => const ExpenseModalBottomSheet());
-          setState(() {});
+
+          if (currentTab == 2) {
+            setState(() {
+              currentScreen = ExpensesScreen(
+                key: UniqueKey(),
+              );
+            });
+          }
         },
         child: Image.asset('assets/images/plus.png'),
       ),
@@ -86,7 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   MaterialButton(
                     onPressed: () {
                       setState(() {
-                        currentScreen = const ExpensesScreen();
+                        currentScreen = ExpensesScreen(
+                          key: UniqueKey(),
+                        );
                         currentTab = 2;
                       });
                     },
