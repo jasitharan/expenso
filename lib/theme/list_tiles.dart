@@ -9,14 +9,18 @@ class ExpenseTile extends StatelessWidget {
   final String price;
   final String image;
   final String status;
-  const ExpenseTile(
-      {Key? key,
-      required this.title,
-      required this.subTitle,
-      this.status = '',
-      required this.image,
-      required this.price})
-      : super(key: key);
+  final Function? editFunction;
+  final Function? deleteFunction;
+  const ExpenseTile({
+    Key? key,
+    required this.title,
+    required this.subTitle,
+    this.status = '',
+    required this.image,
+    required this.price,
+    this.editFunction,
+    this.deleteFunction,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,13 +79,13 @@ class ExpenseTile extends StatelessWidget {
                     child: Row(
                       children: [
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () => editFunction!(),
                             icon: const Icon(
                               Icons.edit,
                               color: Color.fromRGBO(64, 142, 189, 1),
                             )),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () => deleteFunction!(),
                             icon: const Icon(
                               Icons.delete,
                               color: Colors.red,

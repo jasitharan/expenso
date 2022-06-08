@@ -21,12 +21,23 @@ class ExpenseProvider {
 
     if (resultExpense == null) {
       expenses.getList()!.remove(expense);
+    } else {
+      expense.id = resultExpense.id;
     }
 
     return resultExpense;
   }
 
   Future editExpense(ExpenseModel expense, String token) async {
+    ExpenseModel existingModel =
+        expenses.getList()!.where((element) => element.id == expense.id).first;
+    existingModel.createdDate = expense.createdDate;
+    existingModel.expenseCost = expense.expenseCost;
+    existingModel.expenseFor = expense.expenseFor;
+    existingModel.expenseTypeId = expense.expenseTypeId;
+    existingModel.expenseTypeImage = expense.expenseTypeImage;
+    existingModel.expenseTypeName = expense.expenseTypeName;
+
     dynamic result = await _expenseRepo.editExpense(
         expense.id!,
         expense.expenseFor,
@@ -35,7 +46,9 @@ class ExpenseProvider {
         expense.createdDate,
         token);
 
-    return _expenseFromServer(result);
+    ExpenseModel? resultExpense = _expenseFromServer(result);
+
+    return resultExpense;
   }
 
   Future getExpense(int id, String token) async {
@@ -76,6 +89,7 @@ class ExpenseProvider {
   }
 
   Future deleteExpense(int id, String token) async {
+    expenses.getList()!.removeWhere((element) => element.id == id);
     return await _expenseRepo.deleteExpense(id, token);
   }
 }

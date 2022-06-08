@@ -6,6 +6,7 @@ import '../../constants.dart';
 import '../../providers/expense_provider.dart';
 import '../../providers/models/expense_model.dart';
 import '../../providers/models/user_model.dart';
+import '../../theme/modal_bottom_sheets.dart';
 import '../../theme/themes.dart';
 
 class ExpensesScreen extends StatefulWidget {
@@ -292,6 +293,24 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                       .expenseCost
                                       .toString(),
                                   image: filteredList[index].expenseTypeImage!,
+                                  editFunction: () {
+                                    showModalBottomSheet(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                        context: context,
+                                        builder: (context) =>
+                                            ExpenseModalBottomSheet(
+                                              expense: filteredList[index],
+                                              isEdit: true,
+                                            ));
+                                  },
+                                  deleteFunction: () async {
+                                    await _expense.deleteExpense(
+                                        filteredList[index].id!, _user.uid);
+                                    setState(() {});
+                                  },
                                 ),
                               ],
                             );
