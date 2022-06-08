@@ -102,11 +102,44 @@ class _ExpenseTileState extends State<ExpenseTile> {
                             )),
                         IconButton(
                             onPressed: () async {
-                              _expense.expenses
-                                  .removeExpenseWithId(widget.expense.id!);
-                              widget.refresh!();
-                              await _expense.deleteExpense(
-                                  widget.expense.id!, _user.uid);
+                              showDialog(
+                                      context: context,
+                                      builder: (BuildContext ctx) {
+                                        return AlertDialog(
+                                          title: const Text('Please Confirm'),
+                                          content: const Text(
+                                              'Are you sure to delete this expense'),
+                                          actions: [
+                                            // The "Yes" button
+                                            TextButton(
+                                                onPressed: () async {
+                                                  // Remove the box
+                                                  _expense.expenses
+                                                      .removeExpenseWithId(
+                                                          widget.expense.id!);
+                                                  widget.refresh!();
+                                                  Navigator.of(context).pop();
+                                                  // Close the dialog
+                                                },
+                                                child: const Text(
+                                                  'Yes',
+                                                  style: TextStyle(
+                                                    color: Colors.red,
+                                                  ),
+                                                )),
+                                            TextButton(
+                                                onPressed: () {
+                                                  // Close the dialog
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('No'))
+                                          ],
+                                        );
+                                      })
+                                  .then((value) async => {
+                                        await _expense.deleteExpense(
+                                            widget.expense.id!, _user.uid)
+                                      });
                             },
                             icon: const Icon(
                               Icons.delete,
