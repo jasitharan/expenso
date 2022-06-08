@@ -8,10 +8,6 @@ class ExpenseTypeProvider {
   List<ExpenseTypeModel>? expenseTypes = [];
   bool isDone = false;
 
-  // ExpenseTypeModel? _expenseFromServer(dynamic expense) {
-  //   return expense != null ? ExpenseTypeModel.fromJson(expense) : null;
-  // }
-
   Future getExpenseTypes(
     String token,
   ) async {

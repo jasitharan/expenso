@@ -34,16 +34,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: PageStorage(bucket: bucket, child: currentScreen),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
+        onPressed: () async {
+          await showModalBottomSheet(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
               context: context,
               builder: (context) => const ExpenseModalBottomSheet());
-          setState(() {
-            currentScreen = currentScreen;
-          });
+          setState(() {});
         },
         child: Image.asset('assets/images/plus.png'),
       ),

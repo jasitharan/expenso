@@ -6,7 +6,6 @@ import '../../constants.dart';
 import '../../providers/expense_provider.dart';
 import '../../providers/models/expense_model.dart';
 import '../../providers/models/user_model.dart';
-import '../../theme/modal_bottom_sheets.dart';
 import '../../theme/themes.dart';
 
 class ExpensesScreen extends StatefulWidget {
@@ -64,14 +63,14 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
           originalList = result;
         }
 
-        if (_expense.expenses.getList() != null && expTypeId == null) {
+        if (expTypeId == null) {
           _expense.expenses.setIsDone(true);
         }
       }
 
-      if (_expense.expenses.getList() != null && expTypeId == null) {
-        originalList = _expense.expenses.getList()!;
-        filteredList = _expense.expenses.getList()!;
+      if (expTypeId == null) {
+        originalList = _expense.expenses.getList();
+        filteredList = _expense.expenses.getList();
       }
 
       setState(() {
@@ -80,6 +79,14 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     }
     _isInit = false;
     super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(covariant ExpensesScreen oldWidget) {
+    if (oldWidget != widget) {
+      setState(() {});
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   void filterList(List<ExpenseModel> list, String filter) {
@@ -103,6 +110,12 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     final _user = Provider.of<UserModel>(context, listen: false);
     final _expense = Provider.of<ExpenseProvider>(context, listen: false);
     String _filter = 'All';
+
+    void updateFilteredList() {
+      setState(() {
+        filteredList = _expense.expenses.getList();
+      });
+    }
 
     return Scaffold(
       backgroundColor: const Color.fromRGBO(235, 241, 245, 1),
@@ -284,30 +297,9 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                   ),
                                 if (currentDate != tempPrev) sizedBox20,
                                 ExpenseTile(
-                                  title: filteredList[index].title,
-                                  subTitle: filteredList[index].type.name,
-                                  status: filteredList[index].status!,
-                                  price: filteredList[index].cost.toString(),
-                                  image: filteredList[index].type.image,
-                                  editFunction: () {
-                                    showModalBottomSheet(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                        ),
-                                        context: context,
-                                        builder: (context) =>
-                                            ExpenseModalBottomSheet(
-                                              expense: filteredList[index],
-                                              isEdit: true,
-                                            ));
-                                    setState(() {});
-                                  },
-                                  deleteFunction: () async {
-                                    await _expense.deleteExpense(
-                                        filteredList[index].id!, _user.uid);
-                                    setState(() {});
-                                  },
+                                  key: UniqueKey(),
+                                  expense: filteredList[index],
+                                  refresh: () => updateFilteredList(),
                                 ),
                               ],
                             );

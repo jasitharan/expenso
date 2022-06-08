@@ -14,7 +14,7 @@ class ExpenseProvider {
   }
 
   Future createExpense(ExpenseModel expense, String token) async {
-    expenses.getList()!.add(expense);
+    expenses.addExpense(expense);
     dynamic result = await _expenseRepo.createExpense(
       expense.title,
       expense.type.id,
@@ -25,7 +25,7 @@ class ExpenseProvider {
     ExpenseModel? resultExpense = _expenseFromServer(result);
 
     if (resultExpense == null) {
-      expenses.getList()!.remove(expense);
+      expenses.removeExpense(expense);
     } else {
       expense.id = resultExpense.id;
     }
@@ -34,13 +34,6 @@ class ExpenseProvider {
   }
 
   Future editExpense(ExpenseModel expense, String token) async {
-    ExpenseModel existingModel =
-        expenses.getList()!.where((element) => element.id == expense.id).first;
-    existingModel.createdDate = expense.createdDate;
-    existingModel.cost = expense.cost;
-    existingModel.title = expense.title;
-    existingModel.type = expense.type;
-
     dynamic result = await _expenseRepo.editExpense(expense.id!, expense.title,
         expense.type.id, expense.cost, expense.createdDate, token);
 
@@ -87,18 +80,17 @@ class ExpenseProvider {
   }
 
   Future deleteExpense(int id, String token) async {
-    expenses.getList()!.removeWhere((element) => element.id == id);
     return await _expenseRepo.deleteExpense(id, token);
   }
 }
 
 class ExpenseStore {
-  List<ExpenseModel>? _list;
+  List<ExpenseModel> _list = [];
   bool _isDone = false;
 
   ExpenseStore(this._list, this._isDone);
 
-  void setList(List<ExpenseModel>? list) {
+  void setList(List<ExpenseModel> list) {
     _list = list;
   }
 
@@ -106,11 +98,37 @@ class ExpenseStore {
     _isDone = isDone;
   }
 
-  List<ExpenseModel>? getList() {
-    return _list;
+  List<ExpenseModel> getList() {
+    return [..._list];
   }
 
   bool getIsDone() {
     return _isDone;
+  }
+
+  void addExpense(ExpenseModel expense) {
+    int index = 0;
+    while (expense.createdDate.isBefore(_list[index].createdDate)) {
+      index++;
+    }
+
+    _list.insert(index, expense);
+  }
+
+  void editExpense(ExpenseModel expense) {
+    ExpenseModel existingModel =
+        _list.where((element) => element.id == expense.id).first;
+    int index = _list.indexOf(existingModel);
+    _list.remove(existingModel);
+    _list.insert(index, expense);
+  }
+
+  void removeExpenseWithId(int id) {
+    ExpenseModel expense = _list.where((element) => element.id == id).first;
+    _list.remove(expense);
+  }
+
+  void removeExpense(ExpenseModel expense) {
+    _list.remove(expense);
   }
 }

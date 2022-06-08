@@ -1,25 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
+import '../providers/expense_provider.dart';
+import '../providers/models/expense_model.dart';
+import '../providers/models/user_model.dart';
+import 'modal_bottom_sheets.dart';
 
 class ExpenseTile extends StatefulWidget {
-  final String title;
-  final String subTitle;
-  final String price;
-  final String image;
-  final String status;
-  final Function? editFunction;
-  final Function? deleteFunction;
+  final ExpenseModel expense;
+  final Function? refresh;
+
   const ExpenseTile({
     Key? key,
-    required this.title,
-    required this.subTitle,
-    this.status = '',
-    required this.image,
-    required this.price,
-    this.editFunction,
-    this.deleteFunction,
+    required this.expense,
+    this.refresh,
   }) : super(key: key);
 
   @override
@@ -29,14 +25,17 @@ class ExpenseTile extends StatefulWidget {
 class _ExpenseTileState extends State<ExpenseTile> {
   @override
   Widget build(BuildContext context) {
-    Color color = Colors.green;
-    String realStatus = widget.status;
+    final _user = Provider.of<UserModel>(context, listen: false);
+    final _expense = Provider.of<ExpenseProvider>(context, listen: false);
 
-    if (widget.status == 'Approved') {
+    Color color = Colors.green;
+    String realStatus = widget.expense.status ?? '';
+
+    if (widget.expense.status == 'Approved') {
       color = Colors.green;
-    } else if (widget.status == 'Rejected') {
+    } else if (widget.expense.status == 'Rejected') {
       color = Colors.red;
-    } else if (widget.status == 'Unknown') {
+    } else if (widget.expense.status == 'Unknown') {
       realStatus = 'Pending';
       color = Colors.orange;
     }
@@ -46,7 +45,7 @@ class _ExpenseTileState extends State<ExpenseTile> {
       children: [
         ListTile(
           leading: CachedNetworkImage(
-            imageUrl: kBackendUrl + widget.image,
+            imageUrl: kBackendUrl + widget.expense.type.image,
             fit: BoxFit.cover,
             height: 30,
             width: 30,
@@ -54,14 +53,14 @@ class _ExpenseTileState extends State<ExpenseTile> {
                 const Image(image: AssetImage('assets/images/check.png')),
           ),
           title: Text(
-            widget.title,
+            widget.expense.title,
             style: const TextStyle(fontSize: 16),
           ),
-          subtitle: Text(widget.subTitle),
+          subtitle: Text(widget.expense.type.name),
           trailing: Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Text(
-              '- ₹${widget.price}',
+              '- ₹${widget.expense.cost}',
               style: const TextStyle(color: Colors.red),
             ),
           ),
@@ -69,7 +68,7 @@ class _ExpenseTileState extends State<ExpenseTile> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            widget.status != ''
+            widget.expense.status != ''
                 ? Padding(
                     padding: const EdgeInsets.only(bottom: 8, left: 72),
                     child: Text(
@@ -78,22 +77,36 @@ class _ExpenseTileState extends State<ExpenseTile> {
                     ),
                   )
                 : Container(),
-            widget.status != '' && widget.status != 'Approved'
+            widget.expense.status != '' && widget.expense.status != 'Approved'
                 ? Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Row(
                       children: [
                         IconButton(
                             onPressed: () {
-                              widget.editFunction!();
+                              showModalBottomSheet(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  context: context,
+                                  builder: (context) => ExpenseModalBottomSheet(
+                                        expense: widget.expense,
+                                        isEdit: true,
+                                        refresh: widget.refresh,
+                                      ));
+                              widget.refresh!();
                             },
                             icon: const Icon(
                               Icons.edit,
                               color: Color.fromRGBO(64, 142, 189, 1),
                             )),
                         IconButton(
-                            onPressed: () {
-                              widget.deleteFunction!();
+                            onPressed: () async {
+                              _expense.expenses
+                                  .removeExpenseWithId(widget.expense.id!);
+                              widget.refresh!();
+                              await _expense.deleteExpense(
+                                  widget.expense.id!, _user.uid);
                             },
                             icon: const Icon(
                               Icons.delete,

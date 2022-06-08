@@ -55,14 +55,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               take: 10,
               status: 'Approved'),
         );
-        if (_expense.recentExpenses.getList() != null) {
+        if (_expense.recentExpenses.getList() != []) {
           _expense.recentExpenses.setIsDone(true);
         }
       }
 
       //Only approved Expenses
-      if (_expense.recentExpenses.getList() != null) {
-        filteredList = _expense.recentExpenses.getList()!;
+      if (_expense.recentExpenses.getList() != []) {
+        filteredList = _expense.recentExpenses.getList();
       }
       setState(() {
         _loading = false;
@@ -257,10 +257,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               return ExpenseTile(
-                                title: filteredList[index].title,
-                                subTitle: filteredList[index].type.name,
-                                price: filteredList[index].cost.toString(),
-                                image: filteredList[index].type.image,
+                                expense: filteredList[index],
                               );
                             },
                           )

@@ -14,10 +14,12 @@ import 'buttons.dart';
 class ExpenseModalBottomSheet extends StatefulWidget {
   final bool isEdit;
   final ExpenseModel? expense;
+  final Function? refresh;
   const ExpenseModalBottomSheet({
     Key? key,
     this.isEdit = false,
     this.expense,
+    this.refresh,
   }) : super(key: key);
 
   @override
@@ -26,19 +28,16 @@ class ExpenseModalBottomSheet extends StatefulWidget {
 }
 
 class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
-  String? expTypeName;
-  String? expFor;
   DateTime? selectedDate;
   bool isScaned = false;
+  String? expFor;
   double? expenseCost;
-  String? expenseTypeImage;
   ExpenseTypeModel? expenseType;
 
   @override
   void initState() {
     super.initState();
     if (widget.expense != null) {
-      expTypeName = widget.expense?.type.name;
       selectedDate = widget.expense!.createdDate;
       expenseCost = widget.expense!.cost;
       expFor = widget.expense?.title;
@@ -126,10 +125,10 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
                       width: mediaQuery.size.width * 0.35,
                       child: DropdownButton<String>(
                         hint: const Text(
-                          'Choose Category',
+                          'Choose Types',
                           style: TextStyle(fontSize: 14),
                         ),
-                        value: expTypeName,
+                        value: expenseType?.name,
                         items: _expenseTypes.expenseTypes!
                             .map((ExpenseTypeModel value) {
                           return DropdownMenuItem<String>(
@@ -142,13 +141,11 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
                         }).toList(),
                         onChanged: (val) {
                           setState(() {
-                            expTypeName = val!;
-                            ExpenseTypeModel typeModel =
-                                _expenseTypes.expenseTypes!.firstWhere(
-                                    (element) => element.name == expTypeName);
+                            ExpenseTypeModel typeModel = _expenseTypes
+                                .expenseTypes!
+                                .firstWhere((element) => element.name == val);
 
                             expenseType = typeModel;
-                            expenseTypeImage = typeModel.image;
                           });
                         },
                       ),
@@ -284,16 +281,20 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
                     if (selectedDate != null &&
                         expenseCost != null &&
                         expFor != null &&
-                        expenseType != null &&
-                        expTypeName != null) {
+                        expenseType != null) {
                       if (widget.isEdit) {
+                        ExpenseModel expense = ExpenseModel(
+                          id: widget.expense!.id,
+                          createdDate: selectedDate!,
+                          cost: expenseCost!,
+                          title: expFor!,
+                          type: expenseType!,
+                          status: widget.expense?.status,
+                        );
+                        _expense.expenses.editExpense(expense);
+                        widget.refresh!();
                         await _expense.editExpense(
-                          ExpenseModel(
-                              id: widget.expense!.id,
-                              createdDate: selectedDate!,
-                              cost: expenseCost!,
-                              title: expFor!,
-                              type: expenseType!),
+                          expense,
                           _user.uid,
                         );
                       } else {
@@ -307,6 +308,8 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
                           ),
                           _user.uid,
                         );
+
+                        setState(() {});
                       }
                       Navigator.pop(context);
                     }
