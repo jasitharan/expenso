@@ -77,8 +77,8 @@ class _ExpenseTypesScreenState extends State<ExpenseTypesScreen> {
                     itemCount: list.length,
                     itemBuilder: (context, index) {
                       return ExpenseTypeGridTile(
-                        image: list[index].expTypeImage,
-                        title: list[index].expType,
+                        image: list[index].image,
+                        title: list[index].name,
                         expTypeId: list[index].id,
                       );
                     },

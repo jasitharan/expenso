@@ -28,21 +28,21 @@ class ExpenseModalBottomSheet extends StatefulWidget {
 class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
   String? expTypeName;
   String? expFor;
-  int? expTypeId;
   DateTime? selectedDate;
   bool isScaned = false;
   double? expenseCost;
   String? expenseTypeImage;
+  ExpenseTypeModel? expenseType;
 
   @override
   void initState() {
     super.initState();
     if (widget.expense != null) {
-      expTypeName = widget.expense?.expenseTypeName;
-      expTypeId = widget.expense?.expenseTypeId;
+      expTypeName = widget.expense?.type.name;
       selectedDate = widget.expense!.createdDate;
-      expenseCost = widget.expense!.expenseCost;
-      expFor = widget.expense?.expenseFor;
+      expenseCost = widget.expense!.cost;
+      expFor = widget.expense?.title;
+      expenseType = widget.expense?.type;
     }
   }
 
@@ -133,22 +133,22 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
                         items: _expenseTypes.expenseTypes!
                             .map((ExpenseTypeModel value) {
                           return DropdownMenuItem<String>(
-                            value: value.expType,
+                            value: value.name,
                             child: Text(
-                              value.expType,
+                              value.name,
                               style: const TextStyle(fontSize: 14),
                             ),
                           );
                         }).toList(),
                         onChanged: (val) {
                           setState(() {
-                            ExpenseTypeModel typeModel = _expenseTypes
-                                .expenseTypes!
-                                .firstWhere((element) =>
-                                    element.expType == expTypeName);
                             expTypeName = val!;
-                            expTypeId = typeModel.id;
-                            expenseTypeImage = typeModel.expTypeImage;
+                            ExpenseTypeModel typeModel =
+                                _expenseTypes.expenseTypes!.firstWhere(
+                                    (element) => element.name == expTypeName);
+
+                            expenseType = typeModel;
+                            expenseTypeImage = typeModel.image;
                           });
                         },
                       ),
@@ -283,31 +283,27 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
                   handler: () async {
                     if (selectedDate != null &&
                         expenseCost != null &&
-                        expTypeId != null &&
                         expFor != null &&
+                        expenseType != null &&
                         expTypeName != null) {
                       if (widget.isEdit) {
                         await _expense.editExpense(
                           ExpenseModel(
-                            id: widget.expense!.id,
-                            createdDate: selectedDate!,
-                            expenseCost: expenseCost!,
-                            expenseTypeId: expTypeId!,
-                            expenseFor: expFor!,
-                            expenseTypeName: expTypeName!,
-                          ),
+                              id: widget.expense!.id,
+                              createdDate: selectedDate!,
+                              cost: expenseCost!,
+                              title: expFor!,
+                              type: expenseType!),
                           _user.uid,
                         );
                       } else {
                         await _expense.createExpense(
                           ExpenseModel(
                             createdDate: selectedDate!,
-                            expenseCost: expenseCost!,
-                            expenseTypeId: expTypeId!,
-                            expenseFor: expFor!,
-                            expenseTypeName: expTypeName!,
-                            expenseTypeImage: expenseTypeImage,
+                            cost: expenseCost!,
+                            title: expFor!,
                             status: 'Unknown',
+                            type: expenseType!,
                           ),
                           _user.uid,
                         );

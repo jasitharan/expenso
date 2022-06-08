@@ -10,32 +10,33 @@ String expenseTypesToJson(List<ExpenseTypeModel> data) =>
 
 class ExpenseTypeModel {
   final int id;
-  final String expType;
-  final double expCostLimit;
-  final String expTypeImage;
+  final String name;
+  final double costLimit;
+  final String image;
 
-  ExpenseTypeModel(
-      {required this.id,
-      required this.expType,
-      required this.expCostLimit,
-      required this.expTypeImage});
+  ExpenseTypeModel({
+    required this.id,
+    required this.name,
+    required this.costLimit,
+    required this.image,
+  });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'expType': expType,
-      'expCostLimit': expCostLimit,
-      'url_image': expTypeImage
+      'expType': name,
+      'expCostLimit': costLimit,
+      'url_image': image
     };
   }
 
   factory ExpenseTypeModel.fromMap(Map<String, dynamic> map) {
     return ExpenseTypeModel(
         id: map['id'] as int,
-        expType: map['expType'] as String,
-        expCostLimit: double.tryParse(map['expCostLimit'].toString()) ??
+        name: map['expType'] as String,
+        costLimit: double.tryParse(map['expCostLimit'].toString()) ??
             map['expCostLimit'].toDouble(),
-        expTypeImage: map['url_image'] as String);
+        image: map['url_image'] as String);
   }
 
   String toJson() => json.encode(toMap());

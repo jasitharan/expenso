@@ -41,7 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               context: context,
               builder: (context) => const ExpenseModalBottomSheet());
-          setState(() {});
+          setState(() {
+            currentScreen = currentScreen;
+          });
         },
         child: Image.asset('assets/images/plus.png'),
       ),

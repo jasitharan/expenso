@@ -284,15 +284,11 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                   ),
                                 if (currentDate != tempPrev) sizedBox20,
                                 ExpenseTile(
-                                  title: filteredList[index].expenseFor,
-                                  subTitle: filteredList[index]
-                                      .expenseTypeName
-                                      .toString(),
+                                  title: filteredList[index].title,
+                                  subTitle: filteredList[index].type.name,
                                   status: filteredList[index].status!,
-                                  price: filteredList[index]
-                                      .expenseCost
-                                      .toString(),
-                                  image: filteredList[index].expenseTypeImage!,
+                                  price: filteredList[index].cost.toString(),
+                                  image: filteredList[index].type.image,
                                   editFunction: () {
                                     showModalBottomSheet(
                                         shape: RoundedRectangleBorder(

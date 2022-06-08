@@ -257,13 +257,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               return ExpenseTile(
-                                title: filteredList[index].expenseFor,
-                                subTitle: filteredList[index]
-                                    .expenseTypeName
-                                    .toString(),
-                                price:
-                                    filteredList[index].expenseCost.toString(),
-                                image: filteredList[index].expenseTypeImage!,
+                                title: filteredList[index].title,
+                                subTitle: filteredList[index].type.name,
+                                price: filteredList[index].cost.toString(),
+                                image: filteredList[index].type.image,
                               );
                             },
                           )
