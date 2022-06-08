@@ -33,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(20.0),
               ),
               context: context,
+              isScrollControlled: true,
               builder: (context) => const ExpenseModalBottomSheet());
 
           if (currentTab == 2) {
