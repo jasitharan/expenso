@@ -26,4 +26,8 @@ abstract class ExpenseRepo {
     int id,
     String token,
   );
+
+  Future getStats(
+    String token,
+  );
 }

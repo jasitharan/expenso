@@ -23,10 +23,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   bool _loading = false;
   bool _isInit = true;
   List<ExpenseModel> filteredList = [];
-  final List<bool> _graphSelectButton = List.filled(3, false);
+  bool isMonth = true;
   GraphType graphType = GraphType.month;
   List<double> graphXValues = [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4];
   List<double> graphYValues = [10, 30, 50];
+  Map<String, List<double>>? statsResult;
 
   @override
   Future<void> didChangeDependencies() async {
@@ -34,7 +35,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       setState(() {
         _loading = true;
       });
-      _graphSelectButton[0] = true;
+      isMonth = true;
       final _user = Provider.of<UserModel>(context, listen: false);
 
       final _expenseTypes =
@@ -87,6 +88,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           _expense.expenses.setIsDone(true);
         }
       }
+
+      statsResult = await _expense.getStats(_user.uid);
+
+      graphXValues = statsResult!['month'] ?? graphXValues;
+      graphYValues = statsResult!['graphYValuesForMonth'] ?? graphYValues;
 
       setState(() {
         _loading = false;
@@ -200,54 +206,36 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       children: [
                         ClassicStylishButton(
                           handler: () {
-                            graphXValues = [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4];
-                            graphYValues = [10, 30, 50];
-                            setState(() {
-                              _graphSelectButton[0] = true;
-                              _graphSelectButton[1] = false;
-                              _graphSelectButton[2] = false;
+                            graphXValues =
+                                statsResult!['month'] ?? graphXValues;
+                            graphYValues =
+                                statsResult!['graphYValuesForMonth'] ??
+                                    graphYValues;
 
+                            setState(() {
+                              isMonth = true;
                               graphType = GraphType.month;
                             });
                           },
                           title: 'Month',
-                          isClicked: _graphSelectButton[0],
+                          isClicked: isMonth,
                         ),
                         const SizedBox(
                           width: 20,
                         ),
                         ClassicStylishButton(
                           handler: () {
-                            graphXValues = [1, 2, 3, 4];
-                            graphYValues = [10, 30, 50];
+                            graphXValues = statsResult!['week'] ?? graphXValues;
+                            graphYValues =
+                                statsResult!['graphYValuesForWeek'] ??
+                                    graphYValues;
                             setState(() {
-                              _graphSelectButton[0] = false;
-                              _graphSelectButton[1] = true;
-                              _graphSelectButton[2] = false;
-
+                              isMonth = false;
                               graphType = GraphType.week;
                             });
                           },
                           title: 'Week',
-                          isClicked: _graphSelectButton[1],
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        ClassicStylishButton(
-                          handler: () {
-                            graphXValues = [1, 2, 3, 4, 1, 2];
-                            graphYValues = [10, 30, 50];
-                            setState(() {
-                              _graphSelectButton[0] = false;
-                              _graphSelectButton[1] = false;
-                              _graphSelectButton[2] = true;
-
-                              graphType = GraphType.day;
-                            });
-                          },
-                          title: 'Day',
-                          isClicked: _graphSelectButton[2],
+                          isClicked: !isMonth,
                         ),
                       ],
                     ),
@@ -257,9 +245,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: LineChartSample2(
                           graphType: graphType,
-                          verticalValues: const ['10k', '30k', '50k'],
                           graphXValues: graphXValues,
-                          graphYValues: graphYValues,
+                          verticalValues: graphYValues,
                         ),
                       ),
                     ),

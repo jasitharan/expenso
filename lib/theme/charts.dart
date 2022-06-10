@@ -5,15 +5,13 @@ import 'enums.dart';
 
 class LineChartSample2 extends StatefulWidget {
   final GraphType graphType;
-  final List<String> verticalValues;
+  final List<double> verticalValues;
   final List<double> graphXValues;
-  final List<double> graphYValues;
   const LineChartSample2({
     Key? key,
     required this.graphType,
     required this.verticalValues,
     required this.graphXValues,
-    required this.graphYValues,
   }) : super(key: key);
 
   @override
@@ -145,13 +143,13 @@ class _LineChartSample2State extends State<LineChartSample2> {
     String text;
     switch (value.toInt()) {
       case 1:
-        text = widget.verticalValues[0];
+        text = widget.verticalValues[0].toStringAsFixed(1);
         break;
       case 3:
-        text = widget.verticalValues[1];
+        text = widget.verticalValues[1].toStringAsFixed(1);
         break;
       case 5:
-        text = widget.verticalValues[2];
+        text = widget.verticalValues[2].toStringAsFixed(1);
         break;
       default:
         return Container();
@@ -180,7 +178,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
     List<FlSpot> spots = [];
 
     for (var i = 0; i < widget.graphXValues.length; i++) {
-      spots.add(FlSpot(i.toDouble(), widget.graphXValues[i]));
+      spots.add(FlSpot(i.toDouble(), (widget.graphXValues[i])));
     }
 
     return LineChartData(
@@ -209,7 +207,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
-            showTitles: true,
+            showTitles: false,
             interval: 1,
             getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
@@ -222,7 +220,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       minX: 0,
       maxX: maxX,
       minY: 0,
-      maxY: 6,
+      maxY: widget.verticalValues[2],
       lineBarsData: [
         LineChartBarData(
           spots: spots,

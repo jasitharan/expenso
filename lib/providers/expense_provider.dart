@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:expenso/providers/models/expense_model.dart';
 import 'package:expenso/repository/expense/api/api_expense_repo.dart';
 import 'package:expenso/repository/expense/expense_repo.dart';
@@ -80,6 +83,61 @@ class ExpenseProvider {
 
   Future deleteExpense(int id, String token) async {
     return await _expenseRepo.deleteExpense(id, token);
+  }
+
+  Future<Map<String, List<double>>> getStats(String token) async {
+    final result = await _expenseRepo.getStats(token);
+    final resultObj = json.decode(result) as Map<String, dynamic>;
+    List<double> months = [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ];
+
+    List<double> weeks = [0.0, 0.0, 0.0, 0.0];
+
+    for (var i = 0; i < resultObj['month'].length; i++) {
+      int month = DateTime.parse(resultObj['month'][i]['createdDate']).month;
+      double currentValue = double.parse(resultObj['month'][i]['expenseCost']);
+
+      double value = months[month - 1];
+      months[month] = value + currentValue;
+    }
+
+    for (var i = 0; i < resultObj['week'].length; i++) {
+      int week =
+          (DateTime.parse(resultObj['week'][i]['createdDate']).day / 7).ceil();
+      double currentValue = double.parse(resultObj['week'][i]['expenseCost']);
+      double value = weeks[week - 1];
+
+      weeks[week] = value + currentValue;
+    }
+
+    Map<String, List<double>> stats = {
+      'month': months,
+      'week': weeks,
+      'graphYValuesForMonth': [
+        months.reduce(min),
+        (months.reduce(max) + months.reduce(min)) / 2,
+        months.reduce(max)
+      ],
+      'graphYValuesForWeek': [
+        weeks.reduce(min),
+        (weeks.reduce(max) + weeks.reduce(min)) / 2,
+        weeks.reduce(max)
+      ],
+    };
+
+    return stats;
   }
 }
 

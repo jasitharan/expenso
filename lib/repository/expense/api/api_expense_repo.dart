@@ -118,4 +118,24 @@ class ApiExpenseRepo implements ExpenseRepo {
       return null;
     }
   }
+
+  @override
+  Future getStats(String token) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$kApiUrl/chartData'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        return response.body;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
 }
