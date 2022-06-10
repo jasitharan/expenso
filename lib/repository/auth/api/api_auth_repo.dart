@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import '../../env.dart';
@@ -154,5 +155,45 @@ class ApiAuthRepo implements AuthRepo {
   @override
   Stream<ApiUserModel?> getUser() {
     return controller.stream;
+  }
+
+  @override
+  Future updateProfile(
+      String? email, String? name, String? image, String token) async {
+    var request = http.MultipartRequest(
+      "POST",
+      Uri.parse('$kApiUrl/updateDetail'),
+    );
+
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $token',
+    };
+
+    request.headers.addAll(headers);
+
+    if (image != null) {
+      request.files.add(http.MultipartFile('url_image',
+          File(image).readAsBytes().asStream(), File(image).lengthSync(),
+          filename: image.split("/").last));
+    }
+
+    if (email != null) {
+      request.files.add(http.MultipartFile.fromString('email', email));
+    }
+
+    if (name != null) {
+      request.files.add(http.MultipartFile.fromString('name', name));
+    }
+
+    var response = await request.send();
+    final respStr = await response.stream.bytesToString();
+    if (response.statusCode == 200) {
+      return respStr;
+    } else if (response.statusCode == 404) {
+      return response.statusCode;
+    } else {
+      return null;
+    }
   }
 }

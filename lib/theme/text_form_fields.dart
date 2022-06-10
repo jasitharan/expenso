@@ -6,14 +6,18 @@ class ClassTextFormField extends StatefulWidget {
   final Function(String?) validator;
   final Function(String) onChanged;
   final String? hintText;
-  const ClassTextFormField({
-    Key? key,
-    this.isPassword = false,
-    this.hintText,
-    required this.imageName,
-    required this.onChanged,
-    required this.validator,
-  }) : super(key: key);
+  final bool filled;
+  final String? initialValue;
+  const ClassTextFormField(
+      {Key? key,
+      this.isPassword = false,
+      this.hintText,
+      required this.imageName,
+      required this.onChanged,
+      required this.validator,
+      this.filled = false,
+      this.initialValue})
+      : super(key: key);
 
   @override
   State<ClassTextFormField> createState() => _ClassTextFormFieldState();
@@ -41,8 +45,11 @@ class _ClassTextFormFieldState extends State<ClassTextFormField> {
     return TextFormField(
       textAlign: TextAlign.left,
       style: const TextStyle(color: Colors.black),
+      initialValue: widget.initialValue,
       obscureText: widget.isPassword,
       decoration: InputDecoration(
+          fillColor: Colors.white60,
+          filled: true,
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.orange),
             borderRadius: BorderRadius.circular(50.0),

@@ -6,9 +6,14 @@ class ClassicButton extends StatelessWidget {
   final String title;
   final Function handler;
   final double size;
-  const ClassicButton(
-      {Key? key, required this.title, required this.handler, this.size = 200})
-      : super(key: key);
+  final Color? color;
+  const ClassicButton({
+    Key? key,
+    required this.title,
+    required this.handler,
+    this.size = 200,
+    this.color,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,9 @@ class ClassicButton extends StatelessWidget {
       width: size,
       child: ElevatedButton(
           style: OutlinedButton.styleFrom(
-              backgroundColor: const Color.fromRGBO(3, 180, 253, 0.76),
+              backgroundColor: color == null
+                  ? const Color.fromRGBO(3, 180, 253, 0.76)
+                  : Colors.red,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50.0),
               ),

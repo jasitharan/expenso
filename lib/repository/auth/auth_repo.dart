@@ -11,4 +11,11 @@ abstract class AuthRepo {
   Future signOut();
 
   Stream getUser();
+
+  Future updateProfile(
+    String? email,
+    String? name,
+    String? image,
+    String token,
+  );
 }

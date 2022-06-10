@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import '../repository/auth/auth_repo.dart';
 import '../repository/auth/api/api_auth_repo.dart';
 import 'models/user_model.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AuthProvider {
   final AuthRepo _authRepo = ApiAuthRepo();
@@ -45,5 +48,20 @@ class AuthProvider {
 
   Future resetPassword(String email, String code, String password) async {
     return await _authRepo.resetPassword(email, code, password);
+  }
+
+  Future updateProfile(
+      String email, String name, ImageSource? imageSource, String token) async {
+    String? image;
+    if (imageSource != null) {
+      final pickedFile = await ImagePicker().pickImage(source: imageSource);
+      if (pickedFile != null) {
+        image = pickedFile.path;
+      }
+    }
+
+    var result = await _authRepo.updateProfile(email, name, image, token);
+
+    return jsonDecode(result)['data'];
   }
 }
