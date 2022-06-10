@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expenso/constants.dart';
+import 'package:expenso/theme/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   bool _isInit = true;
   List<ExpenseModel> filteredList = [];
   final List<bool> _graphSelectButton = List.filled(3, false);
+  GraphType graphType = GraphType.month;
+  List<double> graphXValues = [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4];
+  List<double> graphYValues = [10, 30, 50];
 
   @override
   Future<void> didChangeDependencies() async {
@@ -196,10 +200,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       children: [
                         ClassicStylishButton(
                           handler: () {
+                            graphXValues = [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4];
+                            graphYValues = [10, 30, 50];
                             setState(() {
                               _graphSelectButton[0] = true;
                               _graphSelectButton[1] = false;
                               _graphSelectButton[2] = false;
+
+                              graphType = GraphType.month;
                             });
                           },
                           title: 'Month',
@@ -210,10 +218,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         ),
                         ClassicStylishButton(
                           handler: () {
+                            graphXValues = [1, 2, 3, 4];
+                            graphYValues = [10, 30, 50];
                             setState(() {
                               _graphSelectButton[0] = false;
                               _graphSelectButton[1] = true;
                               _graphSelectButton[2] = false;
+
+                              graphType = GraphType.week;
                             });
                           },
                           title: 'Week',
@@ -224,10 +236,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         ),
                         ClassicStylishButton(
                           handler: () {
+                            graphXValues = [1, 2, 3, 4, 1, 2];
+                            graphYValues = [10, 30, 50];
                             setState(() {
                               _graphSelectButton[0] = false;
                               _graphSelectButton[1] = false;
                               _graphSelectButton[2] = true;
+
+                              graphType = GraphType.day;
                             });
                           },
                           title: 'Day',
@@ -235,11 +251,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 300,
                       child: Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: LineChartSample2(),
+                        padding: const EdgeInsets.all(8.0),
+                        child: LineChartSample2(
+                          graphType: graphType,
+                          verticalValues: const ['10k', '30k', '50k'],
+                          graphXValues: graphXValues,
+                          graphYValues: graphYValues,
+                        ),
                       ),
                     ),
                     const Align(
