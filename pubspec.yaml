@@ -45,6 +45,9 @@ dependencies:
   intl: ^0.17.0
   fl_chart: ^0.51.0
   image_picker: ^0.8.5+3
+  permission_handler: ^9.2.0
+  share_plus: ^4.0.7
+  csv: ^5.0.1
 
 dev_dependencies:
   flutter_test:
