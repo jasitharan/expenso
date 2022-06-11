@@ -8,7 +8,6 @@ import 'package:validators/validators.dart';
 import '../../constants.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/models/user_model.dart';
-import '../../repository/auth/api/auth_api.dart';
 import '../../theme/themes.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -165,7 +164,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: ClassicButton(
                             title: 'Save',
                             handler: () async {
-                              print('hello');
                               if (_formKeyForSetting.currentState!.validate()) {
                                 setState(() {
                                   _loading = true;

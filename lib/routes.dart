@@ -18,6 +18,6 @@ Map<String, Widget Function(BuildContext)> getRoutes() => {
       ResetPasswordSuccessScreen.routeName: (ctx) =>
           const ResetPasswordSuccessScreen(),
       ExpensesScreen.routeName: (ctx) => const ExpensesScreen(),
-      UserReportsScreen.routeName: (ctx) => UserReportsScreen(),
+      UserReportsScreen.routeName: (ctx) => const UserReportsScreen(),
       NotificationScreen.routeName: (ctx) => const NotificationScreen(),
     };

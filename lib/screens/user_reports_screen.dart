@@ -76,6 +76,8 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(50, 57, 74, 1),
       appBar: AppBar(
@@ -89,10 +91,10 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
           const Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: const EdgeInsets.only(left: 16.0, bottom: 8),
+              padding: EdgeInsets.only(left: 16.0, bottom: 8),
               child: Text(
                 'User Reports Export',
-                style: const TextStyle(fontSize: 22, color: Colors.white),
+                style: TextStyle(fontSize: 22, color: Colors.white),
               ),
             ),
           ),
@@ -208,13 +210,14 @@ class _UserReportsScreenState extends State<UserReportsScreen> {
               }).toList(),
             ),
           ),
+          sizedBox50,
+          sizedBox20,
           Align(
             alignment: Alignment.center,
             child: SizedBox(
-              width: double.infinity,
+              width: mediaQuery.size.width * 0.5,
               child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 8.0, left: 16.0, right: 16.0, bottom: 8.0),
+                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: ElevatedButton(
                     style: ButtonStyle(
                         padding: MaterialStateProperty.all(

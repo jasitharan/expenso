@@ -1,12 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expenso/constants.dart';
-import 'package:expenso/screens/user_reports_screen.dart';
+import 'package:expenso/screens/notification_screen.dart';
 import 'package:expenso/theme/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/auth_provider.dart';
 import '../../providers/expense_provider.dart';
 import '../../providers/expense_type_provider.dart';
 import '../../providers/models/expense_model.dart';
@@ -106,7 +105,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<UserModel>(context, listen: false);
-    final _auth = Provider.of<AuthProvider>(context, listen: false);
 
     return _loading
         ? loading
@@ -129,7 +127,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         splashColor: Colors.transparent,
                         onTap: () async {
                           Navigator.pushNamed(
-                              context, UserReportsScreen.routeName);
+                              context, NotificationScreen.routeName);
                         },
                         child: const Image(
                           height: 45,
