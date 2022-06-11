@@ -189,6 +189,14 @@ class ApiAuthRepo implements AuthRepo {
     var response = await request.send();
     final respStr = await response.stream.bytesToString();
     if (response.statusCode == 200) {
+      if (image != null) {
+        userInstance!.imageUrl = jsonDecode(respStr)['data']['url_image'];
+      }
+      userInstance!.displayName = jsonDecode(respStr)['data']['name'];
+      userInstance!.email = jsonDecode(respStr)['data']['email'];
+
+      AuthApi.setAuth(userInstance);
+      controller.add(userInstance);
       return respStr;
     } else if (response.statusCode == 404) {
       return response.statusCode;

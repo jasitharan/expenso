@@ -19,10 +19,11 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-        uid: map['uid'] as String,
-        email: map['email'] as String,
-        name: map['name'] as String,
-        imageUrl: map['imageUrl'] as String);
+      uid: map['uid'] as String,
+      email: map['email'] as String,
+      name: map['name'] as String,
+      imageUrl: map['imageUrl'] as String,
+    );
   }
 
   String toJson() => json.encode(toMap());

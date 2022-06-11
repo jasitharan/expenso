@@ -2,9 +2,9 @@ import 'dart:convert';
 
 class ApiUserModel {
   final String? uid;
-  final String? email;
-  final String? displayName;
-  final String? imageUrl;
+  String? email;
+  String? displayName;
+  String? imageUrl;
   ApiUserModel({this.uid, this.email, this.displayName, this.imageUrl});
 
   Map<String, dynamic> toMap() {

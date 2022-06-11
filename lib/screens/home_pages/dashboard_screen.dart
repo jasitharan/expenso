@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expenso/constants.dart';
+import 'package:expenso/screens/user_reports_screen.dart';
 import 'package:expenso/theme/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -127,10 +128,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         focusColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         onTap: () async {
-                          setState(() {
-                            _loading = true;
-                          });
-                          await _auth.signOut();
+                          Navigator.pushNamed(
+                              context, UserReportsScreen.routeName);
                         },
                         child: const Image(
                           height: 45,
@@ -269,14 +268,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
-                            padding:
-                                EdgeInsets.only(left: 28.0, top: 40, bottom: 8),
-                            child: Text(
-                              'Today',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
                           ListView.builder(
                             itemCount: filteredList.length > 15
                                 ? 15
