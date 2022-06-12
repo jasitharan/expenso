@@ -31,6 +31,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   DateTime endDate = DateTime.now();
   int? expTypeId;
   String? expTypeName;
+  String _filter = 'All';
 
   @override
   Future<void> didChangeDependencies() async {
@@ -89,6 +90,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
             (element) => element.status == filter,
           )
           .toList();
+    } else {
+      filteredList = list;
     }
 
     setState(() {
@@ -100,7 +103,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   Widget build(BuildContext context) {
     final _user = Provider.of<UserModel>(context, listen: false);
     final _expense = Provider.of<ExpenseProvider>(context, listen: true);
-    String _filter = 'All';
 
     void updateFilteredList() {
       setState(() {
