@@ -15,6 +15,7 @@ abstract class AuthRepo {
   Future updateProfile(
     String? email,
     String? name,
+    String? phoneNumber,
     String? image,
     String token,
   );

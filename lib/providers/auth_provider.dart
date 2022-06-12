@@ -50,8 +50,8 @@ class AuthProvider {
     return await _authRepo.resetPassword(email, code, password);
   }
 
-  Future updateProfile(
-      String email, String name, ImageSource? imageSource, String token) async {
+  Future updateProfile(String email, String name, String phoneNumber,
+      ImageSource? imageSource, String token) async {
     String? image;
     if (imageSource != null) {
       final pickedFile = await ImagePicker().pickImage(source: imageSource);
@@ -60,7 +60,8 @@ class AuthProvider {
       }
     }
 
-    var result = await _authRepo.updateProfile(email, name, image, token);
+    var result =
+        await _authRepo.updateProfile(email, name, phoneNumber, image, token);
 
     return jsonDecode(result)['data'];
   }

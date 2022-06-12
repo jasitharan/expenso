@@ -60,7 +60,7 @@ class _ExpenseTileState extends State<ExpenseTile> {
           trailing: Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Text(
-              '- ₹${widget.expense.cost}',
+              '- rs.${widget.expense.cost}',
               style: const TextStyle(color: Colors.red),
             ),
           ),

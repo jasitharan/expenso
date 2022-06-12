@@ -158,8 +158,8 @@ class ApiAuthRepo implements AuthRepo {
   }
 
   @override
-  Future updateProfile(
-      String? email, String? name, String? image, String token) async {
+  Future updateProfile(String? email, String? name, String? phoneNumber,
+      String? image, String token) async {
     var request = http.MultipartRequest(
       "POST",
       Uri.parse('$kApiUrl/updateDetail'),
@@ -186,17 +186,24 @@ class ApiAuthRepo implements AuthRepo {
       request.files.add(http.MultipartFile.fromString('name', name));
     }
 
+    if (phoneNumber != null) {
+      request.files
+          .add(http.MultipartFile.fromString('phoneNumber', phoneNumber));
+    }
+
     var response = await request.send();
     final respStr = await response.stream.bytesToString();
+
     if (response.statusCode == 200) {
       if (image != null) {
         userInstance!.imageUrl = jsonDecode(respStr)['data']['url_image'];
       }
       userInstance!.displayName = jsonDecode(respStr)['data']['name'];
       userInstance!.email = jsonDecode(respStr)['data']['email'];
-
+      userInstance!.phoneNumber = jsonDecode(respStr)['data']['phoneNumber'];
       AuthApi.setAuth(userInstance);
       controller.add(userInstance);
+
       return respStr;
     } else if (response.statusCode == 404) {
       return response.statusCode;

@@ -23,6 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _loading = false;
   String _email = '';
   String _name = '';
+  String _phoneNumber = '';
   bool _isInit = true;
 
   @override
@@ -32,6 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       _name = _user.name!;
       _email = _user.email;
+      _phoneNumber = _user.phoneNumber ?? '';
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -104,6 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       var result = await _auth.updateProfile(
                                           _user.email,
                                           _name,
+                                          _phoneNumber,
                                           ImageSource.gallery,
                                           _user.uid);
 
@@ -145,6 +148,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             },
                           ),
                         ),
+                        sizedBox20,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: ClassTextFormField(
+                            initialValue: _phoneNumber,
+                            imageName: kPhoneIcon,
+                            hintText: 'Phone Number',
+                            validator: (val) {
+                              if (val!.isEmpty) {
+                                return 'Please enter mobile number';
+                              } else if (val.length != 10 &&
+                                  int.tryParse(val) != null) {
+                                return 'Please enter valid mobile number';
+                              }
+                              return null;
+                            },
+                            onChanged: (val) {
+                              _phoneNumber = val;
+                            },
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: ClassTextFormField(
@@ -169,8 +193,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   _loading = true;
                                 });
 
-                                var result = await _auth.updateProfile(
-                                    _email, _name, null, _user.uid);
+                                var result = await _auth.updateProfile(_email,
+                                    _name, _phoneNumber, null, _user.uid);
 
                                 if (result != null) {
                                   showSnacBar(context, 'Successfully updated.');
@@ -209,7 +233,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               await _auth.signOut();
                             },
                           ),
-                        )
+                        ),
+                        sizedBox40
                       ],
                     ),
                   ),

@@ -9,7 +9,7 @@ import '../providers/expense_type_provider.dart';
 import '../providers/models/expense_model.dart';
 import '../providers/models/expense_type_model.dart';
 import '../providers/models/user_model.dart';
-import 'buttons.dart';
+import 'themes.dart';
 
 class ExpenseModalBottomSheet extends StatefulWidget {
   final bool isEdit;
@@ -70,7 +70,7 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
       child: Padding(
         padding: EdgeInsets.only(bottom: mediaQuery.viewInsets.bottom),
         child: SizedBox(
-          height: mediaQuery.size.height * 0.55,
+          height: mediaQuery.size.height * 0.6,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -302,6 +302,7 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
                               expense,
                               _user.uid,
                             );
+                            showSnacBar(context, 'Successfully Created');
                           } else {
                             ExpenseModel expense = ExpenseModel(
                               createdDate: selectedDate!,
@@ -315,10 +316,14 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
                               expense,
                               _user.uid,
                             );
+                            showSnacBar(context, 'Successfully Updated');
                           }
                           Navigator.pop(
                             context,
                           );
+                        } else {
+                          showSnacBar(
+                              context, 'Please provide valid information');
                         }
                       },
                     ),

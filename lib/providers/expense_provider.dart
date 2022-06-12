@@ -110,7 +110,7 @@ class ExpenseProvider {
       double currentValue = double.parse(resultObj['month'][i]['expenseCost']);
 
       double value = months[month - 1];
-      months[month] = value + currentValue;
+      months[month - 1] = value + currentValue;
     }
 
     for (var i = 0; i < resultObj['week'].length; i++) {
@@ -119,7 +119,7 @@ class ExpenseProvider {
       double currentValue = double.parse(resultObj['week'][i]['expenseCost']);
       double value = weeks[week - 1];
 
-      weeks[week] = value + currentValue;
+      weeks[week - 1] = value + currentValue;
     }
 
     Map<String, List<double>> stats = {
@@ -166,8 +166,12 @@ class ExpenseStore {
   void addExpense(ExpenseModel expense) {
     if (_list == null) return;
     int index = 0;
-    while (expense.createdDate.isBefore(_list![index].createdDate)) {
-      index++;
+
+    if (_list!.isNotEmpty) {
+      while (expense.createdDate.isBefore(_list![index].createdDate)) {
+        index++;
+        if (_list!.length == index) break;
+      }
     }
 
     _list!.insert(index, expense);

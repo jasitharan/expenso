@@ -112,9 +112,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ClassTextFormField(
                                     imageName: kPhoneIcon,
                                     hintText: 'Phone',
-                                    validator: (val) => !isNumeric(val!)
-                                        ? 'Enter an phone number'
-                                        : null,
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return 'Please enter mobile number';
+                                      } else if (val.length == 10 &&
+                                          int.tryParse(val) != null) {
+                                        return 'Please enter valid mobile number';
+                                      }
+                                      return null;
+                                    },
                                     onChanged: (val) {
                                       _phoneNumber = val;
                                     },

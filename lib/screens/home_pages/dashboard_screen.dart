@@ -266,6 +266,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          sizedBox20,
                           ListView.builder(
                             itemCount: filteredList.length > 15
                                 ? 15
