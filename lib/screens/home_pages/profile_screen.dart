@@ -159,7 +159,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               if (val!.isEmpty) {
                                 return 'Please enter mobile number';
                               } else if (val.length != 10 &&
-                                  int.tryParse(val) != null) {
+                                  int.tryParse(val) == null) {
                                 return 'Please enter valid mobile number';
                               }
                               return null;

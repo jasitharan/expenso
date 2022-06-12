@@ -316,13 +316,13 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
                               expense,
                               _user.uid,
                             );
-                            showSnacBar(context, 'Successfully Updated');
+                            showSnacBarFromTop(context, 'Successfully Updated');
                           }
                           Navigator.pop(
                             context,
                           );
                         } else {
-                          showSnacBar(
+                          showSnacBarFromTop(
                               context, 'Please provide valid information');
                         }
                       },

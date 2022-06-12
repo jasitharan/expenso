@@ -76,7 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       });
                     },
                     minWidth: (mediaQuery.size.width / 5),
-                    child: Image.asset('assets/images/credit-card.png',
+                    child: Image.asset('assets/images/expenseTypes.png',
+                        width: 24,
+                        height: 25,
                         color: currentTab == 1 ? Colors.blue : Colors.black),
                   ),
                 ],
@@ -94,7 +96,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       });
                     },
                     minWidth: (mediaQuery.size.width / 5),
-                    child: Image.asset('assets/images/pie-chart.png',
+                    child: Image.asset('assets/images/expense.png',
+                        height: 30,
+                        width: 30,
                         color: currentTab == 2 ? Colors.blue : Colors.black),
                   ),
                   MaterialButton(

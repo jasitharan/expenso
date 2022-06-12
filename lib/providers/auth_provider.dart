@@ -14,7 +14,9 @@ class AuthProvider {
             uid: user.uid,
             email: user.email,
             name: user.displayName,
-            imageUrl: user.imageUrl)
+            imageUrl: user.imageUrl,
+            phoneNumber: user.phoneNumber,
+          )
         : null;
   }
 

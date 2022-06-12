@@ -65,7 +65,7 @@ class ApiAuthRepo implements AuthRepo {
         body:
             jsonEncode(<String, String>{'email': email, 'password': password}),
       );
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         ApiUserModel apiUserModel = ApiUserModel.fromJson(response.body);
         controller.add(apiUserModel);
         userInstance = apiUserModel;

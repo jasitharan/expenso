@@ -100,8 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 const SizedBox(
                                   height: 15,
                                 ),
-                                SizedBox(
-                                  width: double.infinity,
+                                Align(
+                                  alignment: Alignment.centerRight,
                                   child: InkWell(
                                     onTap: () {
                                       Navigator.pushReplacementNamed(context,
