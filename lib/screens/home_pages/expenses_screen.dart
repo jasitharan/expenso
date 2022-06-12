@@ -163,13 +163,16 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                 startDate = picked.start;
                                 endDate = picked.end;
 
+                                List<ExpenseModel> result =
+                                    await _expense.getExpenses(
+                                  _user.uid,
+                                  startDate: startDate,
+                                  endDate: endDate,
+                                  expTypeId: expTypeId,
+                                );
+
                                 filterList(
-                                  await _expense.getExpenses(
-                                    _user.uid,
-                                    startDate: startDate,
-                                    endDate: endDate,
-                                    expTypeId: expTypeId,
-                                  ),
+                                  result,
                                   _filter,
                                 );
                               }
