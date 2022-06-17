@@ -112,17 +112,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ClassTextFormField(
                                     imageName: kPhoneIcon,
                                     hintText: 'Phone',
-                                    validator: (val) {
-                                      if (val!.isEmpty) {
-                                        return 'Please enter mobile number';
-                                      } else if (val.length == 10 &&
-                                          int.tryParse(val) == null) {
-                                        return 'Please enter valid mobile number';
-                                      }
-                                      return null;
-                                    },
+                                    validator: (val) => !isPhoneNumber
+                                            .hasMatch(val!)
+                                        ? "Please enter a valid phone number"
+                                        : null,
                                     onChanged: (val) {
-                                      _phoneNumber = val;
+                                      if (isPhoneNumber.hasMatch(val)) {
+                                        _phoneNumber = isPhoneNumber
+                                                .firstMatch(val)!
+                                                .group(1)! +
+                                            isPhoneNumber
+                                                .firstMatch(val)!
+                                                .group(2)!;
+                                      }
                                     },
                                   ),
                                   const SizedBox(

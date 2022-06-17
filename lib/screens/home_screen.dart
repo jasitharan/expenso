@@ -26,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       body: PageStorage(bucket: bucket, child: currentScreen),
+      resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await showModalBottomSheet(
