@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../providers/models/user_model.dart';
 import '../home_screen.dart';
 import 'auth_screen.dart';
+import 'verify_email_screen.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({Key? key}) : super(key: key);
@@ -20,6 +21,8 @@ class _WrapperState extends State<Wrapper> {
     final user = Provider.of<UserModel?>(context);
 
     // return either home or authenticate widget
-    return user == null ? const AuthScreen() : const HomeScreen();
+    return user == null
+        ? const AuthScreen()
+        : (user.isVerified ? const HomeScreen() : const VerifyEmailScreen());
   }
 }

@@ -1,3 +1,4 @@
 final isPhoneNumber = RegExp(
-    r'^(?:0|(?:\+94))(?:[ ])?([0-9]{2})(?:[ ])?([0-9]{7})$',
-    multiLine: false);
+  r'^(?:0|(?:\+94))(?:[ ])?(\d{2})(?:[ ])?(\d{7})$',
+  multiLine: false,
+);

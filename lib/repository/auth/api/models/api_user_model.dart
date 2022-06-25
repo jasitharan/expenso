@@ -2,6 +2,8 @@ import 'dart:convert';
 
 class ApiUserModel {
   final String? uid;
+  final String? id;
+  bool? isVerified;
   String? email;
   String? displayName;
   String? imageUrl;
@@ -12,6 +14,8 @@ class ApiUserModel {
     this.displayName,
     this.imageUrl,
     this.phoneNumber,
+    this.id,
+    this.isVerified,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,6 +26,8 @@ class ApiUserModel {
         'name': displayName ?? '',
         'url_image': imageUrl ?? '',
         'phoneNumber': phoneNumber ?? '',
+        'id': id ?? '',
+        'isVerified': isVerified
       }
     };
   }
@@ -29,6 +35,8 @@ class ApiUserModel {
   factory ApiUserModel.fromMap(Map<String, dynamic> map) {
     return ApiUserModel(
       uid: map['token'] != null ? map['token'] as String : null,
+      id: map['user']['id'].toString(),
+      isVerified: map['user']['isVerified'],
       email:
           map['user']['email'] != null ? map['user']['email'] as String : null,
       phoneNumber: map['user']['phoneNumber'] != null
@@ -46,10 +54,4 @@ class ApiUserModel {
 
   factory ApiUserModel.fromJson(String source) =>
       ApiUserModel.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  ApiUserModel copyWith(
-      {String? uid, String? email, String? displayName, String? imageUrl}) {
-    return ApiUserModel(
-        uid: uid, email: email, displayName: displayName, imageUrl: imageUrl);
-  }
 }

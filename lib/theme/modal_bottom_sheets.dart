@@ -266,18 +266,18 @@ class _ExpenseModalBottomSheetState extends State<ExpenseModalBottomSheet> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SizedBox(
-                    width: 100,
-                    child: ClassicStylishButton(
-                      title: isScaned ? 'Rescan' : 'Scan',
-                      isClicked: true,
-                      handler: () {
-                        setState(() {
-                          isScaned = true;
-                        });
-                      },
-                    ),
-                  ),
+                  // SizedBox(
+                  //   width: 100,
+                  //   child: ClassicStylishButton(
+                  //     title: isScaned ? 'Rescan' : 'Scan',
+                  //     isClicked: true,
+                  //     handler: () {
+                  //       setState(() {
+                  //         isScaned = true;
+                  //       });
+                  //     },
+                  //   ),
+                  // ),
                   SizedBox(
                     width: 100,
                     child: ClassicStylishButton(

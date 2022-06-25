@@ -12,6 +12,8 @@ class AuthProvider {
     return user != null
         ? UserModel(
             uid: user.uid,
+            id: user.id,
+            isVerified: user.isVerified,
             email: user.email,
             name: user.displayName,
             imageUrl: user.imageUrl,

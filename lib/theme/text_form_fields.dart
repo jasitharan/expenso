@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ClassTextFormField extends StatefulWidget {
   final bool isPassword;
-  final String imageName;
+  final String? imageName;
   final Function(String?) validator;
   final Function(String) onChanged;
   final String? hintText;
@@ -12,7 +12,7 @@ class ClassTextFormField extends StatefulWidget {
       {Key? key,
       this.isPassword = false,
       this.hintText,
-      required this.imageName,
+      this.imageName,
       required this.onChanged,
       required this.validator,
       this.filled = false,
@@ -56,14 +56,18 @@ class _ClassTextFormFieldState extends State<ClassTextFormField> {
           ),
           isDense: true,
           focusColor: Colors.orange,
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 8.0),
-            child: Image(
-                height: 15,
-                width: 15,
-                color: myFocusNode.hasFocus ? Colors.orange : Colors.grey[700],
-                image: AssetImage(widget.imageName)),
-          ),
+          prefixIcon: widget.imageName == null
+              ? const SizedBox()
+              : Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 8.0),
+                  child: Image(
+                      height: 15,
+                      width: 15,
+                      color: myFocusNode.hasFocus
+                          ? Colors.orange
+                          : Colors.grey[700],
+                      image: AssetImage(widget.imageName!)),
+                ),
           hintText: widget.hintText,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50.0),
