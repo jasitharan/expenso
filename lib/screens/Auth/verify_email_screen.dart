@@ -14,9 +14,22 @@ class VerifyEmailScreen extends StatefulWidget {
 }
 
 class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
+  bool _isInit = true;
   String _code = '';
   bool _loading = false;
   final _formKeyForVerify = GlobalKey<FormState>();
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      final _user = Provider.of<UserModel>(context, listen: false);
+      final _auth = Provider.of<AuthProvider>(context, listen: false);
+
+      _auth.sendVerificationEmail(_user.uid);
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
