@@ -8,6 +8,15 @@ class ApiUserModel {
   String? displayName;
   String? imageUrl;
   String? phoneNumber;
+  DateTime? dob;
+  String? address;
+  String? city;
+  String? province;
+  String? country;
+  String? bankNumber;
+  String? bankName;
+  String? bankBranch;
+
   ApiUserModel({
     this.uid,
     this.email,
@@ -16,6 +25,14 @@ class ApiUserModel {
     this.phoneNumber,
     this.id,
     this.isVerified,
+    this.dob,
+    this.address,
+    this.city,
+    this.province,
+    this.country,
+    this.bankNumber,
+    this.bankName,
+    this.bankBranch,
   });
 
   Map<String, dynamic> toMap() {
@@ -27,7 +44,19 @@ class ApiUserModel {
         'url_image': imageUrl ?? '',
         'phoneNumber': phoneNumber ?? '',
         'id': id ?? '',
-        'isVerified': isVerified
+        'isVerified': isVerified,
+        'dob': dob,
+        'address': {
+          'address': address,
+          'city': city,
+          'province': province,
+          'country': country,
+        },
+        'bank': {
+          'number': bankNumber,
+          'name': bankName,
+          'branch': bankBranch,
+        },
       }
     };
   }
@@ -46,6 +75,28 @@ class ApiUserModel {
           map['user']['name'] != null ? map['user']['name'] as String : null,
       imageUrl: map['user']['url_image'] != null
           ? map['user']['url_image'] as String
+          : null,
+      dob: map['dob'] != null ? DateTime.parse(map['dob']) : null,
+      address: map['user']['address']['address'] != null
+          ? map['user']['address']['address'] as String
+          : null,
+      city: map['user']['address']['city'] != null
+          ? map['user']['address']['city'] as String
+          : null,
+      province: map['user']['address']['province'] != null
+          ? map['user']['address']['province'] as String
+          : null,
+      country: map['user']['address']['country'] != null
+          ? map['user']['address']['country'] as String
+          : null,
+      bankNumber: map['user']['bank'] != null
+          ? map['user']['bank']['number'] as String
+          : null,
+      bankName: map['user']['bank'] != null
+          ? map['user']['bank']['name'] as String
+          : null,
+      bankBranch: map['user']['bank'] != null
+          ? map['user']['bank']['branch'] as String
           : null,
     );
   }

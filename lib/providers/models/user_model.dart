@@ -9,6 +9,15 @@ class UserModel {
   String? name;
   String? imageUrl;
   String? phoneNumber;
+  DateTime? dob;
+  String? address;
+  String? city;
+  String? province;
+  String? country;
+  String? bankNumber;
+  String? bankName;
+  String? bankBranch;
+
   UserModel({
     required this.uid,
     required this.id,
@@ -17,15 +26,33 @@ class UserModel {
     this.name,
     this.imageUrl,
     this.phoneNumber,
+    this.dob,
+    this.address,
+    this.city,
+    this.province,
+    this.country,
+    this.bankNumber,
+    this.bankName,
+    this.bankBranch,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'uid': uid,
+      'id': id,
       'email': email,
       'name': name,
       'imageUrl': imageUrl,
-      'phoneNumber': phoneNumber
+      'phoneNumber': phoneNumber,
+      'isVerified': isVerified,
+      'dob': dob,
+      'address': address,
+      'city': city,
+      'province': province,
+      'country': country,
+      'bankNumber': bankNumber,
+      'bankName': bankName,
+      'bankBranch': bankBranch
     };
   }
 
@@ -38,6 +65,14 @@ class UserModel {
       name: map['name'] as String,
       imageUrl: map['imageUrl'] as String,
       phoneNumber: map['phoneNumber'],
+      dob: map['dob'],
+      address: map['address'],
+      city: map['city'],
+      province: map['province'],
+      country: map['country'],
+      bankNumber: map['bankNumber'],
+      bankName: map['bankName'],
+      bankBranch: map['bankBranch'],
     );
   }
 

@@ -18,6 +18,14 @@ class AuthProvider {
             name: user.displayName,
             imageUrl: user.imageUrl,
             phoneNumber: user.phoneNumber,
+            dob: user.dob,
+            address: user.address,
+            city: user.city,
+            province: user.province,
+            country: user.country,
+            bankName: user.bankName,
+            bankNumber: user.bankNumber,
+            bankBranch: user.bankBranch,
           )
         : null;
   }
