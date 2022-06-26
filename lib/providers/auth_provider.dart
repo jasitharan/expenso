@@ -36,12 +36,26 @@ class AuthProvider {
   }
 
   Future<UserModel?> register(
-      String email, String password, String name, String phoneNumber) async {
+    String email,
+    String password,
+    String name,
+    String phoneNumber,
+    DateTime dob,
+    String company,
+    String address,
+    String city,
+    String northern,
+  ) async {
     dynamic user = await _authRepo.registerNewUser(
       name,
       phoneNumber,
       email,
       password,
+      dob,
+      company,
+      address,
+      city,
+      northern,
     );
     return _userFromServer(user);
   }
@@ -61,6 +75,14 @@ class AuthProvider {
 
   Future resetPassword(String email, String code, String password) async {
     return await _authRepo.resetPassword(email, code, password);
+  }
+
+  Future sendVerificationEmail(String token) async {
+    return await _authRepo.sendVerificationEmail(token);
+  }
+
+  Future verifyEmail(String token, String id, String code) async {
+    return await _authRepo.verifyEmail(token, id, code);
   }
 
   Future updateProfile(String email, String name, String phoneNumber,

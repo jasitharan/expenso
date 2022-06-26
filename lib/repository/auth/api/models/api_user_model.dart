@@ -93,15 +93,12 @@ class ApiUserModel {
       country: map['user']['address']['country'] != null
           ? map['user']['address']['country'] as String
           : null,
-      bankNumber: map['user']['bank'] != null
-          ? map['user']['bank']['number'] as String
-          : null,
-      bankName: map['user']['bank'] != null
-          ? map['user']['bank']['name'] as String
-          : null,
-      bankBranch: map['user']['bank'] != null
-          ? map['user']['bank']['branch'] as String
-          : null,
+      bankNumber:
+          map['user']['bank'] != null ? map['user']['bank']['number'] : null,
+      bankName:
+          map['user']['bank'] != null ? map['user']['bank']['name'] : null,
+      bankBranch:
+          map['user']['bank'] != null ? map['user']['bank']['branch'] : null,
     );
   }
 

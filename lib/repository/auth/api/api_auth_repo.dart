@@ -24,7 +24,16 @@ class ApiAuthRepo implements AuthRepo {
 
   @override
   Future registerNewUser(
-      String name, String phoneNumber, String email, String password) async {
+    String name,
+    String phoneNumber,
+    String email,
+    String password,
+    DateTime dob,
+    String company,
+    String address,
+    String city,
+    String province,
+  ) async {
     try {
       final response = await http.post(
         Uri.parse('$kApiUrl/register'),
@@ -34,9 +43,15 @@ class ApiAuthRepo implements AuthRepo {
         body: jsonEncode(<String, String>{
           'name': name,
           'phoneNumber': phoneNumber,
+          'company_id': company,
+          'address': address,
+          'city': city,
+          'province': province,
+          'country': 'Srilanka',
           'email': email,
+          'dob': dob.toString(),
           'password': password,
-          'password_confirmation': password
+          'password_confirmation': password,
         }),
       );
 
@@ -209,6 +224,52 @@ class ApiAuthRepo implements AuthRepo {
     } else if (response.statusCode == 404) {
       return response.statusCode;
     } else {
+      return null;
+    }
+  }
+
+  @override
+  Future sendVerificationEmail(String token) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$kApiUrl/email/verification-notification'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return response.statusCode;
+      } else if (response.statusCode == 404) {
+        return response.statusCode;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future verifyEmail(String token, String id, String code) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$kApiUrl/verify-email/$id/$code'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return response.statusCode;
+      } else if (response.statusCode == 404) {
+        return response.statusCode;
+      } else {
+        return null;
+      }
+    } catch (e) {
       return null;
     }
   }

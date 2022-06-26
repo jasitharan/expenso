@@ -1,7 +1,9 @@
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:expenso/providers/models/company_model.dart';
 import 'package:expenso/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:validators/validators.dart';
 
@@ -26,8 +28,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _email = '';
   String _password = '';
   String _name = '';
+  String _address = '';
+  String _city = '';
+  String _province = '';
   String _phoneNumber = '';
-  CompanyModel? company;
+  CompanyModel? _company;
+  DateTime? _dob;
   bool _loading = false;
 
   @override
@@ -135,16 +141,98 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   const SizedBox(
                                     height: 15,
                                   ),
+                                  DateTimeField(
+                                    decoration: InputDecoration(
+                                      hintText: 'Date of Birth',
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 16.0, vertical: 14),
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.orange),
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                      ),
+                                    ),
+                                    format: DateFormat("yyyy-MM-dd"),
+                                    validator: (val) => _dob != null
+                                        ? null
+                                        : "Please select you dob",
+                                    onShowPicker: (context, currentValue) {
+                                      return showDatePicker(
+                                              context: context,
+                                              firstDate: DateTime(1900),
+                                              initialDate: currentValue ??
+                                                  DateTime.now(),
+                                              lastDate: DateTime(2100))
+                                          .then((value) => _dob = value);
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
                                   ClassicDropdownButton(
-                                    dropdownValue: company,
+                                    dropdownValue: _company,
                                     onChanged: (val) {
-                                      company = companyProvider.companies
+                                      _company = companyProvider.companies
                                           ?.firstWhere(
                                               (element) => element.name == val);
                                     },
-                                    validator: (val) => company != null
+                                    validator: (val) => _company != null
                                         ? null
                                         : 'Please select one company',
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  ClassTextFormField(
+                                    hintText: 'Address',
+                                    validator: (val) {
+                                      final temp =
+                                          val.toString().split(' ').join();
+                                      return !isAlpha(temp)
+                                          ? 'Enter an address'
+                                          : null;
+                                    },
+                                    onChanged: (val) {
+                                      _address = val;
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  ClassTextFormField(
+                                    hintText: 'City',
+                                    validator: (val) {
+                                      final temp =
+                                          val.toString().split(' ').join();
+                                      return !isAlpha(temp)
+                                          ? 'Enter an city'
+                                          : null;
+                                    },
+                                    onChanged: (val) {
+                                      _city = val;
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  ClassTextFormField(
+                                    hintText: 'Province',
+                                    validator: (val) {
+                                      final temp =
+                                          val.toString().split(' ').join();
+                                      return !isAlpha(temp)
+                                          ? 'Enter an province'
+                                          : null;
+                                    },
+                                    onChanged: (val) {
+                                      _province = val;
+                                    },
                                   ),
                                   const SizedBox(
                                     height: 15,
@@ -198,11 +286,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             });
 
                                             final result = await _auth.register(
-                                              _email,
-                                              _password,
-                                              _name,
-                                              _phoneNumber,
-                                            );
+                                                _email,
+                                                _password,
+                                                _name,
+                                                _phoneNumber,
+                                                _dob!,
+                                                _company!.id.toString(),
+                                                _address,
+                                                _city,
+                                                _province);
 
                                             if (result == null) {
                                               showSnacBar(context,
