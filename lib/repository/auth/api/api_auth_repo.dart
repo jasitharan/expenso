@@ -263,6 +263,9 @@ class ApiAuthRepo implements AuthRepo {
       );
 
       if (response.statusCode == 200) {
+        userInstance!.isVerified = true;
+        AuthApi.setAuth(userInstance);
+        controller.add(userInstance);
         return response.statusCode;
       } else if (response.statusCode == 404) {
         return response.statusCode;
