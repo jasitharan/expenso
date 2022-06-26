@@ -1,5 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:expenso/providers/company_provider.dart';
+import 'package:expenso/providers/models/company_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'design_system.dart';
 
 class ClassicButton extends StatelessWidget {
@@ -170,5 +173,69 @@ class _ClassicStylishButtonState extends State<ClassicStylishButton> {
           style:
               TextStyle(color: widget.isClicked ? Colors.white : Colors.grey),
         ));
+  }
+}
+
+// ignore: must_be_immutable
+class ClassicDropdownButton extends StatefulWidget {
+  final Function validator;
+  final Function onChanged;
+  CompanyModel? dropdownValue;
+  ClassicDropdownButton({
+    Key? key,
+    required this.validator,
+    required this.onChanged,
+    required this.dropdownValue,
+  }) : super(key: key);
+
+  @override
+  State<ClassicDropdownButton> createState() => _ClassicDropdownButtonState();
+}
+
+class _ClassicDropdownButtonState extends State<ClassicDropdownButton> {
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final company = Provider.of<CompanyProvider>(context, listen: false);
+
+    return SizedBox(
+      width: mediaQuery.size.width * 0.9,
+      child: DropdownButtonFormField<String>(
+        value: widget.dropdownValue != null ? widget.dropdownValue!.name : null,
+        hint: const Text('Select Your Company', style: TextStyle(fontSize: 16)),
+        icon: const Icon(
+          Icons.arrow_downward,
+          size: 20,
+        ),
+        iconSize: 24,
+        elevation: 16,
+        decoration: InputDecoration(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.orange),
+            borderRadius: BorderRadius.circular(50.0),
+          ),
+        ),
+        style: const TextStyle(color: Colors.deepPurple),
+        validator: (val) => widget.validator(val),
+        onChanged: (val) => widget.onChanged(val),
+        items: company.companies!
+            .map((e) => e.name)
+            .toList()
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(
+              value,
+              style: const TextStyle(color: Colors.black),
+            ),
+          );
+        }).toList(),
+      ),
+    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:expenso/providers/models/company_model.dart';
 import 'package:expenso/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,6 +7,7 @@ import 'package:validators/validators.dart';
 
 import '../../constants.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/company_provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   final Function toggleAuth;
@@ -25,11 +27,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _password = '';
   String _name = '';
   String _phoneNumber = '';
+  CompanyModel? company;
   bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
     final _auth = Provider.of<AuthProvider>(context, listen: false);
+    final companyProvider =
+        Provider.of<CompanyProvider>(context, listen: false);
     final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -126,6 +131,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 .group(2)!;
                                       }
                                     },
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  ClassicDropdownButton(
+                                    dropdownValue: company,
+                                    onChanged: (val) {
+                                      company = companyProvider.companies
+                                          ?.firstWhere(
+                                              (element) => element.name == val);
+                                    },
+                                    validator: (val) => company != null
+                                        ? null
+                                        : 'Please select one company',
                                   ),
                                   const SizedBox(
                                     height: 15,
