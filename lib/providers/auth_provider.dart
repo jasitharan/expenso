@@ -93,8 +93,8 @@ class AuthProvider {
       }
     }
 
-    await _authRepo.updateProfile(data, image, token);
+    var result = await _authRepo.updateProfile(data, image, token);
 
-    return 1;
+    return result;
   }
 }
