@@ -31,9 +31,7 @@ abstract class AuthRepo {
   Stream getUser();
 
   Future updateProfile(
-    String? email,
-    String? name,
-    String? phoneNumber,
+    Map<String, dynamic>? data,
     String? image,
     String token,
   );

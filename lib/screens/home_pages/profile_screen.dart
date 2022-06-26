@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expenso/screens/user_reports_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -22,9 +23,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final _formKeyForSetting = GlobalKey<FormState>();
 
   bool _loading = false;
+  String? _companyName = "";
   String _email = '';
   String _name = '';
   String _phoneNumber = '';
+  DateTime _dob = DateTime.now();
   bool _isInit = true;
   bool isUpdate = false;
   Map<String, dynamic> updateFields = {};
@@ -36,13 +39,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       _name = _user.name!;
       _email = _user.email;
+      _companyName = _user.companyName;
+      _dob = _user.dob ?? DateTime.now();
       _phoneNumber = _user.phoneNumber ?? '';
     }
     _isInit = false;
     super.didChangeDependencies();
   }
 
-  void addToUpdateField(String key, String val) {
+  void addToUpdateField(String key, dynamic val) {
     if (updateFields.containsKey(key)) {
       updateFields.update(key, (value) => val);
     } else {
@@ -132,11 +137,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         });
 
                                         var result = await _auth.updateProfile(
-                                            _user.email,
-                                            _name,
-                                            _phoneNumber,
-                                            ImageSource.gallery,
-                                            _user.uid);
+                                          null,
+                                          ImageSource.gallery,
+                                          _user.uid,
+                                        );
 
                                         if (result == null) {
                                           showSnacBar(
@@ -164,7 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Padding(
                           padding: const EdgeInsets.only(left: 16.0),
                           child: Text(
-                            'Company Name: ${_user.companyName}',
+                            'Company Name: $_companyName',
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),
@@ -199,13 +203,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                                             var result =
                                                 await _auth.updateProfile(
-                                                    _email,
-                                                    _name,
-                                                    _phoneNumber,
-                                                    null,
-                                                    _user.uid);
+                                              updateFields,
+                                              null,
+                                              _user.uid,
+                                            );
 
                                             if (result != null) {
+                                              isUpdate = false;
                                               showSnacBar(context,
                                                   'Successfully updated.');
                                             } else {
@@ -240,6 +244,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             return !isAlpha(temp) ? 'Enter an name' : null;
                           },
                           onChanged: (val) {
+                            _name = val;
                             addToUpdateField('name', val);
                           },
                           onTap: () {
@@ -260,6 +265,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               _phoneNumber =
                                   isPhoneNumber.firstMatch(val)!.group(1)! +
                                       isPhoneNumber.firstMatch(val)!.group(2)!;
+                              _phoneNumber = val;
                               addToUpdateField('phoneNumber', val);
                             }
                           },
@@ -272,7 +278,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         sizedBox20,
                         InkWell(
-                          onTap: () async {},
+                          onTap: () async {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  SystemChannels.textInput
+                                      .invokeMethod('TextInput.show');
+
+                                  return const ShowEditEmail();
+                                }).then((value) {
+                              setState(() {
+                                if (value != null) {}
+                              });
+                            });
+                          },
                           child: ListTile(
                             dense: true,
                             title: const Text(
@@ -284,71 +303,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
                                 _email,
-                                style: const TextStyle(
-                                    color: Color.fromRGBO(57, 98, 187, 1),
-                                    fontSize: 18),
-                              ),
-                            ),
-                            trailing: InkWell(
-                                onTap: () {},
-                                child: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 18,
-                                )),
-                          ),
-                        ),
-                        sizedBox20,
-                        const Divider(
-                          thickness: 1.0,
-                          color: Color.fromRGBO(14, 82, 182, 0.3),
-                        ),
-                        InkWell(
-                          onTap: () async {},
-                          child: ListTile(
-                            dense: true,
-                            title: const Text(
-                              'Address',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 14),
-                            ),
-                            subtitle: Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                '${_user.address}, ${_user.city}, ${_user.province}',
-                                style: const TextStyle(
-                                    color: Color.fromRGBO(57, 98, 187, 1),
-                                    fontSize: 18),
-                              ),
-                            ),
-                            trailing: InkWell(
-                                onTap: () {},
-                                child: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 18,
-                                )),
-                          ),
-                        ),
-                        sizedBox20,
-                        const Divider(
-                          thickness: 1.0,
-                          color: Color.fromRGBO(14, 82, 182, 0.3),
-                        ),
-                        InkWell(
-                          onTap: () async {},
-                          child: ListTile(
-                            dense: true,
-                            title: const Text(
-                              'Date of Birth',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 14),
-                            ),
-                            subtitle: Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                _user.dob == null
-                                    ? ''
-                                    : DateFormat("yyyy-MM-dd")
-                                        .format(_user.dob!),
                                 style: const TextStyle(
                                     color: Color.fromRGBO(57, 98, 187, 1),
                                     fontSize: 18),
@@ -366,7 +320,108 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Color.fromRGBO(14, 82, 182, 0.3),
                         ),
                         InkWell(
-                          onTap: () async {},
+                          onTap: () async {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  SystemChannels.textInput
+                                      .invokeMethod('TextInput.show');
+                                  return const ShowBankOrAddressDialog();
+                                }).then((value) {
+                              setState(() {
+                                if (value != null) {}
+                              });
+                            });
+                          },
+                          child: ListTile(
+                            dense: true,
+                            title: const Text(
+                              'Address',
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 14),
+                            ),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                '${_user.address}, ${_user.city}, ${_user.province}',
+                                style: const TextStyle(
+                                    color: Color.fromRGBO(57, 98, 187, 1),
+                                    fontSize: 18),
+                              ),
+                            ),
+                            trailing: const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 18,
+                            ),
+                          ),
+                        ),
+                        sizedBox20,
+                        const Divider(
+                          thickness: 1.0,
+                          color: Color.fromRGBO(14, 82, 182, 0.3),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            setState(() {
+                              isUpdate = true;
+                            });
+                            showDatePicker(
+                                    context: context,
+                                    firstDate: DateTime(1900),
+                                    initialDate: _dob,
+                                    lastDate: DateTime(2100))
+                                .then((value) {
+                              if (value != null) {
+                                setState(() {
+                                  _dob = value;
+                                  addToUpdateField('dob', value);
+                                });
+                              }
+                            });
+                          },
+                          child: ListTile(
+                            dense: true,
+                            title: const Text(
+                              'Date of Birth',
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 14),
+                            ),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                DateFormat("yyyy-MM-dd").format(_dob),
+                                style: const TextStyle(
+                                    color: Color.fromRGBO(57, 98, 187, 1),
+                                    fontSize: 18),
+                              ),
+                            ),
+                            trailing: const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 18,
+                            ),
+                          ),
+                        ),
+                        sizedBox20,
+                        const Divider(
+                          thickness: 1.0,
+                          color: Color.fromRGBO(14, 82, 182, 0.3),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  SystemChannels.textInput
+                                      .invokeMethod('TextInput.show');
+                                  return const ShowBankOrAddressDialog(
+                                    isBank: true,
+                                  );
+                                }).then((value) {
+                              setState(() {
+                                if (value != null) {}
+                              });
+                            });
+                          },
                           child: ListTile(
                             dense: true,
                             title: const Text(
@@ -377,7 +432,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             subtitle: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
-                                '${_user.bankNumber ?? ''} ${_user.bankBranch ?? ''}, ${_user.bankName ?? ''}',
+                                '${_user.bankNumber ?? ''} ${_user.bankBranch ?? ''} ${_user.bankName ?? ''}',
                                 style: const TextStyle(
                                     color: Color.fromRGBO(57, 98, 187, 1),
                                     fontSize: 18),

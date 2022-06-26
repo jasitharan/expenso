@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import '../repository/auth/auth_repo.dart';
 import '../repository/auth/api/api_auth_repo.dart';
 import 'models/user_model.dart';
@@ -85,8 +83,8 @@ class AuthProvider {
     return await _authRepo.verifyEmail(token, id, code);
   }
 
-  Future updateProfile(String email, String name, String phoneNumber,
-      ImageSource? imageSource, String token) async {
+  Future updateProfile(Map<String, dynamic>? data, ImageSource? imageSource,
+      String token) async {
     String? image;
     if (imageSource != null) {
       final pickedFile = await ImagePicker().pickImage(source: imageSource);
@@ -95,9 +93,8 @@ class AuthProvider {
       }
     }
 
-    var result =
-        await _authRepo.updateProfile(email, name, phoneNumber, image, token);
+    await _authRepo.updateProfile(data, image, token);
 
-    return jsonDecode(result)['data'];
+    return 1;
   }
 }

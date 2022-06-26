@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class ApiUserModel {
-  final String? uid;
+  String? uid;
   final String? id;
   bool? isVerified;
   String? email;
@@ -48,7 +48,7 @@ class ApiUserModel {
         'id': id ?? '',
         'isVerified': isVerified,
         'dob': dob.toString(),
-        'companyName': companyName,
+        'company_name': companyName,
         'address': {
           'address': address,
           'city': city,

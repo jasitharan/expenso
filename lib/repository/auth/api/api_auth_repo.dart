@@ -174,56 +174,55 @@ class ApiAuthRepo implements AuthRepo {
   }
 
   @override
-  Future updateProfile(String? email, String? name, String? phoneNumber,
-      String? image, String token) async {
-    var request = http.MultipartRequest(
-      "POST",
-      Uri.parse('$kApiUrl/updateDetail'),
-    );
+  Future updateProfile(
+      Map<String, dynamic>? data, String? image, String token) async {
+    try {
+      var request = http.MultipartRequest(
+        "POST",
+        Uri.parse('$kApiUrl/updateDetail'),
+      );
 
-    Map<String, String> headers = {
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': 'Bearer $token',
-    };
+      Map<String, String> headers = {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      };
 
-    request.headers.addAll(headers);
+      request.headers.addAll(headers);
 
-    if (image != null) {
-      request.files.add(http.MultipartFile('url_image',
-          File(image).readAsBytes().asStream(), File(image).lengthSync(),
-          filename: image.split("/").last));
-    }
-
-    if (email != null) {
-      request.files.add(http.MultipartFile.fromString('email', email));
-    }
-
-    if (name != null) {
-      request.files.add(http.MultipartFile.fromString('name', name));
-    }
-
-    if (phoneNumber != null) {
-      request.files
-          .add(http.MultipartFile.fromString('phoneNumber', phoneNumber));
-    }
-
-    var response = await request.send();
-    final respStr = await response.stream.bytesToString();
-
-    if (response.statusCode == 200) {
       if (image != null) {
-        userInstance!.imageUrl = jsonDecode(respStr)['data']['url_image'];
+        request.files.add(http.MultipartFile('url_image',
+            File(image).readAsBytes().asStream(), File(image).lengthSync(),
+            filename: image.split("/").last));
       }
-      userInstance!.displayName = jsonDecode(respStr)['data']['name'];
-      userInstance!.email = jsonDecode(respStr)['data']['email'];
-      userInstance!.phoneNumber = jsonDecode(respStr)['data']['phoneNumber'];
-      AuthApi.setAuth(userInstance);
-      controller.add(userInstance);
 
-      return respStr;
-    } else if (response.statusCode == 404) {
-      return response.statusCode;
-    } else {
+      if (data != null) {
+        data.forEach((key, value) {
+          request.files.add(http.MultipartFile.fromString(
+            key,
+            value.toString(),
+          ));
+        });
+      }
+
+      var response = await request.send();
+      final respStr = await response.stream.bytesToString();
+
+      if (response.statusCode == 200) {
+        if (respStr.isNotEmpty) {
+          ApiUserModel apiUserModel = ApiUserModel.fromJson(respStr);
+          apiUserModel.uid = userInstance!.uid;
+
+          controller.add(apiUserModel);
+          userInstance = apiUserModel;
+          AuthApi.setAuth(userInstance);
+          return apiUserModel;
+        }
+      } else if (response.statusCode == 404) {
+        return response.statusCode;
+      } else {
+        return null;
+      }
+    } catch (e) {
       return null;
     }
   }

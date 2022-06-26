@@ -302,6 +302,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               setState(() {
                                                 _loading = false;
                                               });
+                                            } else {
+                                              _auth.sendVerificationEmail(
+                                                  result.uid);
                                             }
                                           }
                                         },
