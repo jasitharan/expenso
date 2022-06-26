@@ -17,6 +17,7 @@ class UserModel {
   String? bankNumber;
   String? bankName;
   String? bankBranch;
+  String? companyName;
 
   UserModel({
     required this.uid,
@@ -34,6 +35,7 @@ class UserModel {
     this.bankNumber,
     this.bankName,
     this.bankBranch,
+    this.companyName,
   });
 
   Map<String, dynamic> toMap() {
@@ -52,7 +54,8 @@ class UserModel {
       'country': country,
       'bankNumber': bankNumber,
       'bankName': bankName,
-      'bankBranch': bankBranch
+      'bankBranch': bankBranch,
+      'companyName': companyName,
     };
   }
 
@@ -73,6 +76,7 @@ class UserModel {
       bankNumber: map['bankNumber'],
       bankName: map['bankName'],
       bankBranch: map['bankBranch'],
+      companyName: map['companyName'],
     );
   }
 

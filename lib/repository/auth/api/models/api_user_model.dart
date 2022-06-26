@@ -16,6 +16,7 @@ class ApiUserModel {
   String? bankNumber;
   String? bankName;
   String? bankBranch;
+  String? companyName;
 
   ApiUserModel({
     this.uid,
@@ -33,6 +34,7 @@ class ApiUserModel {
     this.bankNumber,
     this.bankName,
     this.bankBranch,
+    this.companyName,
   });
 
   Map<String, dynamic> toMap() {
@@ -46,6 +48,7 @@ class ApiUserModel {
         'id': id ?? '',
         'isVerified': isVerified,
         'dob': dob,
+        'companyName': companyName,
         'address': {
           'address': address,
           'city': city,
@@ -66,6 +69,7 @@ class ApiUserModel {
       uid: map['token'] != null ? map['token'] as String : null,
       id: map['user']['id'].toString(),
       isVerified: map['user']['isVerified'],
+      companyName: map['user']['company_name'],
       email:
           map['user']['email'] != null ? map['user']['email'] as String : null,
       phoneNumber: map['user']['phoneNumber'] != null

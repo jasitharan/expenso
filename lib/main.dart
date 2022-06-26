@@ -1,3 +1,4 @@
+import 'package:expenso/providers/company_provider.dart';
 import 'package:expenso/providers/expense_provider.dart';
 import 'package:expenso/routes.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         Provider.value(value: AuthProvider()),
         Provider.value(value: ExpenseProvider()),
         Provider.value(value: ExpenseTypeProvider()),
+        Provider.value(value: CompanyProvider()),
       ],
       builder: (context, child) => StreamProvider<UserModel?>.value(
         initialData: null,

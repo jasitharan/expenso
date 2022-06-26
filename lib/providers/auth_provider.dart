@@ -26,6 +26,7 @@ class AuthProvider {
             bankName: user.bankName,
             bankNumber: user.bankNumber,
             bankBranch: user.bankBranch,
+            companyName: user.companyName,
           )
         : null;
   }

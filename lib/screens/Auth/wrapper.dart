@@ -1,3 +1,4 @@
+import 'package:expenso/providers/company_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,21 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
+  bool _isInit = true;
+
+  @override
+  Future<void> didChangeDependencies() async {
+    if (_isInit) {
+      final companyProvider =
+          Provider.of<CompanyProvider>(context, listen: false);
+      await companyProvider.getCompanies();
+    }
+
+    _isInit = false;
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel?>(context);

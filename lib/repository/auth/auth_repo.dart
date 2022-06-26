@@ -1,6 +1,10 @@
 abstract class AuthRepo {
   Future registerNewUser(
-      String name, String phoneNumber, String email, String password);
+    String name,
+    String phoneNumber,
+    String email,
+    String password,
+  );
 
   Future signIn(String email, String password);
 
