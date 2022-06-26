@@ -47,7 +47,7 @@ class ApiUserModel {
         'phoneNumber': phoneNumber ?? '',
         'id': id ?? '',
         'isVerified': isVerified,
-        'dob': dob,
+        'dob': dob.toString(),
         'companyName': companyName,
         'address': {
           'address': address,
@@ -80,7 +80,9 @@ class ApiUserModel {
       imageUrl: map['user']['url_image'] != null
           ? map['user']['url_image'] as String
           : null,
-      dob: map['dob'] != null ? DateTime.parse(map['dob']) : null,
+      dob: map['user']['dob'] != null
+          ? DateTime.parse(map['user']['dob'])
+          : null,
       address: map['user']['address']['address'] != null
           ? map['user']['address']['address'] as String
           : null,

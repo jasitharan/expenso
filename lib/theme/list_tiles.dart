@@ -156,3 +156,58 @@ class _ExpenseTileState extends State<ExpenseTile> {
     );
   }
 }
+
+// ignore: must_be_immutable
+class SettingItemTile extends StatefulWidget {
+  final String title;
+  String value;
+  final Function validator;
+  final Function onChanged;
+  final Function onTap;
+  SettingItemTile({
+    Key? key,
+    required this.title,
+    required this.validator,
+    required this.onChanged,
+    required this.onTap,
+    required this.value,
+  }) : super(key: key);
+
+  @override
+  State<SettingItemTile> createState() => _SettingItemTileState();
+}
+
+class _SettingItemTileState extends State<SettingItemTile> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListTile(
+          dense: true,
+          title: Text(
+            widget.title,
+            style: const TextStyle(color: Colors.grey, fontSize: 14),
+          ),
+          subtitle: TextFormField(
+            onChanged: (val) => widget.onChanged(val),
+            validator: (val) => widget.validator(val),
+            initialValue: widget.value,
+            onTap: () => widget.onTap(),
+            style: const TextStyle(
+                color: Color.fromRGBO(57, 98, 187, 1), fontSize: 18),
+            decoration: const InputDecoration(
+                border: InputBorder.none, focusedBorder: InputBorder.none),
+          ),
+          trailing: const Icon(
+            Icons.arrow_forward_ios,
+            size: 18,
+          ),
+        ),
+        const Divider(
+          thickness: 1.0,
+          color: Color.fromRGBO(14, 82, 182, 0.3),
+        ),
+      ],
+    );
+  }
+}

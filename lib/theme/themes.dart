@@ -7,6 +7,7 @@ export 'charts.dart';
 export 'custom_scroll.dart';
 export 'list_tiles.dart';
 export 'validators.dart';
+export 'dialogs.dart';
 import 'package:flutter/material.dart';
 import 'design_system.dart';
 
