@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "20015357996",
+    "project_id": "expenso-108ad",
+    "storage_bucket": "expenso-108ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20015357996:android:bef5323baad5f533a97189",
+        "android_client_info": {
+          "package_name": "com.example.expenso"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "20015357996-qnbf9h0hd6cshi164slokml1ra68rre9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyRmWrCgiZg-VmIHDNvFlxN9K7LDw4UqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "20015357996-qnbf9h0hd6cshi164slokml1ra68rre9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
