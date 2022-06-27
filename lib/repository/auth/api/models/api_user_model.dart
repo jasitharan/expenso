@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 class ApiUserModel {
   String? uid;
   final String? id;
@@ -47,7 +49,7 @@ class ApiUserModel {
         'phoneNumber': phoneNumber ?? '',
         'id': id ?? '',
         'isVerified': isVerified,
-        'dob': dob.toString(),
+        'dob': dob == null ? null : DateFormat('dd/MM/yyyy').format(dob!),
         'company_name': companyName,
         'address': {
           'address': address,
