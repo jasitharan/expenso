@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expenso/constants.dart';
-import 'package:expenso/screens/notification_screen.dart';
 import 'package:expenso/theme/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -120,22 +119,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     ListTile(
                       minLeadingWidth: 10,
                       horizontalTitleGap: 10,
-                      trailing: InkWell(
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        onTap: () async {
-                          Navigator.pushNamed(
-                              context, NotificationScreen.routeName);
-                        },
-                        child: const Image(
-                          height: 45,
-                          width: 45,
-                          fit: BoxFit.cover,
-                          image: AssetImage('assets/images/bell.png'),
-                        ),
-                      ),
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(50.0),
                         child: _user.imageUrl == null
