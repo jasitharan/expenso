@@ -1,3 +1,6 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+import '../repository/auth/api/auth_api.dart';
 import '../repository/auth/auth_repo.dart';
 import '../repository/auth/api/api_auth_repo.dart';
 import 'models/user_model.dart';
@@ -5,6 +8,13 @@ import 'package:image_picker/image_picker.dart';
 
 class AuthProvider {
   final AuthRepo _authRepo = ApiAuthRepo();
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  AuthProvider() {
+    if (AuthApi.getApiUserModel() != null) {
+      messaging.subscribeToTopic(AuthApi.getApiUserModel()!.id!);
+    }
+  }
 
   UserModel? _userFromServer(dynamic user) {
     return user != null
@@ -55,15 +65,31 @@ class AuthProvider {
       city,
       northern,
     );
-    return _userFromServer(user);
+    UserModel? result = _userFromServer(user);
+
+    // For Notifications
+    if (result != null) {
+      await messaging.subscribeToTopic(result.id);
+    }
+
+    return result;
   }
 
   Future<UserModel?> signIn(String email, String password) async {
     dynamic user = await _authRepo.signIn(email, password);
-    return _userFromServer(user);
+
+    UserModel? result = _userFromServer(user);
+
+    // For Notifications
+    if (result != null) {
+      await messaging.subscribeToTopic(result.id);
+    }
+
+    return result;
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut(String id) async {
+    await messaging.unsubscribeFromTopic(id);
     await _authRepo.signOut();
   }
 

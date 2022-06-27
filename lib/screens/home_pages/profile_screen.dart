@@ -477,7 +477,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 setState(() {
                                   _loading = true;
                                 });
-                                await _auth.signOut();
+                                await _auth.signOut(_user.id);
                               },
                               child: const Text(
                                 'Logout',

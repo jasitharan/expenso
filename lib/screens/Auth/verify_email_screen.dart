@@ -34,7 +34,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 setState(() {
                   _loading = true;
                 });
-                await _auth.signOut();
+                await _auth.signOut(_user.id);
               },
               child: const Text(
                 'logout',
